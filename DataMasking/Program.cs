@@ -1,0 +1,11 @@
+﻿
+namespace DataMasking
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            
+        }
+    }
+}

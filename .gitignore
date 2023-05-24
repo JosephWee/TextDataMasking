@@ -1,0 +1,18 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+.vs
+/packages
+/*/obj
+/*/bin
+*.log
+*.log.*
+*.ignore
+*.ignore.*
+*.user
+*.pfx
+connectionString*.config
+appSetting*.config
+smtp*.config
+#log4net*.config
