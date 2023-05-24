@@ -45,7 +45,7 @@ namespace TextDataMasking
                     {
                         int charCodeIndex = random.Next(26);
                         char randomChar = Convert.ToChar(97 + charCodeIndex);
-                        if (!replacementWord.Contains(randomChar))
+                        if (originalWord.Length > 26 || !replacementWord.Contains(randomChar))
                             replacementWord.Add(randomChar);
                     }
 
