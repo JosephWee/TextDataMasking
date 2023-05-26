@@ -23,16 +23,16 @@ namespace TextDataMasking
             }
         }
 
-        protected bool _IgnoreJson = false;
-        public bool IgnoreJson
+        protected bool _IgnoreJsonAttributes = false;
+        public bool IgnoreJsonAttributes
         {
             get
             {
-                return _IgnoreJson;
+                return _IgnoreJsonAttributes;
             }
             set
             {
-                _IgnoreJson |= value;
+                _IgnoreJsonAttributes |= value;
             }
         }
     }
