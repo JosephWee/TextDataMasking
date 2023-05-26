@@ -9,7 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="TextDataMaskingTests - Copy.cs" />
+    <None Remove="dev.runsettings" />
+    <None Remove="TextDataMaskingTests.cs.ignore" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DatabaseMasking.osandfreesql\DatabaseMasking.osandfreesql.csproj" />
     <ProjectReference Include="..\TextDataMasking\TextDataMasking.csproj" />
   </ItemGroup>
 

@@ -2,30 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Threading.Tasks.Sources;
 
 namespace TextDataMasking
 {
-    public class DatabaseMasker
+    public class TextDataMasker
     {
-        protected string connectionString = string.Empty;
-        protected MaskDictionary maskDictionary = new MaskDictionary();
-
-        public DatabaseMasker(string ConnectionString)
-        {
-            connectionString = ConnectionString;
-        }
-
-        public void MaskData()
-        {
-
-        }
-
         private static List<string> GetAllAttributeNames(JsonElement jsonElement)
         {
             List<string> retValue = new List<string>();
@@ -200,7 +184,7 @@ namespace TextDataMasking
                 {
                     replacementText.Append(maskDictionary.GetReplacement(match.Value));
                 }
-                
+
                 matchIndexes.Add(match.Index);
                 matchLength.Add(match.Value.Length);
             }

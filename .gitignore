@@ -16,3 +16,4 @@ connectionString*.config
 appSetting*.config
 smtp*.config
 #log4net*.config
+/UnitTests/dev.runsettings

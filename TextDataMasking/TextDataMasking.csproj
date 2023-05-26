@@ -6,4 +6,17 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="HTMLPage1.html.ignore" />
+    <None Remove="HTMLPage2.html.ignore" />
+    <None Remove="Ipsum Html 1.txt.ignore" />
+    <None Remove="Ipsum Html 2.txt.ignore" />
+    <None Remove="Lorem Ipsum 1.txt.ignore" />
+    <None Remove="Lorem Ipsum 2.txt.ignore" />
+    <None Remove="Lorem1.json.ignore" />
+    <None Remove="Lorem2.json.ignore" />
+    <None Remove="XMLFile1.xml.ignore" />
+    <None Remove="XMLFile2.xml.ignore" />
+  </ItemGroup>
+
 </Project>

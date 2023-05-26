@@ -101,7 +101,7 @@ description=""Rustic Oak Coffee Table"">
             for (int a = 0; a < originalTexts.Count; a++)
             {
                 string originalText = originalTexts[a];
-                string replacementText = DatabaseMasker.MaskText(originalText, options, maskDictionary);
+                string replacementText = TextDataMasker.MaskText(originalText, options, maskDictionary);
                 
                 replacementTexts.Add(replacementText);
 
