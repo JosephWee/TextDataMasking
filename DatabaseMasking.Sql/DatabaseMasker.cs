@@ -1,24 +1,24 @@
 ﻿using System.Data;
-using Npgsql;
+using Microsoft.Data.SqlClient;
 using TextDataMasking;
 
-namespace DatabaseMasking.osandfreesql
+namespace DatabaseMasking.Sql
 {
-    public class DatabaseMasker: TextDataMasking.DatabaseMasker
+    public class DatabaseMasker : TextDataMasking.DatabaseMasker
     {
         public DatabaseMasker(string ConnectionString)
-            :base(ConnectionString, new MaskDictionary())
+            : base(ConnectionString, new MaskDictionary())
         {
         }
 
         public DatabaseMasker(string ConnectionString, MaskDictionary MaskDictionary)
-            :base(ConnectionString, MaskDictionary)
+            : base(ConnectionString, MaskDictionary)
         {
         }
 
         public override void MaskData()
         {
-            using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 base.MaskData(connection);
             }
