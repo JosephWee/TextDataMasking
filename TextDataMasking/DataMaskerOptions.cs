@@ -8,7 +8,7 @@ using System.Threading.Tasks.Sources;
 
 namespace TextDataMasking
 {
-    public class DatabaseMaskerOptions
+    public class DataMaskerOptions
     {
         protected bool _IgnoreAngleBracketedTags = false;
         public bool IgnoreAngleBracketedTags

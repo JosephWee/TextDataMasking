@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using Microsoft.Data.SqlClient;
 using TextDataMasking;
 
 namespace DatabaseMasking.Sql
@@ -18,10 +17,7 @@ namespace DatabaseMasking.Sql
 
         public override void MaskData()
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                base.MaskData(connection);
-            }
+            base.MaskData(Microsoft.Data.SqlClient.SqlClientFactory.Instance);
         }
     }
 }

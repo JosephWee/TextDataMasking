@@ -90,7 +90,7 @@ description=""Rustic Oak Coffee Table"">
         [Test]
         public void TestMaskText()
         {
-            DatabaseMaskerOptions options = new DatabaseMaskerOptions();
+            DataMaskerOptions options = new DataMaskerOptions();
             options.IgnoreAngleBracketedTags = true;
             options.IgnoreJsonAttributes = true;
 

@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using Npgsql;
 using TextDataMasking;
 
 namespace DatabaseMasking.osandfreesql
@@ -18,10 +17,7 @@ namespace DatabaseMasking.osandfreesql
 
         public override void MaskData()
         {
-            using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
-            {
-                base.MaskData(connection);
-            }
+            base.MaskData(Npgsql.NpgsqlFactory.Instance);
         }
     }
 }

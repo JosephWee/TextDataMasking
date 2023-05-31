@@ -27,8 +27,11 @@ namespace TextDataMasking
             return retValue;
         }
 
-        public static string MaskText(string originalText, DatabaseMaskerOptions options, MaskDictionary maskDictionary)
+        public static string MaskText(string originalText, DataMaskerOptions options, MaskDictionary maskDictionary)
         {
+            if (string.IsNullOrWhiteSpace(originalText))
+                return originalText;
+
             StringBuilder replacementText = new StringBuilder();
 
             string pattern = @"(\w+)";
@@ -189,9 +192,12 @@ namespace TextDataMasking
                 matchLength.Add(match.Value.Length);
             }
 
-            int finalNonMatchStartIndex = matchIndexes.Last() + matchLength.Last();
-            if (finalNonMatchStartIndex < originalText.Length)
-                replacementText.Append(originalText.Substring(finalNonMatchStartIndex));
+            if (matchIndexes.Any() && matchLength.Any())
+            {
+                int finalNonMatchStartIndex = matchIndexes.Last() + matchLength.Last();
+                if (finalNonMatchStartIndex < originalText.Length)
+                    replacementText.Append(originalText.Substring(finalNonMatchStartIndex));
+            }
 
             return replacementText.ToString();
         }
