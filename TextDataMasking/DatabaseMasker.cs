@@ -20,71 +20,133 @@ namespace TextDataMasking
             this.maskDictionary = MaskDictionary;
         }
 
+        protected abstract string GetDatabaseColumnSelectStatement(DatabaseTable table);
+
+        protected abstract string GetDatabaseTableSelectStatement(DatabaseTable table);
+
+        public List<DatabaseTable> ListTables(DbConnection connection, DbProviderFactory factory)
+        {
+            var tableList = new List<DatabaseTable>();
+
+            DataTable tables = connection.GetSchema("Tables");
+            for (int i = 0; i < tables.Rows.Count; i++)
+            {
+                var row = tables.Rows[i];
+
+                string tableSchema = row["TABLE_SCHEMA"].ToString();
+                string tableName = row["TABLE_NAME"].ToString();
+                var databaseTable =
+                    new DatabaseTable()
+                    {
+                        TableSchema = tableSchema,
+                        TableName = tableName
+                    };
+
+                string selectStatement = GetDatabaseColumnSelectStatement(databaseTable);
+
+                var selectCommand = factory.CreateCommand();
+                selectCommand.CommandText = selectStatement;
+                selectCommand.Connection = connection;
+
+                var adapter = factory.CreateDataAdapter();
+                adapter.SelectCommand = selectCommand;
+                
+                var ds = new DataSet();
+                adapter.Fill(ds);
+
+                List<DatabaseColumn> databaseColumns = new List<DatabaseColumn>();
+                if (ds.Tables.Count > 0)
+                {
+                    for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
+                    {
+                        var dc = ds.Tables[0].Columns[j];
+
+                        if (dc.DataType == typeof(String))
+                        {
+                            DatabaseColumn databaseColumn = new DatabaseColumn()
+                            {
+                                ColumnName = dc.ColumnName,
+                                DataType = dc.DataType,
+                                IsUnique = dc.Unique
+                            };
+
+                            databaseColumns.Add(databaseColumn);
+                        }
+                    }
+                }
+
+                databaseTable.Columns.AddRange(databaseColumns);
+
+                tableList.Add(databaseTable);
+            }
+
+            return tableList;
+        }
+
+        protected abstract void UpdateDatabaseTable(DataTable dt, DbDataAdapter adapter);
+
+        public void MaskTable(DatabaseTable table, Dictionary<string, DataMaskerOptions> columnOptions, DbConnection connection, DbProviderFactory factory)
+        {
+            var selectCommand = factory.CreateCommand();
+            selectCommand.CommandText = GetDatabaseTableSelectStatement(table);
+            selectCommand.Connection = connection;
+
+            var adapter = factory.CreateDataAdapter();
+            adapter.SelectCommand = selectCommand;
+
+            var commandBuilder = factory.CreateCommandBuilder();
+            commandBuilder.DataAdapter = adapter;
+
+            DataSet ds = new DataSet();
+            adapter.Fill(ds);
+
+            //DataSet ds = FetchTable(table, connection);
+
+            for (int t = 0; t < ds.Tables.Count; t++)
+            {
+                var dt = ds.Tables[t];
+                for (int c = 0; c < dt.Columns.Count; c++)
+                {
+                    var dc = dt.Columns[c];
+                    if (dc.DataType == typeof(String)
+                        && table.Columns.Any(
+                            x =>
+                                x.ColumnName == dc.ColumnName
+                                && x.DataType == dc.DataType
+                                && x.IsUnique == dc.Unique)
+                        )
+                    {
+                        var options =
+                            columnOptions.ContainsKey(dc.ColumnName)
+                            ? columnOptions[dc.ColumnName]
+                            : new DataMaskerOptions() { IgnoreAngleBracketedTags = true, IgnoreJsonAttributes = true };
+
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            var dr = dt.Rows[i];
+                            string originalText = dr[dc.ColumnName].ToString();
+                            dr[dc.ColumnName] = TextDataMasker.MaskText(originalText, options, maskDictionary);
+                        }
+                    }
+                }
+
+                UpdateDatabaseTable(dt, adapter);
+            }
+        }
+
         protected void MaskData(DbProviderFactory factory)
         {
             using (var connection = factory.CreateConnection())
             {
                 connection.ConnectionString = this.connectionString;
-                
+
                 connection.Open();
 
-                DataTable tables = connection.GetSchema("Tables");
-
-                for (int c = 0; c < tables.Columns.Count; c++)
+                var databaseTables = ListTables(connection, factory);
+                for (int i = 0; i < databaseTables.Count; i++)
                 {
-                    var column = tables.Columns[c];
-                    string columnName = column.ColumnName;
-                    Type columnType = column.DataType;
-                }
-
-                DataMaskerOptions options = new DataMaskerOptions()
-                {
-                    IgnoreAngleBracketedTags = true,
-                    IgnoreJsonAttributes = true
-                };
-
-                for (int r = 0; r < tables.Rows.Count; r++)
-                {
-                    var row = tables.Rows[r];
-                    string tableName = row["TABLE_NAME"].ToString();
-
-                    var selectCommand = factory.CreateCommand();
-                    selectCommand.CommandText = $"SELECT * FROM {tableName};";
-                    selectCommand.Connection = connection;
-
-                    var adapter = factory.CreateDataAdapter();
-                    adapter.SelectCommand = selectCommand;
-
-                    var commandBuilder = factory.CreateCommandBuilder();
-                    commandBuilder.DataAdapter = adapter;
-
-                    DataSet ds = new DataSet();
-                    adapter.Fill(ds);
-
-                    for (int t = 0; t < ds.Tables.Count; t++)
-                    {
-                        var table = ds.Tables[t];
-                        for (int c = 0; c < table.Columns.Count; c++)
-                        {
-                            var column = table.Columns[c];
-                            if (column.DataType == typeof(String))
-                            {
-                                for (int i = 0; i < table.Rows.Count; i++)
-                                {
-                                    var record = table.Rows[i];
-                                    string originalText = record[column.ColumnName].ToString();
-                                    record[column.ColumnName] = TextDataMasker.MaskText(originalText, options, maskDictionary);
-                                }
-                            }
-                        }
-
-                        adapter.Update(
-                            table
-                            .Rows
-                            .OfType<DataRow>()
-                            .Where(x => x.RowState != DataRowState.Unchanged)
-                            .ToArray());
-                    }
+                    var table = databaseTables[i];
+                    MaskTable(table, new Dictionary<string, DataMaskerOptions>(), connection, factory);
                 }
 
                 connection.Close();
