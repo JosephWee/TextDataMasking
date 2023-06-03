@@ -1,0 +1,16 @@
+﻿.pageFooter {
+    position: fixed;
+    bottom: 70px;
+}
+
+    .pageFooter .btnPrev {
+        position: fixed;
+        left: 10px;
+        bottom: 70px;
+    }
+
+    .pageFooter .btnNext {
+        position: fixed;
+        right: 10px;
+        bottom: 70px;
+    }

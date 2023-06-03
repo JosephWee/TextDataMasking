@@ -1,0 +1,254 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<form method="post">
+    <div id="page0">
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6 text-center">
+                <h1 class="display-3">Instructions</h1>
+            </div>
+            <div class="col-3"></div>
+        </div>
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6 text-left">
+                <ol>
+                    <li>Select Target Datasource</li>
+                    <li>Select the Tables and Columns to Mask and Options to use</li>
+                    <li>Review Results</li>
+                </ol>
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+    <div id="page1" style="display: none;">
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6 text-center">
+                <h1 class="display-6">Step 1: Select Datasource</h1>
+            </div>
+            <div class="col-3"></div>
+        </div>
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6 text-center">
+                <select id="selectTargetDataSources"></select>
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+    <div id="page2" style="display: none;">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8 text-center">
+                <h1 class="display-6">Step 2: Select Tables and Columns</h1>
+            </div>
+            <div class="col-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6 text-left">
+                <div id="divDatabase"></div>
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+    <div id="page3" style="display: none;">
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6 text-center">
+                <h1 class="display-6">Step 3: Review Results</h1>
+            </div>
+            <div class="col-3"></div>
+        </div>
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6 text-left">
+            
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+
+    @Html.AntiForgeryToken()
+</form>
+
+<div id="pgFooter" class="pageFooter">
+    <button id="btnPrev" class="btnPrev btn-secondary">Prev</button><button id="btnNext" class="btnNext btn-primary">Next</button>
+</div>
+
+<script>
+
+    function listDatabaseTables(dataSourceName) {
+
+        debugger;
+        //let requestData = {};
+        //requestData['dataSourceName'] = dataSourceName;
+
+        $.ajax({
+            async: true,
+            method: 'GET',
+            url: 'Index?Handler=ListDatabaseTables&dataSourceName=' + dataSourceName,
+            contentType: "application/json; charset=utf-8",
+            //data: JSON.stringify(requestData),
+            dataType: "json",
+            beforeSend: function (xhr) {
+                debugger;
+                //let token = $('input:hidden[name="__RequestVerificationToken"]').val();
+                //xhr.setRequestHeader("XSRF-TOKEN", token);
+                xhr.setRequestHeader("MyBearerToken", btoa("my custom token"));
+            },
+            success: function (responseData) {
+
+                debugger;
+                console.log(responseData);
+
+                $('#divDatabase').empty();
+                for (let i=0; i<responseData.length; i++) {
+                    
+                    let dbtable = responseData[i];
+                    
+                    let lTable = $('<ul class="list-unstyled"></ul>');
+                    $('#divDatabase').append(lTable);
+
+                    let liTable = $('<li><div>[' + dbtable.TableSchema + '].[' + dbtable.TableName + ']</div></li>');
+                    lTable.append(liTable);
+
+                    let divColumns = $('<div></div>');
+                    liTable.append(divColumns);
+
+                    let lColumns = $('<ul></ul>');
+                    divColumns.append(lColumns);
+                    
+                    for (let c = 0; c < dbtable.Columns.length; c++) {
+                        
+                        let dbcolumn = dbtable.Columns[c];
+
+                        let liColumn = $('<li>' + dbcolumn.ColumnName + '</li>');
+                        lColumns.append(liColumn);
+                    }
+                }
+            },
+            failure: function (response) {
+                debugger;
+                console.log(response);
+            },
+            error: function (jqXHRObj) {
+                debugger;
+                console.log(jqXHRObj);
+                console.log(jqXHRObj.responseText);
+                console.log(jqXHRObj.responseXml);
+                console.log(jqXHRObj.getAllResponseHeaders());
+            }
+        });
+    }
+
+    function listTargetDataSources() {
+        $.ajax({
+            async: true,
+            method: 'GET',
+            url: 'Index?Handler=ListTargetDataSources',
+            dataType: 'json',
+            success: function (data) {
+
+                debugger;
+                let selectTargetDataSources = $('#selectTargetDataSources')
+                selectTargetDataSources.empty();
+                for (let i = 0; i < data.length; i++) {
+                    let selectItem = '<option value="' + data[i] + '">' + data[i] + '</option>';
+                    selectTargetDataSources.append(selectItem);
+                }
+
+                if (data.length > 0)
+                    listDatabaseTables(data[0]);
+            }
+        });
+    }
+
+    function refreshPages() {
+
+        let pageNum = parseInt(sessionStorage.getItem('PageNum'));
+
+        var pages = $('[id^="page"]');
+        for (let i = 0; i < pages.length; i++) {
+            let elementId = "page" + i;
+
+            if (i === pageNum) {
+                $('#' + elementId).show();
+            }
+            else {
+                $('#' + elementId).hide();
+            }
+        }
+    }
+
+    function getPageNumbers() {
+
+        let pageNumbers = [];
+        var pages = $('[id^="page"]');
+
+        for (let i = 0; i < pages.length; i++) {
+
+            let elementId = $(pages[i]).attr('id');
+            let pageNum = parseInt(elementId.substring(elementId.length - 1));
+            if (typeof pageNum === 'number') {
+                pageNumbers.push(pageNum);
+            }
+        }
+
+        pageNumbers.sort();
+
+        return pageNumbers;
+    }
+
+    $(document).ready(function() {
+
+        $('#btnPrev').off('click').on('click', function(a, b) {
+
+            let pageNumbers = getPageNumbers();
+
+            let currentPage = parseInt(sessionStorage.getItem('PageNum'));
+            let newPageNum = currentPage - 1;
+
+            if (pageNumbers.includes(newPageNum)) {
+
+                sessionStorage.setItem('PageNum', newPageNum);
+                refreshPages();
+            }
+        });
+
+        $('#btnNext').off('click').on('click', function (a, b) {
+
+            let pageNumbers = getPageNumbers();
+
+            let currentPage = parseInt(sessionStorage.getItem('PageNum'));
+            let newPageNum = currentPage + 1;
+            
+            if (pageNumbers.includes(newPageNum)) {
+
+                sessionStorage.setItem('PageNum', newPageNum);
+                refreshPages();
+            }
+        });
+
+        $('#selectTargetDataSources').off('change').on('change', function(event) {
+            
+            debugger;
+            console.log(event);
+            let originalEvent = event.originalEvent;
+            let srcElement = originalEvent.srcElement;
+            let dataSourceName = $(srcElement).val();
+
+            listDatabaseTables(dataSourceName);
+        });
+
+        sessionStorage.setItem('PageNum', '0');
+        refreshPages();
+        listTargetDataSources();
+
+    });
+</script>
