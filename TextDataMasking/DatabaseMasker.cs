@@ -20,13 +20,17 @@ namespace TextDataMasking
             this.maskDictionary = MaskDictionary;
         }
 
+        public abstract DbProviderFactory GetDbProviderFactory();
+
         protected abstract string GetDatabaseColumnSelectStatement(DatabaseTable table);
 
         protected abstract string GetDatabaseTableSelectStatement(DatabaseTable table);
 
-        public List<DatabaseTable> ListTables(DbConnection connection, DbProviderFactory factory)
+        public List<DatabaseTable> ListTables(DbConnection connection)
         {
             var tableList = new List<DatabaseTable>();
+
+            DbProviderFactory factory = GetDbProviderFactory();
 
             DataTable tables = connection.GetSchema("Tables");
             for (int i = 0; i < tables.Rows.Count; i++)
@@ -85,8 +89,10 @@ namespace TextDataMasking
 
         protected abstract void UpdateDatabaseTable(DataTable dt, DbDataAdapter adapter);
 
-        public void MaskTable(DatabaseTable table, Dictionary<string, DataMaskerOptions> columnOptions, DbConnection connection, DbProviderFactory factory)
+        public void MaskTable(DatabaseTable table, Dictionary<string, DataMaskerOptions> columnOptions, DbConnection connection)
         {
+            DbProviderFactory factory = GetDbProviderFactory();
+
             var selectCommand = factory.CreateCommand();
             selectCommand.CommandText = GetDatabaseTableSelectStatement(table);
             selectCommand.Connection = connection;
@@ -134,25 +140,25 @@ namespace TextDataMasking
             }
         }
 
-        protected void MaskData(DbProviderFactory factory)
+        public void MaskDatabase()
         {
+            DbProviderFactory factory = GetDbProviderFactory();
+
             using (var connection = factory.CreateConnection())
             {
                 connection.ConnectionString = this.connectionString;
 
                 connection.Open();
 
-                var databaseTables = ListTables(connection, factory);
+                var databaseTables = ListTables(connection);
                 for (int i = 0; i < databaseTables.Count; i++)
                 {
                     var table = databaseTables[i];
-                    MaskTable(table, new Dictionary<string, DataMaskerOptions>(), connection, factory);
+                    MaskTable(table, new Dictionary<string, DataMaskerOptions>(), connection);
                 }
 
                 connection.Close();
             }
         }
-
-        public abstract void MaskData();
     }
 }

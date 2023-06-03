@@ -16,6 +16,11 @@ namespace DatabaseMasking.osandfreesql
         {
         }
 
+        public override DbProviderFactory GetDbProviderFactory()
+        {
+            return Npgsql.NpgsqlFactory.Instance;
+        }
+
         protected override string GetDatabaseColumnSelectStatement(DatabaseTable table)
         {
             string selectCommanText = $"SELECT * FROM \"{table.TableSchema}\".\"{table.TableName}\" LIMIT 1;";
@@ -56,11 +61,6 @@ namespace DatabaseMasking.osandfreesql
             adapter.Update(
                 dtTarget.Rows.OfType<DataRow>().ToArray()
             );
-        }
-
-        public override void MaskData()
-        {
-            base.MaskData(Npgsql.NpgsqlFactory.Instance);
         }
     }
 }

@@ -44,7 +44,7 @@ namespace UnitTests
         [Test]
         public void TestDatabaseMasking()
         {
-            databaseMasker.MaskData();
+            databaseMasker.MaskDatabase();
             Assert.IsTrue(true);
         }
     }

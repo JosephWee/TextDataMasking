@@ -17,6 +17,11 @@ namespace DatabaseMasking.Sql
         {
         }
 
+        public override DbProviderFactory GetDbProviderFactory()
+        {
+            return Microsoft.Data.SqlClient.SqlClientFactory.Instance;
+        }
+
         protected override string GetDatabaseColumnSelectStatement(DatabaseTable table)
         {
             string selectCommanText = $"SELECT TOP 1 * FROM {table.TableSchema}.{table.TableName};";
@@ -49,11 +54,6 @@ namespace DatabaseMasking.Sql
             adapter.Update(
                 dtTarget.Rows.OfType<DataRow>().ToArray()
             );
-        }
-
-        public override void MaskData()
-        {
-            base.MaskData(Microsoft.Data.SqlClient.SqlClientFactory.Instance);
         }
     }
 }
