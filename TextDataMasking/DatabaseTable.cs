@@ -12,13 +12,6 @@ namespace TextDataMasking
 
         public string TableName { get; set; }
 
-        protected List<DatabaseColumn> _Columns = new List<DatabaseColumn>();
-        public List<DatabaseColumn> Columns
-        {
-            get
-            {
-                return _Columns;
-            }
-        }
+        public List<DatabaseColumn> Columns { get; set; } = new List<DatabaseColumn>();
     }
 }

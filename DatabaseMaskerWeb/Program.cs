@@ -10,17 +10,19 @@ namespace DatabaseMaskerWeb
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services
-                .AddAuthentication(MyAuthenticationOptions.DefaultScheme)
-                .AddScheme<MyAuthenticationOptions, MyAuthenticationHandler>(
-                    MyAuthenticationOptions.DefaultScheme,
-                    options =>
-                    {
-
-                    }
-                );
-            
             // Add services to the container.
+            builder.Services.AddMemoryCache();
+
+            //builder.Services
+            //    .AddAuthentication(MyAuthenticationOptions.DefaultScheme)
+            //    .AddScheme<MyAuthenticationOptions, MyAuthenticationHandler>(
+            //        MyAuthenticationOptions.DefaultScheme,
+            //        options =>
+            //        {
+
+            //        }
+            //    );
+
             builder.Services.AddRazorPages();
 
             var app = builder.Build();
@@ -39,7 +41,7 @@ namespace DatabaseMaskerWeb
 
             app.UseRouting();
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
 
             app.UseAuthorization();
 

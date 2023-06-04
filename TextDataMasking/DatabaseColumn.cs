@@ -24,11 +24,11 @@ namespace TextDataMasking
                 if (type == null)
                     return string.Empty;
 
-                return type.Name;
+                return type.FullName;
             }
             set
             {
-                var type = System.Type.GetType(value);
+                var type = Type.GetType(value, false, true);
                 this.DataType = type;
             }
         }

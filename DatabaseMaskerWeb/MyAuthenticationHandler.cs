@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
+using System.Buffers;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 
@@ -37,7 +38,17 @@ namespace DatabaseMaskerWeb
             //    return AuthenticateResult.Fail(message);
             //}
 
-            //Success! Add details here that identifies the user
+            //var headerKeys = this.Request.Headers.Keys.ToList();
+            //for (int i = 0; i < this.Request.Headers.Count; i++)
+            //{
+            //    var key = headerKeys.ElementAt(i);
+            //    var val = this.Request.Headers[key];
+            //}
+
+            //var a = await this.Request.BodyReader.ReadAsync();
+            //byte[] bytes = a.Buffer.ToArray();
+            //string bodyText = System.Text.Encoding.UTF8.GetString(bytes);
+
             var claims = new List<Claim>()
             {
                 new Claim("UserIdentifier", "SomeIdentifier")
