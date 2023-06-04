@@ -83,9 +83,23 @@
 
 <script>
 
+    function getDatabaseColumnDivHtml(checkBoxId, TableSchema, TableName, ColumnName, ColumnDataType) {
+
+        let divColumn = $('<div><input id="' + checkBoxId + '" type="checkbox" class="checkbox_db_column" data-schema="' + TableSchema + '" data-table="' + TableName + '" data-column="' + ColumnName + '"></input>&nbsp;<label>' + ColumnName + '&nbsp;(&nbsp;' + ColumnDataType + '&nbsp;)</label>&nbsp;</div>');
+
+        return divColumn;
+    }
+
+    function getDatabaseMaskerOptionCheckboxHtml(optionAttributeName) {
+
+        let checkbox = $('<input type="checkbox" class="checkbox_db_masker_option" data-option="' + optionAttributeName + '"></input>&nbsp;<label>' + optionAttributeName + '</label>');
+        
+        return checkbox;
+    }
+
     function listDatabaseTables(dataSourceName) {
 
-        debugger;
+        //debugger;
         //let requestData = {};
         //requestData['dataSourceName'] = dataSourceName;
 
@@ -97,15 +111,15 @@
             //data: JSON.stringify(requestData),
             dataType: "json",
             beforeSend: function (xhr) {
-                debugger;
+                //debugger;
                 //let token = $('input:hidden[name="__RequestVerificationToken"]').val();
                 //xhr.setRequestHeader("XSRF-TOKEN", token);
-                xhr.setRequestHeader("MyBearerToken", btoa("my custom token"));
+                //xhr.setRequestHeader("MyBearerToken", btoa("my custom token"));
             },
             success: function (responseData) {
 
-                debugger;
-                console.log(responseData);
+                //if (window.console && typeof window.console.log === 'function')
+                //    window.console.log(responseData);
 
                 $('#divDatabase').empty();
                 for (let i=0; i<responseData.length; i++) {
@@ -128,21 +142,48 @@
                         
                         let dbcolumn = dbtable.Columns[c];
 
-                        let liColumn = $('<li>' + dbcolumn.ColumnName + '</li>');
+                        let liColumn = $('<li></li>');
                         lColumns.append(liColumn);
+
+                        let checkBoxId = 'chkbx_' + i + '_' + c;
+                        let divColumn = getDatabaseColumnDivHtml(checkBoxId, dbtable.TableSchema, dbtable.TableName, dbcolumn.ColumnName, dbcolumn.DataType);
+                        liColumn.append(divColumn);
+
+                        let divOptions = $('<div></div>');
+                        liColumn.append(divOptions);
+
+                        let lOptions = $('<ul></ul>');
+                        divOptions.append(lOptions);
+
+                        // IgnoreAngleBracketedTags
+                        let liOption0 = $('<li></li>');
+                        lOptions.append(liOption0);
+
+                        let checkbox0 = getDatabaseMaskerOptionCheckboxHtml('IgnoreAngleBracketedTags');
+                        liOption0.append(checkbox0);
+
+                        // IgnoreJsonAttributes
+                        let liOption1 = $('<li></li>');
+                        lOptions.append(liOption1);
+
+                        let checkbox1 = getDatabaseMaskerOptionCheckboxHtml('IgnoreJsonAttributes');
+                        liOption1.append(checkbox1);
                     }
                 }
             },
             failure: function (response) {
-                debugger;
-                console.log(response);
+                
+                if (window.console && typeof window.console.log === 'function')
+                    window.console.log(response);
             },
             error: function (jqXHRObj) {
-                debugger;
-                console.log(jqXHRObj);
-                console.log(jqXHRObj.responseText);
-                console.log(jqXHRObj.responseXml);
-                console.log(jqXHRObj.getAllResponseHeaders());
+
+                if (window.console && typeof window.console.log === 'function') {
+                    window.console.log(jqXHRObj);
+                    window.console.log(jqXHRObj.responseText);
+                    window.console.log(jqXHRObj.responseXml);
+                    window.console.log(jqXHRObj.getAllResponseHeaders());
+                }
             }
         });
     }
@@ -155,7 +196,6 @@
             dataType: 'json',
             success: function (data) {
 
-                debugger;
                 let selectTargetDataSources = $('#selectTargetDataSources')
                 selectTargetDataSources.empty();
                 for (let i = 0; i < data.length; i++) {
@@ -237,8 +277,8 @@
 
         $('#selectTargetDataSources').off('change').on('change', function(event) {
             
-            debugger;
-            console.log(event);
+            //if (window.console && typeof window.console.log === 'function')
+            //    window.console.log(event);
             let originalEvent = event.originalEvent;
             let srcElement = originalEvent.srcElement;
             let dataSourceName = $(srcElement).val();
