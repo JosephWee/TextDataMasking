@@ -83,18 +83,121 @@
 
 <script>
 
-    function getDatabaseColumnDivHtml(checkBoxId, TableSchema, TableName, ColumnName, ColumnDataType) {
+    function getDatabaseTableDivHtml(TableSchema, TableName) {
+        
+        let div = $('<div style="font-weight: bold; background-color: rgb(220,220,220);">&nbsp;' + TableSchema + '&nbsp;<span style="font-weight: bolder;">.</span>&nbsp;' + TableName + '</div>');
+        
+        return div;
+    }
 
-        let divColumn = $('<div><input id="' + checkBoxId + '" type="checkbox" class="checkbox_db_column" data-schema="' + TableSchema + '" data-table="' + TableName + '" data-column="' + ColumnName + '"></input>&nbsp;<label>' + ColumnName + '&nbsp;(&nbsp;' + ColumnDataType + '&nbsp;)</label>&nbsp;</div>');
+    function getDatabaseColumnCheckboxHtml(checkBoxId, TableSchema, TableName, ColumnName, ColumnDataType) {
 
-        return divColumn;
+        let checkbox = $('<input id="' + checkBoxId + '" type="checkbox" class="db_column_checkbox" data-schema="' + TableSchema + '" data-table="' + TableName + '" data-column="' + ColumnName + '"></input>&nbsp;<span style="font-weight: bold; color: rgb(100,100,100)">' + ColumnName + '</span><span>&nbsp;(&nbsp;</span><span style="font-weight: bold; color: rgb(120,120,120)">' + ColumnDataType + '</span><span>&nbsp;)&nbsp;</span>');
+
+        return checkbox;
     }
 
     function getDatabaseMaskerOptionCheckboxHtml(optionAttributeName) {
 
-        let checkbox = $('<input type="checkbox" class="checkbox_db_masker_option" data-option="' + optionAttributeName + '"></input>&nbsp;<label>' + optionAttributeName + '</label>');
+        let checkbox = $('<input type="checkbox" class="db_masker_option_checkbox" data-option="' + optionAttributeName + '"></input>&nbsp;<label>' + optionAttributeName + '</label>');
         
         return checkbox;
+    }
+
+    function populateDatabaseColumnSelectionUI(dbtables) {
+
+        $('#divDatabase').empty();
+        for (let i = 0; i < dbtables.length; i++) {
+
+            let dbtable = dbtables[i];
+
+            let lTable = $('<ul class="list-unstyled"></ul>');
+            $('#divDatabase').append(lTable);
+
+            let liTable = $('<li class="db_table_container"></li>');
+            lTable.append(liTable);
+
+            let divTable = getDatabaseTableDivHtml(dbtable.TableSchema, dbtable.TableName);
+            liTable.append(divTable);
+
+            let divColumns = $('<div></div>');
+            liTable.append(divColumns);
+
+            let lColumns = $('<ul></ul>');
+            divColumns.append(lColumns);
+
+            for (let c = 0; c < dbtable.Columns.length; c++) {
+
+                let dbcolumn = dbtable.Columns[c];
+
+                let liColumn = $('<li class="db_column_container"></li>');
+                lColumns.append(liColumn);
+
+                let divColumn = $('<div class="db_column_container"></div>');
+                liColumn.append(divColumn);
+
+                let checkBoxId = 'chkbx_' + i + '_' + c;
+                let checkboxColumn = getDatabaseColumnCheckboxHtml(checkBoxId, dbtable.TableSchema, dbtable.TableName, dbcolumn.ColumnName, dbcolumn.DataType);
+                divColumn.append(checkboxColumn);
+
+                let divOptions = $('<div class="db_masker_option_container"></div>');
+                liColumn.append(divOptions);
+
+                let lOptions = $('<ul></ul>');
+                divOptions.append(lOptions);
+
+                // IgnoreAngleBracketedTags
+                let liOption0 = $('<li class="db_masker_option_container"></li>');
+                lOptions.append(liOption0);
+
+                let checkbox0 = getDatabaseMaskerOptionCheckboxHtml('IgnoreAngleBracketedTags');
+                liOption0.append(checkbox0);
+
+                // IgnoreJsonAttributes
+                let liOption1 = $('<li class="db_masker_option_container"></li>');
+                lOptions.append(liOption1);
+
+                let checkbox1 = getDatabaseMaskerOptionCheckboxHtml('IgnoreJsonAttributes');
+                liOption1.append(checkbox1);
+            }
+        }
+
+        bindDatabaseColumnSelectionUIEvents();
+    }
+
+    function bindDatabaseColumnSelectionUIEvents() {
+
+        // <li class="db_column_container">
+        //      <div class="db_column_container">
+        //          <input class="db_column_checkbox" data-schema="public" data-table="Address" data-column="AddressLine1" >
+        //      </div>
+        //      <div class="db_masker_option_container">
+        //          <ul>
+        //              <li class="db_masker_option_container">
+        //                  <input class="db_masker_option_checkbox" data-option="IgnoreAngleBracketedTags" >
+        //              </li>
+        //              <li class="db_masker_option_container">
+        //                  <input class="db_masker_option_checkbox" data-option="IgnoreJsonAttributes" >
+        //              </li>
+        //          </ul>
+        //      </div>
+        // </li>
+
+        let dbcolumn_checkboxs = $('#divDatabase').find('input.db_column_checkbox');
+
+        dbcolumn_checkboxs.off('click').on('click', function (jqevent) {
+
+            let event = jqevent.originalEvent;
+            let srcElement = event.srcElement;
+            let dbcolumn_checkbox = $(srcElement);
+
+            let li_db_column_container = dbcolumn_checkbox.closest('li.db_column_container');
+            let dbmasker_option_checkboxes = li_db_column_container.find('input.db_masker_option_checkbox');
+
+            let isChecked = dbcolumn_checkbox.is(':checked');
+            dbmasker_option_checkboxes.prop('checked', isChecked);
+
+        });
     }
 
     function listDatabaseTables(dataSourceName) {
@@ -121,55 +224,8 @@
                 //if (window.console && typeof window.console.log === 'function')
                 //    window.console.log(responseData);
 
-                $('#divDatabase').empty();
-                for (let i=0; i<responseData.length; i++) {
-                    
-                    let dbtable = responseData[i];
-                    
-                    let lTable = $('<ul class="list-unstyled"></ul>');
-                    $('#divDatabase').append(lTable);
+                populateDatabaseColumnSelectionUI(responseData);
 
-                    let liTable = $('<li><div>[' + dbtable.TableSchema + '].[' + dbtable.TableName + ']</div></li>');
-                    lTable.append(liTable);
-
-                    let divColumns = $('<div></div>');
-                    liTable.append(divColumns);
-
-                    let lColumns = $('<ul></ul>');
-                    divColumns.append(lColumns);
-                    
-                    for (let c = 0; c < dbtable.Columns.length; c++) {
-                        
-                        let dbcolumn = dbtable.Columns[c];
-
-                        let liColumn = $('<li></li>');
-                        lColumns.append(liColumn);
-
-                        let checkBoxId = 'chkbx_' + i + '_' + c;
-                        let divColumn = getDatabaseColumnDivHtml(checkBoxId, dbtable.TableSchema, dbtable.TableName, dbcolumn.ColumnName, dbcolumn.DataType);
-                        liColumn.append(divColumn);
-
-                        let divOptions = $('<div></div>');
-                        liColumn.append(divOptions);
-
-                        let lOptions = $('<ul></ul>');
-                        divOptions.append(lOptions);
-
-                        // IgnoreAngleBracketedTags
-                        let liOption0 = $('<li></li>');
-                        lOptions.append(liOption0);
-
-                        let checkbox0 = getDatabaseMaskerOptionCheckboxHtml('IgnoreAngleBracketedTags');
-                        liOption0.append(checkbox0);
-
-                        // IgnoreJsonAttributes
-                        let liOption1 = $('<li></li>');
-                        lOptions.append(liOption1);
-
-                        let checkbox1 = getDatabaseMaskerOptionCheckboxHtml('IgnoreJsonAttributes');
-                        liOption1.append(checkbox1);
-                    }
-                }
             },
             failure: function (response) {
                 
