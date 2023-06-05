@@ -62,6 +62,8 @@ namespace DatabaseMaskerWeb.Pages
             }
         }
 
+        public Dictionary<string, string> RunningJobs { get; set; }
+
         public MaskDatabaseDialogModel(IConfiguration configuration, IMemoryCache memoryCache, ILogger<MaskDatabaseDialogModel> logger)
         {
             _configuration = configuration;
@@ -139,11 +141,11 @@ namespace DatabaseMaskerWeb.Pages
 
         protected void Init_RunningJobsCache_IfNotExist()
         {
-            Dictionary<string, Task> runningJobs = null;
+            Dictionary<string, string> runningJobs = null;
 
             if (!_memoryCache.TryGetValue(CacheKey_RunningJobs, out runningJobs))
             {
-                runningJobs = new Dictionary<string, Task>();
+                runningJobs = new Dictionary<string, string>();
 
                 var cacheEntryOptions =
                     new MemoryCacheEntryOptions()
@@ -153,9 +155,9 @@ namespace DatabaseMaskerWeb.Pages
             }
         }
 
-        protected Dictionary<string, Task> GetRunningJobsCache()
+        protected Dictionary<string, string> GetRunningJobsCache()
         {
-            Dictionary<string, Task> runningJobs = null;
+            Dictionary<string, string> runningJobs = null;
             _memoryCache.TryGetValue(CacheKey_RunningJobs, out runningJobs);
 
             return runningJobs;
@@ -164,6 +166,7 @@ namespace DatabaseMaskerWeb.Pages
         public void OnGet()
         {
             Init_RunningJobsCache_IfNotExist();
+            RunningJobs = GetRunningJobsCache();
         }
 
         public async Task<IActionResult> OnGetListTargetDataSourcesAsync()
@@ -295,51 +298,59 @@ namespace DatabaseMaskerWeb.Pages
                 var job =
                     Task.Run(delegate {
 
-                        using (DbConnection connection = factory.CreateConnection())
+                        try
                         {
-                            connection.ConnectionString = dataSource.ConnectionString;
-                            connection.Open();
-
-                            DataMaskerOptions defaultOptions = new DataMaskerOptions();
-                            defaultOptions.IgnoreAngleBracketedTags = true;
-                            defaultOptions.IgnoreJsonAttributes = true;
-
-                            for (int i = 0; i < maskDatabaseRequest.DatabaseTables.Count; i++)
+                            using (DbConnection connection = factory.CreateConnection())
                             {
-                                var dbtable = maskDatabaseRequest.DatabaseTables[i];
+                                connection.ConnectionString = dataSource.ConnectionString;
+                                connection.Open();
 
-                                Dictionary<string, DataMaskerOptions> dbcolumnsOptions = new Dictionary<string, DataMaskerOptions>();
+                                DataMaskerOptions defaultOptions = new DataMaskerOptions();
+                                defaultOptions.IgnoreAngleBracketedTags = true;
+                                defaultOptions.IgnoreJsonAttributes = true;
 
-                                for (int c = 0; c < dbtable.Columns.Count; c++)
+                                for (int i = 0; i < maskDatabaseRequest.DatabaseTables.Count; i++)
                                 {
-                                    var dbcolumn = dbtable.Columns[c];
-                                    if (maskDatabaseRequest.DataMaskerOptions.ContainsKey(dbcolumn.ColumnName))
+                                    var dbtable = maskDatabaseRequest.DatabaseTables[i];
+
+                                    Dictionary<string, DataMaskerOptions> dbcolumnsOptions = new Dictionary<string, DataMaskerOptions>();
+
+                                    for (int c = 0; c < dbtable.Columns.Count; c++)
                                     {
-                                        dbcolumnsOptions.Add(
-                                            dbcolumn.ColumnName,
-                                            maskDatabaseRequest.DataMaskerOptions[dbcolumn.ColumnName]);
+                                        var dbcolumn = dbtable.Columns[c];
+                                        if (maskDatabaseRequest.DataMaskerOptions.ContainsKey(dbcolumn.ColumnName))
+                                        {
+                                            dbcolumnsOptions.Add(
+                                                dbcolumn.ColumnName,
+                                                maskDatabaseRequest.DataMaskerOptions[dbcolumn.ColumnName]);
+                                        }
+                                        else
+                                        {
+                                            dbcolumnsOptions.Add(dbcolumn.ColumnName, defaultOptions);
+                                        }
                                     }
-                                    else
-                                    {
-                                        dbcolumnsOptions.Add(dbcolumn.ColumnName, defaultOptions);
-                                    }
+
+                                    databaseMasker.MaskTable(dbtable, dbcolumnsOptions, connection);
                                 }
 
-                                databaseMasker.MaskTable(dbtable, dbcolumnsOptions, connection);
+                                connection.Close();
                             }
-                            
-                            connection.Close();
-                        }
 
-                        runningJobs.Remove(maskDatabaseRequest.DataSourceName);
+                            runningJobs.Remove(maskDatabaseRequest.DataSourceName);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError(ex, "Unknown Error @ OnPostMaskTablesAsync Database Masking Task");
+                        }
                     });
 
-                runningJobs.Add(maskDatabaseRequest.DataSourceName, job);
-                
-                return new OkResult();
+                runningJobs.Add(maskDatabaseRequest.DataSourceName, DateTime.Now.ToString("O"));
+
+                return new JsonResult(maskDatabaseRequest);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Unknown Error @ OnPostMaskTablesAsync");
             }
 
             return new BadRequestResult();

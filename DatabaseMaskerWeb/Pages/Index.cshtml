@@ -2,5 +2,10 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
+
+    var RunningJobs =
+        Model.RunningJobs.ToList().ToDictionary(x => x.Key, x => x.Value);
+    ViewData["RunningJobs"] = RunningJobs;
 }
 
+@Html.Partial("~/Pages/_RunningDatabaseMaskingJobs.cshtml", Model, ViewData)

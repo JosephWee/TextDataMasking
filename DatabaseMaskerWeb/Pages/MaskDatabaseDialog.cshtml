@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Mask Database";
 }
-
 <div id="page0">
     <div class="row">
         <div class="col-3"></div>
@@ -62,7 +61,7 @@
     <div class="row">
         <div class="col-3"></div>
         <div class="col-6 text-center">
-            <h1 class="display-6">Step 3: Review Results</h1>
+            <h1 class="display-6">Step 3: Running Jobs</h1>
         </div>
         <div class="col-3"></div>
     </div>
@@ -269,7 +268,7 @@
             dataType: "json",
             beforeSend: function (xhr) {
                 
-                debugger;
+                //debugger;
                 let token = $('input:hidden[name="__RequestVerificationToken"]').val();
                 //xhr.setRequestHeader("XSRF-TOKEN", token);
                 xhr.setRequestHeader("RequestVerificationToken", token);
@@ -277,21 +276,23 @@
             },
             success: function (responseData) {
 
-                debugger;
+                //debugger;
 
                 if (window.console && typeof window.console.log === 'function')
                     window.console.log(responseData);
+
+                window.location.href = '/Index';
             },
             failure: function (a) {
 
-                debugger;
+                //debugger;
 
                 if (window.console && typeof window.console.log === 'function')
                     window.console.log(a);
             },
             error: function (jqXHRObj) {
 
-                debugger;
+                //debugger;
 
                 if (window.console && typeof window.console.log === 'function') {
                     window.console.log(jqXHRObj);

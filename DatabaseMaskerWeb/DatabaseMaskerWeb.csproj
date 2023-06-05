@@ -10,6 +10,7 @@
     <Compile Remove="MyAuthenticationHandler.cs" />
     <Compile Remove="MyAuthenticationOptions.cs" />
     <Compile Remove="MyAuthenticationService.cs" />
+    <Compile Remove="Pages\_RunningDatabaseMaskingJobs.cshtml.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,50 @@
+﻿@{
+
+    var RunningJobs = ViewData["RunningJobs"] as Dictionary<string, string>;
+
+    string alertTemplate =
+        @"<div class=""alert {0} alert-dismissible fade show"" role=""alert"">" +
+        @"  <div class=""text-center"">" +
+        @"  {1}" +
+        @"  </div>" +
+        @"  <button type=""button"" class=""btn btn-close"" data-dismiss=""alert"" aria-label=""Close"">" +
+        @"  </button>" +
+        @"</div>";
+
+    var alertBuilder = new System.Text.StringBuilder();
+    if (RunningJobs == null || RunningJobs.Count == 0)
+    {
+        alertBuilder.AppendLine(
+            string.Format(
+                alertTemplate,
+                "alert-info",
+                @"<strong>There are no running jobs</strong>&nbsp;")
+        );
+    }
+    else
+    {
+        var jobNames = RunningJobs.Keys.ToList();
+        for (int i = 0; i < jobNames.Count; i++)
+        {
+            var jobName = jobNames[i];
+            string jobText = $"Job #{(i + 1).ToString("00")} - {jobName}";
+            alertBuilder.AppendLine(
+                string.Format(
+                    alertTemplate,
+                    "alert-primary",
+                    @"<span style=""font-weight: bold; "">" + jobText + "</span>")
+            );
+        }
+    }
+}
+
+@Html.Raw(alertBuilder.ToString())
+
+<script>
+    $(document).ready(function() {
+
+        $('div.alert').alert().on('click', function() {
+            $('div.alert').alert('close');
+        });
+    });
+</script>
