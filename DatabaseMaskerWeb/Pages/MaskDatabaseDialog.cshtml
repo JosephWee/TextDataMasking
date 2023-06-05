@@ -75,7 +75,7 @@
 </div>
 
 <div id="pgFooter" class="pageFooter">
-    <button id="btnPrev" class="btnPrev btn-secondary">Prev</button><button id="btnNext" class="btnNext btn-primary">Next</button>
+    <button id="btnPrev" class="btnPrev btn btn-secondary">Prev</button><button id="btnNext" class="btnNext btn btn-primary">Next</button>
 </div>
 
 <script>
@@ -87,6 +87,67 @@
         }
         else {
             return true;
+        }
+    }
+
+    function replaceElementClass(element, fromClass, toClass) {
+
+        let classString = $(element).attr('class');
+        let classes = classString.split(' ');
+        let newClasses = [];
+        
+        for (let i=0; i<classes.length; i++) {
+
+            let currentClass = classes[i];
+            
+            if (currentClass.length > 0) {
+
+                if (currentClass == fromClass) {
+                    newClasses.push(toClass);
+                }
+                else {
+                    newClasses.push(currentClass);
+                }
+            }
+        }
+
+        let newClassString = newClasses.join(' ');
+        $(element).attr('class', newClassString);
+    }
+
+    function updateNavButtons(pageNumbers, currentPage, newPageNum) {
+
+        $('#btnPrev').show();
+        $('#btnNext').show();
+
+        if (newPageNum === pageNumbers[0])
+            $('#btnPrev').hide();
+
+        if (newPageNum === pageNumbers[pageNumbers.length - 1])
+            $('#btnNext').hide();
+
+        if (newPageNum === 1) {
+
+            let selectOptions = $('#selectTargetDataSources').find('option');
+            if (selectOptions.length < 1) {
+                
+                let alertElement =
+                    '<div class="alert alert-danger alert-dismissible fade show" role="alert" >' +
+                    '    All the jobs are already running.' +
+                    '</div>';
+
+                $(alertElement).alert();
+            }
+        }
+        else if (newPageNum === 2) {
+
+            $('#btnNext').text('Run Task');
+            replaceElementClass($('#btnNext'), 'btn-primary', 'btn-danger');
+        }
+        else {
+
+            $('#btnNext').text('Next');
+            replaceElementClass($('#btnNext'), 'btn-danger', 'btn-primary');
         }
     }
 
@@ -173,8 +234,7 @@
                     let dbmasker_option_checkbox = $(dbmasker_option_checkboxes[c]);
 
                     if (dbmasker_option_checkbox.is(':checked')) {
-                        debugger;
-
+                        
                         let attributeName = dbmasker_option_checkbox.attr('data-option');
                         column_options[attributeName] = true;
                     }
@@ -476,6 +536,8 @@
 
             if (pageNumbers.includes(newPageNum)) {
 
+                updateNavButtons(pageNumbers, currentPage, newPageNum);
+
                 sessionStorage.setItem('PageNum', newPageNum);
                 refreshPages();
             }
@@ -490,12 +552,14 @@
 
             if (pageNumbers.includes(newPageNum)) {
 
+                updateNavButtons(pageNumbers, currentPage, newPageNum);
+
+                if (newPageNum === 3) {
+                    maskTables();
+                }
+
                 sessionStorage.setItem('PageNum', newPageNum);
                 refreshPages();
-            }
-
-            if (newPageNum === 3) {
-                maskTables();
             }
         });
 
@@ -511,6 +575,8 @@
         });
 
         sessionStorage.setItem('PageNum', '0');
+        $('#btnPrev').hide();
+        $('#btnNext').show();
         refreshPages();
         listTargetDataSources();
     });

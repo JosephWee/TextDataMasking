@@ -50,6 +50,7 @@ namespace DatabaseMaskerWeb.Pages
         private readonly ILogger<MaskDatabaseDialogModel> _logger;
         private readonly IConfiguration _configuration;
         private readonly IMemoryCache _memoryCache;
+        private readonly string CacheKey_RunningJobs = "RunningJobs";
 
         protected JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions();
         protected JsonSerializerOptions jsonSerializerOptions
@@ -136,15 +137,51 @@ namespace DatabaseMaskerWeb.Pages
             return databaseMasker;
         }
 
+        protected void Init_RunningJobsCache_IfNotExist()
+        {
+            Dictionary<string, Task> runningJobs = null;
+
+            if (!_memoryCache.TryGetValue(CacheKey_RunningJobs, out runningJobs))
+            {
+                runningJobs = new Dictionary<string, Task>();
+
+                var cacheEntryOptions =
+                    new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromDays(3));
+
+                _memoryCache.Set(CacheKey_RunningJobs, runningJobs, cacheEntryOptions);
+            }
+        }
+
+        protected Dictionary<string, Task> GetRunningJobsCache()
+        {
+            Dictionary<string, Task> runningJobs = null;
+            _memoryCache.TryGetValue(CacheKey_RunningJobs, out runningJobs);
+
+            return runningJobs;
+        }
+
         public void OnGet()
         {
+            Init_RunningJobsCache_IfNotExist();
         }
 
         public async Task<IActionResult> OnGetListTargetDataSourcesAsync()
         {
-            var dataSources = GetDataSources();
+            var availDataSources = new List<string>();
 
-            return new JsonResult(dataSources.Keys.ToList(), jsonSerializerOptions);
+            var dataSources = GetDataSources();
+            var runningJobs = GetRunningJobsCache();
+
+            var dataSourceNames = dataSources.Keys.ToList();
+            for (int i = 0; i < dataSourceNames.Count; i++)
+            {
+                var dataSourceName = dataSourceNames[i];
+                if (!runningJobs.ContainsKey(dataSourceName))
+                    availDataSources.Add(dataSourceName);
+            }
+
+            return new JsonResult(availDataSources, jsonSerializerOptions);
         }
 
         public async Task<IActionResult> OnGetListDatabaseTablesAsync(string dataSourceName)
@@ -199,12 +236,113 @@ namespace DatabaseMaskerWeb.Pages
             {
                 var maskDatabaseRequest =
                     JsonSerializer.Deserialize<MaskDatabaseRequest>(bodyText);
+
+                var DataSources = GetDataSources();
+                if (!DataSources.ContainsKey(maskDatabaseRequest.DataSourceName))
+                    return new BadRequestResult();
+
+                var runningJobs = GetRunningJobsCache();
+
+                if (runningJobs == null)
+                    return new BadRequestResult();
+
+                if (runningJobs.ContainsKey(maskDatabaseRequest.DataSourceName))
+                    return new BadRequestResult();
+
+                var dataSource = DataSources[maskDatabaseRequest.DataSourceName];
+                var databaseMasker = GetDatabaseMasker(dataSource);
+                var factory = databaseMasker.GetDbProviderFactory();
+                using (DbConnection connection = factory.CreateConnection())
+                {
+                    connection.ConnectionString = dataSource.ConnectionString;
+                    connection.Open();
+
+                    var dbTables = databaseMasker.ListTables(connection);
+                    for (int i = 0; i < maskDatabaseRequest.DatabaseTables.Count; i++)
+                    {
+                        var reqdbTable = maskDatabaseRequest.DatabaseTables[i];
+                        
+                        var dbTable =
+                            dbTables
+                            .FirstOrDefault(
+                                x =>
+                                    x.TableSchema == reqdbTable.TableSchema
+                                    && x.TableName == reqdbTable.TableName);
+
+                        if (dbTable == null)
+                            return new BadRequestResult();
+
+                        for (int c = 0; c < reqdbTable.Columns.Count; c++)
+                        {
+                            var reqdbColumn = reqdbTable.Columns[c];
+
+                            var dbColumn =
+                                dbTable
+                                .Columns
+                                .FirstOrDefault(
+                                    x =>
+                                        x.ColumnName == reqdbColumn.ColumnName
+                                        && x.DataType == reqdbColumn.DataType);
+
+                            if (dbColumn == null)
+                                return new BadRequestResult();
+                        }
+                    }
+                    
+                    connection.Close();
+                }
+
+                var job =
+                    Task.Run(delegate {
+
+                        using (DbConnection connection = factory.CreateConnection())
+                        {
+                            connection.ConnectionString = dataSource.ConnectionString;
+                            connection.Open();
+
+                            DataMaskerOptions defaultOptions = new DataMaskerOptions();
+                            defaultOptions.IgnoreAngleBracketedTags = true;
+                            defaultOptions.IgnoreJsonAttributes = true;
+
+                            for (int i = 0; i < maskDatabaseRequest.DatabaseTables.Count; i++)
+                            {
+                                var dbtable = maskDatabaseRequest.DatabaseTables[i];
+
+                                Dictionary<string, DataMaskerOptions> dbcolumnsOptions = new Dictionary<string, DataMaskerOptions>();
+
+                                for (int c = 0; c < dbtable.Columns.Count; c++)
+                                {
+                                    var dbcolumn = dbtable.Columns[c];
+                                    if (maskDatabaseRequest.DataMaskerOptions.ContainsKey(dbcolumn.ColumnName))
+                                    {
+                                        dbcolumnsOptions.Add(
+                                            dbcolumn.ColumnName,
+                                            maskDatabaseRequest.DataMaskerOptions[dbcolumn.ColumnName]);
+                                    }
+                                    else
+                                    {
+                                        dbcolumnsOptions.Add(dbcolumn.ColumnName, defaultOptions);
+                                    }
+                                }
+
+                                databaseMasker.MaskTable(dbtable, dbcolumnsOptions, connection);
+                            }
+                            
+                            connection.Close();
+                        }
+
+                        runningJobs.Remove(maskDatabaseRequest.DataSourceName);
+                    });
+
+                runningJobs.Add(maskDatabaseRequest.DataSourceName, job);
+                
+                return new OkResult();
             }
             catch (Exception ex)
             {
             }
 
-            return new JsonResult("");
+            return new BadRequestResult();
         }
     }
 }
