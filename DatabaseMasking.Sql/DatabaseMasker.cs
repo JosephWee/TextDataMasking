@@ -24,16 +24,23 @@ namespace DatabaseMasking.Sql
 
         protected override string GetDatabaseColumnSelectStatement(DatabaseTable table)
         {
-            string selectCommanText = $"SELECT TOP 1 * FROM {table.TableSchema}.{table.TableName};";
+            string selectCommandText = $"SELECT TOP 1 * FROM {table.TableSchema}.{table.TableName};";
 
-            return selectCommanText;
+            return selectCommandText;
         }
 
         protected override string GetDatabaseTableSelectStatement(DatabaseTable table)
         {
-            string selectCommanText = $"SELECT * FROM {table.TableSchema}.{table.TableName};";
+            string selectCommandText = $"SELECT * FROM {table.TableSchema}.{table.TableName};";
 
-            return selectCommanText;
+            return selectCommandText;
+        }
+
+        protected override string GetDatabaseTableCountRowsStatement(DatabaseTable table, DatabaseColumn column)
+        {
+            string selectCommandText = $"SELECT COUNT({column.ColumnName}) FROM {table.TableSchema}.{table.TableName};";
+
+            return selectCommandText;
         }
 
         protected override void UpdateDatabaseTable(DataTable dt, DbDataAdapter adapter)

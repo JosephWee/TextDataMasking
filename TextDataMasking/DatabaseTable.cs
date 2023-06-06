@@ -13,5 +13,7 @@ namespace TextDataMasking
         public string TableName { get; set; }
 
         public List<DatabaseColumn> Columns { get; set; } = new List<DatabaseColumn>();
+
+        public Int64 RowCount { get; set; } = Int64.MinValue;
     }
 }

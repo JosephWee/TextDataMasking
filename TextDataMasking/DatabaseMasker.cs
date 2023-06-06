@@ -34,6 +34,8 @@ namespace TextDataMasking
 
         protected abstract string GetDatabaseTableSelectStatement(DatabaseTable table);
 
+        protected abstract string GetDatabaseTableCountRowsStatement(DatabaseTable table, DatabaseColumn column);
+
         public List<DatabaseTable> ListTables(DbConnection connection)
         {
             var tableList = new List<DatabaseTable>();
@@ -66,12 +68,15 @@ namespace TextDataMasking
                 var ds = new DataSet();
                 adapter.Fill(ds);
 
+                List<DataColumn> dataColumns = new List<DataColumn>();
                 List<DatabaseColumn> databaseColumns = new List<DatabaseColumn>();
                 if (ds.Tables.Count > 0)
                 {
-                    for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
+                    dataColumns = ds.Tables[0].Columns.OfType<DataColumn>().ToList();
+
+                    for (int j = 0; j < dataColumns.Count; j++)
                     {
-                        var dc = ds.Tables[0].Columns[j];
+                        var dc = dataColumns[j];
 
                         if (dc.DataType == typeof(String))
                         {
@@ -88,6 +93,33 @@ namespace TextDataMasking
                 }
 
                 databaseTable.Columns.AddRange(databaseColumns);
+
+                var countRowsCommand = factory.CreateCommand();
+                var countRowColumn =
+                    dataColumns.FirstOrDefault(x => x.Unique && x.ColumnName.ToLower().EndsWith("id"))
+                    ?? dataColumns.FirstOrDefault(x => x.Unique)
+                    ?? dataColumns.First();
+                countRowsCommand.CommandText =
+                    GetDatabaseTableCountRowsStatement(
+                        databaseTable,
+                        new DatabaseColumn()
+                        {
+                            ColumnName = countRowColumn.ColumnName,
+                            DataType = countRowColumn.DataType,
+                            IsUnique = countRowColumn.Unique
+                        }
+                    );
+                countRowsCommand.Connection = connection;
+
+                DbDataReader reader = countRowsCommand.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        databaseTable.RowCount = reader.GetInt64(0);
+                    }
+                }
+                reader.Close();
 
                 tableList.Add(databaseTable);
             }

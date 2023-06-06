@@ -23,16 +23,23 @@ namespace DatabaseMasking.osandfreesql
 
         protected override string GetDatabaseColumnSelectStatement(DatabaseTable table)
         {
-            string selectCommanText = $"SELECT * FROM \"{table.TableSchema}\".\"{table.TableName}\" LIMIT 1;";
+            string selectCommandText = $"SELECT * FROM \"{table.TableSchema}\".\"{table.TableName}\" LIMIT 1;";
             
-            return selectCommanText;
+            return selectCommandText;
         }
 
         protected override string GetDatabaseTableSelectStatement(DatabaseTable table)
         {
-            string selectCommanText = $"SELECT * FROM \"{table.TableSchema}\".\"{table.TableName}\";";
+            string selectCommandText = $"SELECT * FROM \"{table.TableSchema}\".\"{table.TableName}\";";
 
-            return selectCommanText;
+            return selectCommandText;
+        }
+
+        protected override string GetDatabaseTableCountRowsStatement(DatabaseTable table, DatabaseColumn column)
+        {
+            string selectCommandText = $"SELECT COUNT(\"{column.ColumnName}\") FROM \"{table.TableSchema}\".\"{table.TableName}\";";
+
+            return selectCommandText;
         }
 
         protected override void UpdateDatabaseTable(DataTable dt, DbDataAdapter adapter)

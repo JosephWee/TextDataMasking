@@ -304,9 +304,9 @@
         });
     }
 
-    function getDatabaseTableDivHtml(TableSchema, TableName) {
+    function getDatabaseTableDivHtml(TableSchema, TableName, RowCount) {
 
-        let div = $('<div style="font-weight: bold; background-color: rgb(220,220,220);">&nbsp;' + TableSchema + '&nbsp;<span style="font-weight: bolder;">.</span>&nbsp;' + TableName + '</div>');
+        let div = $('<div style="font-weight: bold; background-color: rgb(220,220,220); padding: 5px 5px 5px 5px;"><span>' + TableSchema + '</span><span style="font-weight: bolder; padding: 0px 2px 0px 2px;">.</span><span>' + TableName + '</span><span style="padding: 0px 0px 0px 5px;">(' + RowCount + '&nbsp;Rows)</span></div>');
 
         return div;
     }
@@ -338,7 +338,7 @@
             let liTable = $('<li class="db_table_container"></li>');
             lTable.append(liTable);
 
-            let divTable = getDatabaseTableDivHtml(dbtable.TableSchema, dbtable.TableName);
+            let divTable = getDatabaseTableDivHtml(dbtable.TableSchema, dbtable.TableName, dbtable.RowCount);
             liTable.append(divTable);
 
             let divColumns = $('<div></div>');
