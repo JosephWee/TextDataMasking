@@ -20,6 +20,14 @@ namespace TextDataMasking
             this.maskDictionary = MaskDictionary;
         }
 
+        public string ConnectionString
+        {
+            get
+            {
+                return connectionString;
+            }
+        }
+
         public abstract DbProviderFactory GetDbProviderFactory();
 
         protected abstract string GetDatabaseColumnSelectStatement(DatabaseTable table);
@@ -125,7 +133,7 @@ namespace TextDataMasking
                         var options =
                             columnOptions.ContainsKey(dc.ColumnName)
                             ? columnOptions[dc.ColumnName]
-                            : new DataMaskerOptions() { IgnoreAngleBracketedTags = true, IgnoreJsonAttributes = true };
+                            : new DataMaskerOptions() { IgnoreAngleBracketedTags = true, IgnoreJsonAttributes = true, IgnoreNumbers = false };
 
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {

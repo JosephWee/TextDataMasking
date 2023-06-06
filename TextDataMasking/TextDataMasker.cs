@@ -183,6 +183,10 @@ namespace TextDataMasking
                 {
                     replacementText.Append(match.Value);
                 }
+                else if (options.IgnoreNumbers && Regex.IsMatch(match.Value, @"\d"))
+                {
+                    replacementText.Append(match.Value);
+                }
                 else
                 {
                     replacementText.Append(maskDictionary.GetReplacement(match.Value));

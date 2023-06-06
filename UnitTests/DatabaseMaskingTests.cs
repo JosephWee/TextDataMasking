@@ -12,7 +12,7 @@ namespace UnitTests
     public class DatabaseMaskingTests
     {
         MaskDictionary maskDictionary = new MaskDictionary();
-        IDatabaseMasker databaseMasker = null;
+        DatabaseMasker databaseMasker = null;
         
         [SetUp]
         public void Setup()
@@ -30,7 +30,7 @@ namespace UnitTests
                         string typeName = assembly.GetName().Name + ".DatabaseMasker";
                         Type type = assembly.GetType(typeName);
                         object[] args = { ConnectionString, maskDictionary };
-                        databaseMasker = assembly.CreateInstance(type.FullName, false, BindingFlags.Default, null, args, System.Globalization.CultureInfo.CurrentCulture, null) as IDatabaseMasker;
+                        databaseMasker = assembly.CreateInstance(type.FullName, false, BindingFlags.Default, null, args, System.Globalization.CultureInfo.CurrentCulture, null) as DatabaseMasker;
                     }
                     catch (Exception ex)
                     {
@@ -42,9 +42,91 @@ namespace UnitTests
         }
 
         [Test]
-        public void TestDatabaseMasking()
+        public void MaskDatabase()
         {
             databaseMasker.MaskDatabase();
+            Assert.IsTrue(true);
+        }
+
+        [Test]
+        public void MaskDatabaseTable_IgnoreAll()
+        {
+            DataMaskerOptions options = new DataMaskerOptions()
+            {
+                IgnoreAngleBracketedTags = true,
+                IgnoreJsonAttributes = true,
+                IgnoreNumbers = true
+            };
+
+            MaskDatabaseTable(options);
+        }
+
+        [Test]
+        public void MaskDatabaseTable_IgnoreAngleBracketedTags()
+        {
+            DataMaskerOptions options = new DataMaskerOptions()
+            {
+                IgnoreAngleBracketedTags = true,
+                IgnoreJsonAttributes = false,
+                IgnoreNumbers = false
+            };
+
+            MaskDatabaseTable(options);
+        }
+
+        [Test]
+        public void MaskDatabaseTable_IgnoreJsonAttributes()
+        {
+            DataMaskerOptions options = new DataMaskerOptions()
+            {
+                IgnoreAngleBracketedTags = false,
+                IgnoreJsonAttributes = true,
+                IgnoreNumbers = false
+            };
+
+            MaskDatabaseTable(options);
+        }
+
+        [Test]
+        public void MaskDatabaseTable_IgnoreNumbers()
+        {
+            DataMaskerOptions options = new DataMaskerOptions()
+            {
+                IgnoreAngleBracketedTags = false,
+                IgnoreJsonAttributes = false,
+                IgnoreNumbers = true
+            };
+
+            MaskDatabaseTable(options);
+        }
+
+        public void MaskDatabaseTable(DataMaskerOptions options)
+        {
+            var factory = databaseMasker.GetDbProviderFactory();
+            using (var connection = factory.CreateConnection())
+            {
+                connection.ConnectionString = databaseMasker.ConnectionString;
+                connection.Open();
+                
+                var DatabaseTables = databaseMasker.ListTables(connection);
+
+                for (int i = 0; i < DatabaseTables.Count; i++)
+                {
+                    var DatabaseTable = DatabaseTables[i];
+
+                    var columnOptions = new Dictionary<string, DataMaskerOptions>();
+                    for (int c = 0; c < DatabaseTable.Columns.Count; c++)
+                    {
+                        var dbColumn = DatabaseTable.Columns[c];
+                        columnOptions.Add(dbColumn.ColumnName, options);
+                    }
+
+                    databaseMasker.MaskTable(DatabaseTable, columnOptions, connection);
+                }
+
+                connection.Close();
+            }
+
             Assert.IsTrue(true);
         }
     }

@@ -35,5 +35,18 @@ namespace TextDataMasking
                 _IgnoreJsonAttributes |= value;
             }
         }
+
+        protected bool _IgnoreNumbers = false;
+        public bool IgnoreNumbers
+        {
+            get
+            {
+                return _IgnoreNumbers;
+            }
+            set
+            {
+                _IgnoreNumbers |= value;
+            }
+        }
     }
 }
