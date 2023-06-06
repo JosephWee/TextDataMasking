@@ -380,6 +380,13 @@
 
                 let checkbox1 = getDatabaseMaskerOptionCheckboxHtml('IgnoreJsonAttributes');
                 liOption1.append(checkbox1);
+
+                // IgnoreNumbers
+                let liOption2 = $('<li class="db_masker_option_container"></li>');
+                lOptions.append(liOption2);
+
+                let checkbox2 = getDatabaseMaskerOptionCheckboxHtml('IgnoreNumbers');
+                liOption2.append(checkbox2);
             }
         }
 
