@@ -387,6 +387,13 @@
 
                 let checkbox2 = getDatabaseMaskerOptionCheckboxHtml('IgnoreNumbers');
                 liOption2.append(checkbox2);
+
+                // PreserveCase
+                let liOption3 = $('<li class="db_masker_option_container"></li>');
+                lOptions.append(liOption3);
+
+                let checkbox3 = getDatabaseMaskerOptionCheckboxHtml('PreserveCase');
+                liOption3.append(checkbox3);
             }
         }
 

@@ -55,7 +55,8 @@ namespace UnitTests
             {
                 IgnoreAngleBracketedTags = true,
                 IgnoreJsonAttributes = true,
-                IgnoreNumbers = true
+                IgnoreNumbers = true,
+                PreserveCase = true
             };
 
             MaskDatabaseTable(options);
@@ -68,7 +69,8 @@ namespace UnitTests
             {
                 IgnoreAngleBracketedTags = true,
                 IgnoreJsonAttributes = false,
-                IgnoreNumbers = false
+                IgnoreNumbers = false,
+                PreserveCase = true
             };
 
             MaskDatabaseTable(options);
@@ -81,7 +83,8 @@ namespace UnitTests
             {
                 IgnoreAngleBracketedTags = false,
                 IgnoreJsonAttributes = true,
-                IgnoreNumbers = false
+                IgnoreNumbers = false,
+                PreserveCase = true
             };
 
             MaskDatabaseTable(options);
@@ -94,7 +97,8 @@ namespace UnitTests
             {
                 IgnoreAngleBracketedTags = false,
                 IgnoreJsonAttributes = false,
-                IgnoreNumbers = true
+                IgnoreNumbers = true,
+                PreserveCase = true
             };
 
             MaskDatabaseTable(options);

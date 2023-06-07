@@ -116,7 +116,7 @@ namespace TextDataMasking
                 {
                     while (reader.Read())
                     {
-                        databaseTable.RowCount = reader.GetInt64(0);
+                        databaseTable.RowCount = reader.GetInt32(0);
                     }
                 }
                 reader.Close();

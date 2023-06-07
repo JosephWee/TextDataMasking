@@ -48,5 +48,18 @@ namespace TextDataMasking
                 _IgnoreNumbers |= value;
             }
         }
+
+        protected bool _PreserveCase = false;
+        public bool PreserveCase
+        {
+            get
+            {
+                return _PreserveCase;
+            }
+            set
+            {
+                _PreserveCase |= value;
+            }
+        }
     }
 }

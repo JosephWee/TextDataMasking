@@ -94,6 +94,7 @@ description=""Rustic Oak Coffee Table"">
             options.IgnoreAngleBracketedTags = true;
             options.IgnoreJsonAttributes = true;
             options.IgnoreNumbers = true;
+            options.PreserveCase = true;
 
             MaskDictionary maskDictionary = new MaskDictionary();
 

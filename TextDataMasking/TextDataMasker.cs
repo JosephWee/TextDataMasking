@@ -187,6 +187,31 @@ namespace TextDataMasking
                 {
                     replacementText.Append(match.Value);
                 }
+                else if (options.PreserveCase)
+                {
+                    var originalChars = match.Value.ToList();
+                    var replacementChars =
+                        maskDictionary
+                        .GetReplacement(match.Value)
+                        .ToList();
+
+                    for (int i = 0; i < originalChars.Count; i++)
+                    {
+                        string originalChar = originalChars[i].ToString();
+                        if (originalChar.ToUpper() == originalChar)
+                        {
+                            replacementText.Append(
+                                replacementChars[i]
+                                .ToString()
+                                .ToUpper()
+                            );
+                        }
+                        else
+                        {
+                            replacementText.Append(replacementChars[i]);
+                        }
+                    }
+                }
                 else
                 {
                     replacementText.Append(maskDictionary.GetReplacement(match.Value));
