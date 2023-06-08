@@ -11,6 +11,8 @@ namespace TextDataMasking
     {
         protected const int alternatesCount = 30;
         protected Random random = new Random();
+        protected static readonly IReadOnlyList<char> vowels = (new List<char>() { 'a', 'e', 'i', 'o', 'u' }).AsReadOnly();
+        protected static readonly IReadOnlyList<int> vowelCodes = vowels.Select(x => (int)Convert.ToByte(x)).ToList().AsReadOnly();
         protected Dictionary<int, List<string>> replacementDictionary = new Dictionary<int, List<string>>();
         
         public MaskDictionary()
@@ -40,13 +42,34 @@ namespace TextDataMasking
                 for (int j = 0; j < alternatesCount; j++)
                 {
                     List<char> replacementWord = new List<char>();
-                        
+                    
                     while (replacementWord.Count < originalWord.Length)
                     {
                         int charCodeIndex = random.Next(26);
                         char randomChar = Convert.ToChar(97 + charCodeIndex);
-                        if (originalWord.Length > 26 || !replacementWord.Contains(randomChar))
-                            replacementWord.Add(randomChar);
+
+                        bool isVowel = vowels.Contains(randomChar);
+                        if (replacementWord.Count > 0)
+                        {
+                            char prevChar = replacementWord.Last();
+                            bool isPrevVowel = vowels.Contains(prevChar);
+                            if (replacementWord.Count == 1
+                                && ((isPrevVowel && isVowel) || (!isPrevVowel && !isVowel)))
+                            {
+                                continue;
+                            }
+                            else if (!isPrevVowel && !isVowel)
+                            {
+                                if (replacementWord.Count > 2)
+                                {
+                                    char prevPrevChar = replacementWord[replacementWord.Count - 2];
+                                    if (!vowels.Contains(prevPrevChar))
+                                        continue;
+                                }
+                            }
+                        }
+
+                        replacementWord.Add(randomChar);
                     }
 
                     replacements.Add(string.Join("", replacementWord));
