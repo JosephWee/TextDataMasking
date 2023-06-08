@@ -9,10 +9,9 @@ namespace TextDataMasking
 {
     public class MaskDictionary
     {
-        protected const int alternatesCount = 30;
+        protected const int alternatesCount = 100;
         protected Random random = new Random();
         protected static readonly IReadOnlyList<char> vowels = (new List<char>() { 'a', 'e', 'i', 'o', 'u' }).AsReadOnly();
-        protected static readonly IReadOnlyList<int> vowelCodes = vowels.Select(x => (int)Convert.ToByte(x)).ToList().AsReadOnly();
         protected Dictionary<int, List<string>> replacementDictionary = new Dictionary<int, List<string>>();
         
         public MaskDictionary()
@@ -37,12 +36,17 @@ namespace TextDataMasking
             {
                 replacements = replacementDictionary[originalWord.Length];
             }
+            else if (originalWord.Length == 1)
+            {
+                replacements = vowels.Select(x => x.ToString()).ToList();
+                replacementDictionary.Add(1, replacements);
+            }
             else
             {
                 for (int j = 0; j < alternatesCount; j++)
                 {
                     List<char> replacementWord = new List<char>();
-                    
+
                     while (replacementWord.Count < originalWord.Length)
                     {
                         int charCodeIndex = random.Next(26);
