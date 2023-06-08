@@ -146,8 +146,6 @@ namespace TextDataMasking
             DataSet ds = new DataSet();
             adapter.Fill(ds);
 
-            //DataSet ds = FetchTable(table, connection);
-
             for (int t = 0; t < ds.Tables.Count; t++)
             {
                 var dt = ds.Tables[t];

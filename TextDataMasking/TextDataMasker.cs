@@ -23,6 +23,18 @@ namespace TextDataMasking
                     retValue.AddRange(childAttributeNames);
                 }
             }
+            else if (jsonElement.ValueKind == JsonValueKind.Array)
+            {
+                foreach (var item in jsonElement.EnumerateArray())
+                {
+                    if (item.ValueKind == JsonValueKind.Object
+                        || item.ValueKind == JsonValueKind.Array)
+                    {
+                        var childAttributeNames = GetAllAttributeNames(item);
+                        retValue.AddRange(childAttributeNames);
+                    }
+                }
+            }
 
             return retValue;
         }

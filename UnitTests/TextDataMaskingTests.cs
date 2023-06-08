@@ -84,6 +84,67 @@ description=""Rustic Oak Coffee Table"">
   ""token_type"": ""Bearer"",
   ""expires_in"": 3600
 }");
+
+                originalTexts.Add(
+@"{
+  ""place_id"": ""e361757a-d6f7-4b59-bf30-5a167f7eafd6"",
+  ""type"": 0,
+  ""formatted_address"": ""Topaz Shopping Center, #1424, 41 Jalan Post Oak, Punggol, Singapore, 312243"",
+  ""address_parts"": [
+    {
+      ""long_name"": ""Topaz Shopping Center"",
+      ""short_name"": ""Topaz Shopping Center"",
+      ""type_name"": ""building_name""
+    },
+    {
+      ""long_name"": ""#1424"",
+      ""short_name"": ""#1424"",
+      ""type_name"": ""building_name""
+    },
+    {
+      ""long_name"": ""41"",
+      ""short_name"": ""41"",
+      ""type_name"": ""street_number""
+    },
+    {
+      ""long_name"": ""Jalan Post Oak"",
+      ""short_name"": ""Jalan Post Oak"",
+      ""type_name"": ""street""
+    },
+    {
+      ""long_name"": ""Punggol"",
+      ""short_name"": ""Punggol"",
+      ""type_name"": ""locality""
+    },
+    {
+      ""long_name"": ""Singapore"",
+      ""short_name"": ""Singapore"",
+      ""type_name"": ""country""
+    },
+    {
+      ""long_name"": ""312243"",
+      ""short_name"": ""312243"",
+      ""type_name"": ""postal_code""
+    }
+  ],
+  ""geometry"": {
+    ""location"": {
+      ""lat"": 61.729200931498404,
+      ""lng"": -94.51174330226262
+    },
+    ""location_type"": 0,
+    ""viewport"": {
+      ""southeast"": {
+        ""lat"": 86.28535410844314,
+        ""lng"": -72.64794947435894
+      },
+      ""northwest"": {
+        ""lat"": 86.20062200122035,
+        ""lng"": -73.06500870822384
+      }
+    }
+  }
+}");
             }
         }
 
