@@ -195,11 +195,11 @@ namespace TextDataMasking
                 {
                     replacementText.Append(match.Value);
                 }
-                else if (options.IgnoreNumbers && Regex.IsMatch(match.Value, @"\d"))
+                else if (options.IgnoreNumbers && Regex.IsMatch(match.Value, @"^\d+$"))
                 {
                     replacementText.Append(match.Value);
                 }
-                else if (options.PreserveCase)
+                else
                 {
                     var originalChars = match.Value.ToList();
                     var replacementChars =
@@ -207,26 +207,46 @@ namespace TextDataMasking
                         .GetReplacement(match.Value)
                         .ToList();
 
-                    for (int i = 0; i < originalChars.Count; i++)
+                    if (IsJson)
                     {
-                        string originalChar = originalChars[i].ToString();
-                        if (originalChar.ToUpper() == originalChar)
+                        var valLowerCase = match.Value.ToLower();
+                        if (valLowerCase == "null")
                         {
-                            replacementText.Append(
-                                replacementChars[i]
-                                .ToString()
-                                .ToUpper()
-                            );
+                            replacementChars = new List<char>() { 'n', 'u', 'l', 'l' };
                         }
-                        else
+                        else if (valLowerCase == "true")
                         {
-                            replacementText.Append(replacementChars[i]);
+                            replacementChars = new List<char>() { 't', 'r', 'u', 'e' };
+                        }
+                        else if (valLowerCase == "false")
+                        {
+                            replacementChars = new List<char>() { 'f', 'a', 'l', 's', 'e' };
                         }
                     }
-                }
-                else
-                {
-                    replacementText.Append(maskDictionary.GetReplacement(match.Value));
+
+                    if (options.PreserveCase)
+                    {
+                        for (int i = 0; i < originalChars.Count; i++)
+                        {
+                            string originalChar = originalChars[i].ToString();
+                            if (originalChar.ToUpper() == originalChar)
+                            {
+                                replacementText.Append(
+                                    replacementChars[i]
+                                    .ToString()
+                                    .ToUpper()
+                                );
+                            }
+                            else
+                            {
+                                replacementText.Append(replacementChars[i]);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        replacementText.Append(string.Join("", replacementChars));
+                    }
                 }
 
                 matchIndexes.Add(match.Index);
