@@ -36,7 +36,7 @@ namespace TextDataMasking
 
         protected abstract string GetDatabaseTableCountRowsStatement(DatabaseTable table, DatabaseColumn column);
 
-        public List<DatabaseTable> ListTables(DbConnection connection)
+        public List<DatabaseTable> ListTables(DbConnection connection, bool includeAllColumns)
         {
             var tableList = new List<DatabaseTable>();
 
@@ -66,7 +66,7 @@ namespace TextDataMasking
                 adapter.SelectCommand = selectCommand;
                 
                 var ds = new DataSet();
-                adapter.Fill(ds);
+                adapter.FillSchema(ds, SchemaType.Mapped);
 
                 List<DataColumn> dataColumns = new List<DataColumn>();
                 List<DatabaseColumn> databaseColumns = new List<DatabaseColumn>();
@@ -78,7 +78,7 @@ namespace TextDataMasking
                     {
                         var dc = dataColumns[j];
 
-                        if (dc.DataType == typeof(String))
+                        if (dc.DataType == typeof(String) || includeAllColumns)
                         {
                             DatabaseColumn databaseColumn = new DatabaseColumn()
                             {
@@ -127,7 +127,7 @@ namespace TextDataMasking
             return tableList;
         }
 
-        protected abstract void UpdateDatabaseTable(DataTable dt, DbDataAdapter adapter);
+        protected abstract void UpdateDatabaseTable(DatabaseTable table, DataTable dt, DbDataAdapter adapter);
 
         public void MaskTable(DatabaseTable table, Dictionary<string, DataMaskerOptions> columnOptions, DbConnection connection)
         {
@@ -140,42 +140,39 @@ namespace TextDataMasking
             var adapter = factory.CreateDataAdapter();
             adapter.SelectCommand = selectCommand;
 
-            var commandBuilder = factory.CreateCommandBuilder();
-            commandBuilder.DataAdapter = adapter;
+            //var commandBuilder = factory.CreateCommandBuilder();
+            //commandBuilder.DataAdapter = adapter;
 
-            DataSet ds = new DataSet();
-            adapter.Fill(ds);
+            DataTable dt = new DataTable();
+            adapter.FillSchema(dt, SchemaType.Mapped);
+            adapter.Fill(dt);
 
-            for (int t = 0; t < ds.Tables.Count; t++)
+            for (int c = 0; c < dt.Columns.Count; c++)
             {
-                var dt = ds.Tables[t];
-                for (int c = 0; c < dt.Columns.Count; c++)
+                var dc = dt.Columns[c];
+                if (dc.DataType == typeof(String)
+                    && table.Columns.Any(
+                        x =>
+                            x.ColumnName == dc.ColumnName
+                            && x.DataType == dc.DataType
+                            && x.IsUnique == dc.Unique)
+                    )
                 {
-                    var dc = dt.Columns[c];
-                    if (dc.DataType == typeof(String)
-                        && table.Columns.Any(
-                            x =>
-                                x.ColumnName == dc.ColumnName
-                                && x.DataType == dc.DataType
-                                && x.IsUnique == dc.Unique)
-                        )
-                    {
-                        var options =
-                            columnOptions.ContainsKey(dc.ColumnName)
-                            ? columnOptions[dc.ColumnName]
-                            : new DataMaskerOptions() { IgnoreAngleBracketedTags = true, IgnoreJsonAttributes = true, IgnoreNumbers = false };
+                    var options =
+                        columnOptions.ContainsKey(dc.ColumnName)
+                        ? columnOptions[dc.ColumnName]
+                        : new DataMaskerOptions() { IgnoreAngleBracketedTags = true, IgnoreJsonAttributes = true, IgnoreNumbers = false };
 
-                        for (int i = 0; i < dt.Rows.Count; i++)
-                        {
-                            var dr = dt.Rows[i];
-                            string originalText = dr[dc.ColumnName].ToString();
-                            dr[dc.ColumnName] = TextDataMasker.MaskText(originalText, options, maskDictionary);
-                        }
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        var dr = dt.Rows[i];
+                        string originalText = dr[dc.ColumnName].ToString();
+                        dr[dc.ColumnName] = TextDataMasker.MaskText(originalText, options, maskDictionary);
                     }
                 }
-
-                UpdateDatabaseTable(dt, adapter);
             }
+
+            UpdateDatabaseTable(table, dt, adapter);
         }
 
         public void MaskDatabase()
@@ -188,7 +185,7 @@ namespace TextDataMasking
 
                 connection.Open();
 
-                var databaseTables = ListTables(connection);
+                var databaseTables = ListTables(connection, false);
                 for (int i = 0; i < databaseTables.Count; i++)
                 {
                     var table = databaseTables[i];

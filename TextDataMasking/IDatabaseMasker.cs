@@ -12,7 +12,7 @@ namespace TextDataMasking
     {
         DbProviderFactory GetDbProviderFactory();
 
-        List<DatabaseTable> ListTables(DbConnection connection);
+        List<DatabaseTable> ListTables(DbConnection connection, bool includeAllColumns);
 
         void MaskTable(DatabaseTable table, Dictionary<string, DataMaskerOptions> columnOptions, DbConnection connection);
 

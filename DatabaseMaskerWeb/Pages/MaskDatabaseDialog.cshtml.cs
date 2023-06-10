@@ -210,7 +210,7 @@ namespace DatabaseMaskerWeb.Pages
 
                     connection.Open();
 
-                    List<DatabaseTable> databaseTables = databaseMasker.ListTables(connection);
+                    List<DatabaseTable> databaseTables = databaseMasker.ListTables(connection, false);
 
                     connection.Close();
 
@@ -260,7 +260,7 @@ namespace DatabaseMaskerWeb.Pages
                     connection.ConnectionString = dataSource.ConnectionString;
                     connection.Open();
 
-                    var dbTables = databaseMasker.ListTables(connection);
+                    var dbTables = databaseMasker.ListTables(connection, false);
                     for (int i = 0; i < maskDatabaseRequest.DatabaseTables.Count; i++)
                     {
                         var reqdbTable = maskDatabaseRequest.DatabaseTables[i];

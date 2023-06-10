@@ -43,7 +43,7 @@ namespace DatabaseMasking.Sql
             return selectCommandText;
         }
 
-        protected override void UpdateDatabaseTable(DataTable dt, DbDataAdapter adapter)
+        protected override void UpdateDatabaseTable(DatabaseTable table, DataTable dt, DbDataAdapter adapter)
         {
             var dtTarget = dt.Clone();
             

@@ -112,7 +112,7 @@ namespace UnitTests
                 connection.ConnectionString = databaseMasker.ConnectionString;
                 connection.Open();
                 
-                var DatabaseTables = databaseMasker.ListTables(connection);
+                var DatabaseTables = databaseMasker.ListTables(connection, false);
 
                 for (int i = 0; i < DatabaseTables.Count; i++)
                 {
