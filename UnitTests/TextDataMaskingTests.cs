@@ -128,6 +128,21 @@ description=""Rustic Oak Coffee Table"">
                 originalTexts.Add(
                     new TextContainer(
 @"{
+  ""firstname"": ""John"",
+  ""lastname"": ""Mason"",
+  ""height"": 185,
+  ""weight"": 80,
+  ""membership"": ""Bronze"",
+  ""member_id"": ""532120473519"",
+  ""gym_access"": true,
+  ""spa_access"": false,
+  ""free_wifi"": true,
+  ""club_suite"": null
+}", TextType.Json));
+
+                originalTexts.Add(
+                    new TextContainer(
+@"{
   ""place_id"": ""e361757a-d6f7-4b59-bf30-5a167f7eafd6"",
   ""type"": 0,
   ""formatted_address"": ""Topaz Shopping Center, #1424, 41 Jalan Post Oak, Punggol, Singapore, 312243"",
@@ -190,7 +205,7 @@ description=""Rustic Oak Coffee Table"">
         }
 
         [Test]
-        public void TestMaskText()
+        public void TestMaskText_IgnoreAll()
         {
             DataMaskerOptions options = new DataMaskerOptions();
             options.IgnoreAngleBracketedTags = true;
@@ -198,6 +213,23 @@ description=""Rustic Oak Coffee Table"">
             options.IgnoreNumbers = true;
             options.PreserveCase = true;
 
+            TestMaskText(options);
+        }
+
+        [Test]
+        public void TestMaskText_KeepTextFormatting()
+        {
+            DataMaskerOptions options = new DataMaskerOptions();
+            options.IgnoreAngleBracketedTags = true;
+            options.IgnoreJsonAttributes = true;
+            options.IgnoreNumbers = false;
+            options.PreserveCase = true;
+
+            TestMaskText(options);
+        }
+
+        public void TestMaskText(DataMaskerOptions options)
+        {
             MaskDictionary maskDictionary = new MaskDictionary();
 
             List<TextContainer> replacementTexts = new List<TextContainer>();
@@ -212,21 +244,21 @@ description=""Rustic Oak Coffee Table"">
 
                 if (originalText.TextType == TextType.PlainText)
                 {
-                    ValidatePlainText(originalText.Value, replacementText.Value);
+                    ValidatePlainText(originalText.Value, replacementText.Value, options);
                 }
                 else if (originalText.TextType == TextType.Html)
                 {
-                    ValidateHtml(originalText.Value, replacementText.Value);
+                    ValidateHtml(originalText.Value, replacementText.Value, options);
                 }
                 else if (originalText.TextType == TextType.Xml)
                 {
-                    ValidateXml(originalText.Value, replacementText.Value);
+                    ValidateXml(originalText.Value, replacementText.Value, options);
                 }
                 else if (originalText.TextType == TextType.Json)
                 {
-                    ValidateJson(originalText.Value, replacementText.Value);
+                    ValidateJson(originalText.Value, replacementText.Value, options);
                 }
-
+                
                 replacementTexts.Add(replacementText);
             }
 
@@ -234,7 +266,7 @@ description=""Rustic Oak Coffee Table"">
             Assert.AreEqual(originalTexts.Count, replacementTexts.Count);
         }
 
-        public void ValidatePlainText(string original, string replacement)
+        public void ValidatePlainText(string original, string replacement, DataMaskerOptions options)
         {
             List<string> originalWords = Regex.Split(original, @"\s+").ToList();
             List<string> replacementWords = Regex.Split(replacement, @"\s+").ToList();
@@ -246,11 +278,11 @@ description=""Rustic Oak Coffee Table"">
                 string originalWord = originalWords[i];
                 string replacementWord = replacementWords[i];
 
-                CompareStrings(originalWord, replacementWord);
+                CompareStrings(originalWord, replacementWord, options);
             }
         }
 
-        public void ValidateHtml(string original, string replacement)
+        public void ValidateHtml(string original, string replacement, DataMaskerOptions options)
         {
             HtmlDocument oDoc = new HtmlDocument();
             oDoc.LoadHtml(original);
@@ -258,10 +290,10 @@ description=""Rustic Oak Coffee Table"">
             HtmlDocument rDoc = new HtmlDocument();
             rDoc.LoadHtml(replacement);
 
-            ValidateHtmlElement(oDoc.DocumentNode, rDoc.DocumentNode);
+            ValidateHtmlElement(oDoc.DocumentNode, rDoc.DocumentNode, options);
         }
 
-        public void ValidateHtmlElement(HtmlNode original, HtmlNode replacement)
+        public void ValidateHtmlElement(HtmlNode original, HtmlNode replacement, DataMaskerOptions options)
         {
             Assert.AreEqual(original.NodeType, replacement.NodeType);
             Assert.AreEqual(original.Name, replacement.Name);
@@ -283,16 +315,16 @@ description=""Rustic Oak Coffee Table"">
                 var oChild = original.ChildNodes[c];
                 var rChild = replacement.ChildNodes[c];
 
-                ValidateHtmlElement(oChild, rChild);
+                ValidateHtmlElement(oChild, rChild, options);
             }
 
             if (original.NodeType == HtmlNodeType.Comment || original.NodeType == HtmlNodeType.Text)
             {
-                CompareStrings(original.InnerText, replacement.InnerText);
+                CompareStrings(original.InnerText, replacement.InnerText, options);
             }
         }
 
-        public void ValidateXml(string original, string replacement)
+        public void ValidateXml(string original, string replacement, DataMaskerOptions options)
         {
             XmlDocument oDoc = new XmlDocument();
             oDoc.LoadXml(original);
@@ -300,10 +332,10 @@ description=""Rustic Oak Coffee Table"">
             XmlDocument rDoc = new XmlDocument();
             rDoc.LoadXml(replacement);
 
-            ValidateXmlElement(oDoc.DocumentElement, rDoc.DocumentElement);
+            ValidateXmlElement(oDoc.DocumentElement, rDoc.DocumentElement, options);
         }
 
-        public void ValidateXmlElement(XmlNode original, XmlNode replacement)
+        public void ValidateXmlElement(XmlNode original, XmlNode replacement, DataMaskerOptions options)
         {
             Assert.AreEqual(original.NodeType, replacement.NodeType);
             Assert.AreEqual(original.Name, replacement.Name);
@@ -334,22 +366,22 @@ description=""Rustic Oak Coffee Table"">
                     var oChild = original.ChildNodes[c];
                     var rChild = replacement.ChildNodes[c];
 
-                    ValidateXmlElement(oChild, rChild);
+                    ValidateXmlElement(oChild, rChild, options);
                 }
             }
 
-            CompareStrings(original.Value, replacement.Value);
+            CompareStrings(original.Value, replacement.Value, options);
         }
 
-        public void ValidateJson(string original, string replacement)
+        public void ValidateJson(string original, string replacement, DataMaskerOptions options)
         {
             var oElement = JsonSerializer.Deserialize<JsonElement>(original);
             var rElement = JsonSerializer.Deserialize<JsonElement>(replacement);
 
-            ValidateJsonElement(oElement, rElement);
+            ValidateJsonElement(oElement, rElement, options);
         }
 
-        public void ValidateJsonElement(JsonElement original, JsonElement replacement)
+        public void ValidateJsonElement(JsonElement original, JsonElement replacement, DataMaskerOptions options)
         {
             Assert.AreEqual(original.ValueKind, replacement.ValueKind);
 
@@ -364,7 +396,7 @@ description=""Rustic Oak Coffee Table"">
                 {
                     var oItem = oEnumerator.ElementAt(i);
                     var rItem = rEnumerator.ElementAt(i);
-                    ValidateJsonElement(oItem, rItem);
+                    ValidateJsonElement(oItem, rItem, options);
                 }
             }
             else if (original.ValueKind == JsonValueKind.Object)
@@ -381,7 +413,7 @@ description=""Rustic Oak Coffee Table"">
 
                     Assert.AreEqual(oProp.Name, rProp.Name);
 
-                    ValidateJsonElement(oProp.Value, rProp.Value);
+                    ValidateJsonElement(oProp.Value, rProp.Value, options);
                 }
             }
             else if (original.ValueKind == JsonValueKind.False
@@ -394,67 +426,67 @@ description=""Rustic Oak Coffee Table"">
                 SByte oSByte, rSByte;
                 if (original.TryGetSByte(out oSByte) && replacement.TryGetSByte(out rSByte))
                 {
-                    Assert.AreEqual(oSByte, rSByte);
+                    Assert.AreEqual(options.IgnoreNumbers, oSByte == rSByte);
                 }
 
                 UInt16 oUInt16, rUInt16;
                 if (original.TryGetUInt16(out oUInt16) && replacement.TryGetUInt16(out rUInt16))
                 {
-                    Assert.AreEqual(oUInt16, rUInt16);
+                    Assert.AreEqual(options.IgnoreNumbers, oUInt16 == rUInt16);
                 }
 
                 UInt32 oUInt32, rUInt32;
                 if (original.TryGetUInt32(out oUInt32) && replacement.TryGetUInt32(out rUInt32))
                 {
-                    Assert.AreEqual(oUInt32, rUInt32);
+                    Assert.AreEqual(options.IgnoreNumbers, oUInt32 == rUInt32);
                 }
 
                 UInt64 oUInt64, rUInt64;
                 if (original.TryGetUInt64(out oUInt64) && replacement.TryGetUInt64(out rUInt64))
                 {
-                    Assert.AreEqual(oUInt64, rUInt64);
+                    Assert.AreEqual(options.IgnoreNumbers, oUInt64 == rUInt64);
                 }
 
                 byte oByte, rByte;
                 if (original.TryGetByte(out oByte) && replacement.TryGetByte(out rByte))
                 {
-                    Assert.AreEqual(oByte, rByte);
+                    Assert.AreEqual(options.IgnoreNumbers, oByte == rByte);
                 }
 
                 Int16 oInt16, rInt16;
                 if (original.TryGetInt16(out oInt16) && replacement.TryGetInt16(out rInt16))
                 {
-                    Assert.AreEqual(oInt16, rInt16);
+                    Assert.AreEqual(options.IgnoreNumbers, oInt16 == rInt16);
                 }
 
                 Int32 oInt32, rInt32;
                 if (original.TryGetInt32(out oInt32) && replacement.TryGetInt32(out rInt32))
                 {
-                    Assert.AreEqual(oInt32, rInt32);
+                    Assert.AreEqual(options.IgnoreNumbers, oInt32 == rInt32);
                 }
 
                 Int64 oInt64, rInt64;
                 if (original.TryGetInt64(out oInt64) && replacement.TryGetInt64(out rInt64))
                 {
-                    Assert.AreEqual(oInt64, rInt64);
+                    Assert.AreEqual(options.IgnoreNumbers, oInt64 == rInt64);
                 }
 
                 Single oSingle, rSingle;
                 if (original.TryGetSingle(out oSingle) && replacement.TryGetSingle(out rSingle))
                 {
-                    Assert.AreEqual(oSingle, rSingle);
+                    Assert.AreEqual(options.IgnoreNumbers, oSingle == rSingle);
                 }
 
                 Double oDouble, rDouble;
                 if (original.TryGetDouble(out oDouble) && replacement.TryGetDouble(out rDouble))
                 {
-                    Assert.AreEqual(oDouble, rDouble);
+                    Assert.AreEqual(options.IgnoreNumbers, oDouble == rDouble);
                 }
 
                 Decimal oDecimal, rDecimal;
                 if (original.TryGetDecimal(out oDecimal) && replacement.TryGetDecimal(out rDecimal))
                 {
-                    Assert.AreEqual(oDecimal, rDecimal);
+                    Assert.AreEqual(options.IgnoreNumbers, oDecimal == rDecimal);
                 }
             }
             else
@@ -462,11 +494,11 @@ description=""Rustic Oak Coffee Table"">
                 string oString = original.GetString();
                 string rString = replacement.GetString();
 
-                CompareStrings(oString, rString);
+                CompareStrings(oString, rString, options);
             }
         }
 
-        protected void CompareStrings(string string1, string string2)
+        protected void CompareStrings(string string1, string string2, DataMaskerOptions options)
         {
             Assert.AreEqual(string.IsNullOrEmpty(string1), string.IsNullOrEmpty(string2));
 
@@ -475,17 +507,21 @@ description=""Rustic Oak Coffee Table"">
 
             Assert.AreEqual(string1.Length, string2.Length);
 
-            if ((BothMatch(string1, string2, @"^\W+$"))
-            || (BothMatch(string1, string2, @"^\d+$"))
-            || (BothMatch(string1, string2, @"\W+") && BothMatch(string1, string2, @"\d+") && !BothMatch(string1, string2, @"[A-Za-z]+"))
+            if ((BothMatch(string1, string2, @"^\W+$")))
+            {
+                Assert.AreEqual(string1, string2);
+            }
+            else if (
+                (BothMatch(string1, string2, @"^\d+$"))
+                || (BothMatch(string1, string2, @"\W+")
+                    && BothMatch(string1, string2, @"\d+")
+                    && !BothMatch(string1, string2, @"[A-Za-z]+"))
             )
             {
-                //bool AreEqual = string1 == string2;
-                Assert.AreEqual(string1, string2);
+                Assert.AreEqual(options.IgnoreNumbers, string1 == string2);
             }
             else
             {
-                //bool AreEqual = string1 == string2;
                 Assert.AreNotEqual(string1, string2);
             }
         }

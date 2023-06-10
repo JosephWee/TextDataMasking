@@ -9,9 +9,9 @@ namespace TextDataMasking
 {
     public class MaskDictionary
     {
-        protected const int alternatesCount = 100;
-        protected Random random = new Random();
-        protected static readonly IReadOnlyList<char> vowels = (new List<char>() { 'a', 'e', 'i', 'o', 'u' }).AsReadOnly();
+        private const int alternatesCount = 100;
+        private static Random random = new Random();
+        private static readonly IReadOnlyList<char> vowels = (new List<char>() { 'a', 'e', 'i', 'o', 'u' }).AsReadOnly();
         protected Dictionary<int, List<string>> replacementDictionary = new Dictionary<int, List<string>>();
         
         public MaskDictionary()
@@ -65,17 +65,25 @@ namespace TextDataMasking
         {
             if (Regex.IsMatch(originalWord, @"^\d+$"))
             {
-                StringBuilder replacementWord = new StringBuilder();
-                while (replacementWord.Length < originalWord.Length)
+                List<int> originalChars = originalWord.ToCharArray().Select(x => int.Parse(x.ToString())).ToList();
+                List<int> replacementChars = new List<int>();
+                for (int i = 0; i < originalChars.Count; i++)
                 {
-                    replacementWord.Append(random.Next(10));
+                    int originalChar = originalChars[i];
+                    int replacementChar = random.Next(10);
+                    while (originalChar == replacementChar)
+                    {
+                        replacementChar = random.Next(10);
+                    }
+                    replacementChars.Add(replacementChar);
                 }
-                return replacementWord.ToString();
+                string replacementWord = string.Join("", replacementChars.Select(x => x.ToString()[0]).ToList());
+                return replacementWord;
             }
             else if (Regex.IsMatch(originalWord, @"^\w+$")
                      && Regex.IsMatch(originalWord, @"\d+"))
             {
-                StringBuilder replacementWord = new StringBuilder();
+                StringBuilder replacementChars = new StringBuilder();
 
                 List<string> originalChars =
                     originalWord
@@ -91,7 +99,7 @@ namespace TextDataMasking
                     if (Regex.IsMatch(oChar, @"^\d$"))
                     {
                         int randomInt = random.Next(10);
-                        replacementWord.Append(randomInt);
+                        replacementChars.Append(randomInt);
                     }
                     else
                     {
@@ -103,11 +111,12 @@ namespace TextDataMasking
                             randomChar = Convert.ToChar(97 + charCodeIndex);
                             isVowel2 = vowels.Contains(randomChar);
                         }
-                        replacementWord.Append(randomChar);
+                        replacementChars.Append(randomChar);
                     }
                 }
 
-                return replacementWord.ToString();
+                string replacementWord = replacementChars.ToString();
+                return replacementWord;
             }
 
             List<string> replacements = new List<string>();

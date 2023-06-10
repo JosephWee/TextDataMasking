@@ -10,6 +10,7 @@ namespace TextDataMasking
 {
     public class TextDataMasker
     {
+        private static Random random = new Random();
         private static List<string> GetAllAttributeNames(JsonElement jsonElement)
         {
             List<string> retValue = new List<string>();
@@ -67,6 +68,10 @@ namespace TextDataMasking
                 }
             }
 
+#if DEBUG
+            bool IsLocation = false;
+            string lastAttribute = string.Empty;
+#endif
             foreach (Match match in Regex.Matches(originalText, pattern, RegexOptions.IgnoreCase))
             {
                 string preceedingNonMatchingString = string.Empty;
@@ -194,6 +199,11 @@ namespace TextDataMasking
                 else if (options.IgnoreJsonAttributes && IsWithinJsonAttribute)
                 {
                     replacementText.Append(match.Value);
+#if DEBUG
+                    lastAttribute = match.Value;
+                    if (lastAttribute == "Location")
+                        IsLocation = true;
+#endif
                 }
                 else if (options.IgnoreNumbers && Regex.IsMatch(match.Value, @"^\d+$"))
                 {
@@ -201,11 +211,15 @@ namespace TextDataMasking
                 }
                 else
                 {
+                    string lovalue = match.Value.ToLower();
+                    string replacement = maskDictionary.GetReplacement(match.Value);
+                    while (replacement == lovalue)
+                    {
+                        replacement = maskDictionary.GetReplacement(match.Value);
+                    }
+
                     var originalChars = match.Value.ToList();
-                    var replacementChars =
-                        maskDictionary
-                        .GetReplacement(match.Value)
-                        .ToList();
+                    var replacementChars = replacement.ToList();
 
                     if (IsJson)
                     {
@@ -222,9 +236,151 @@ namespace TextDataMasking
                         {
                             replacementChars = new List<char>() { 'f', 'a', 'l', 's', 'e' };
                         }
+
+                        string prevJsonChar = "";
+                        string nextJsonChar = "";
+                        if (!IsWithinJsonAttribute
+                            && !options.IgnoreNumbers
+                            && Regex.IsMatch(match.Value, @"^\d+$")
+                            && replacement.StartsWith("0"))
+                        {
+                            int startIndex = int.MinValue;
+                            int endIndex = int.MaxValue;
+                            bool HasNonSpaceBefore = false;
+                            int minusCount = 0;
+                            int periodCount1 = 0;
+                            if (match.Index > 0)
+                            {
+                                for (int f = match.Index - 1; f >= 0; f--)
+                                {
+                                    string character = originalText[f].ToString();
+                                    if (!Regex.IsMatch(character, @"^\s$"))
+                                    {
+                                        if (Regex.IsMatch(character, @"^[:]$"))
+                                        {
+                                            HasNonSpaceBefore = false;
+                                            startIndex = f;
+                                            break;
+                                        }
+                                        else if (Regex.IsMatch(character, @"^[.]$"))
+                                        {
+                                            periodCount1++;
+                                            if (periodCount1 > 1)
+                                            {
+                                                HasNonSpaceBefore = true;
+                                                startIndex = f;
+                                                break;
+                                            }
+
+                                            int index = originalText.LastIndexOf(".", match.Index);
+                                            if (index > 0 && index != match.Index - 1)
+                                            {
+                                                HasNonSpaceBefore = true;
+                                                startIndex = f;
+                                                break;
+                                            }
+                                        }
+                                        else if (Regex.IsMatch(character, @"^[0-9]$"))
+                                        {
+                                            if (periodCount1 < 1)
+                                            {
+                                                HasNonSpaceBefore = true;
+                                                startIndex = f;
+                                                break;
+                                            }
+                                        }
+                                        else if (Regex.IsMatch(character, @"^\-$"))
+                                        {
+                                            minusCount++;
+                                            if (minusCount > 1)
+                                            {
+                                                HasNonSpaceBefore = true;
+                                                startIndex = f;
+                                                break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            HasNonSpaceBefore = true;
+                                            startIndex = f;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+
+                            bool HasNonSpaceAfter = false;
+                            int periodCount2 = 0;
+                            if (match.Index < originalText.Length - 1)
+                            {
+                                for (int f = (match.Index + match.Length); f < originalText.Length; f++)
+                                {
+                                    string character = originalText[f].ToString();
+                                    if (!Regex.IsMatch(character, @"^\s$"))
+                                    {
+                                        if (Regex.IsMatch(character, @"^[,}]$"))
+                                        {
+                                            HasNonSpaceAfter = false;
+                                            endIndex = f;
+                                            break;
+                                        }
+                                        else if (Regex.IsMatch(character, @"^[.]$"))
+                                        {
+                                            periodCount2++;
+                                            if (periodCount2 > 1)
+                                            {
+                                                HasNonSpaceAfter = true;
+                                                endIndex = f;
+                                                break;
+                                            }
+
+                                            int index = originalText.IndexOf(".", match.Index);
+                                            if (index > 0 && index != match.Index + match.Value.Length)
+                                            {
+                                                HasNonSpaceAfter = true;
+                                                endIndex = f;
+                                                break;
+                                            }
+                                        }
+                                        else if (Regex.IsMatch(character, @"^[0-9]$"))
+                                        {
+                                            if (periodCount2 < 1)
+                                            {
+                                                HasNonSpaceAfter = true;
+                                                endIndex = f;
+                                                break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            HasNonSpaceAfter = true;
+                                            endIndex = f;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+#if DEBUG
+                            string scopeString = originalText.Substring(startIndex, endIndex - startIndex + 1);
+#endif
+                            if (!HasNonSpaceBefore && !HasNonSpaceAfter)
+                            {
+                                replacementChars = Int64.Parse(replacement).ToString().ToList();
+                                int diffLength = originalChars.Count - replacementChars.Count;
+                                for (int d = 0; d < diffLength; d++)
+                                {
+                                    replacementChars.Add((random.Next(9) + 1).ToString()[0]);
+                                }
+                            }
+#if DEBUG
+                            else
+                            {
+                            }
+#endif
+                        }
                     }
 
-                    if (options.PreserveCase)
+                    if (options.PreserveCase && !Regex.IsMatch(match.Value, @"^\d+$"))
                     {
                         for (int i = 0; i < originalChars.Count; i++)
                         {
