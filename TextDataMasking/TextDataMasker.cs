@@ -11,6 +11,11 @@ namespace TextDataMasking
     public class TextDataMasker
     {
         private static Random random = new Random();
+
+#if DEBUG
+        private static int numStartWithZero = 0;
+        private static int replacementEqualsOriginal = 0;
+#endif
         private static List<string> GetAllAttributeNames(JsonElement jsonElement)
         {
             List<string> retValue = new List<string>();
@@ -201,7 +206,7 @@ namespace TextDataMasking
                     replacementText.Append(match.Value);
 #if DEBUG
                     lastAttribute = match.Value;
-                    if (lastAttribute == "Location")
+                    if (lastAttribute == "location")
                         IsLocation = true;
 #endif
                 }
@@ -211,10 +216,13 @@ namespace TextDataMasking
                 }
                 else
                 {
-                    string lovalue = match.Value.ToLower();
+                    var valLowerCase = match.Value.ToLower();
                     string replacement = maskDictionary.GetReplacement(match.Value);
-                    while (replacement == lovalue)
+                    while (replacement == valLowerCase)
                     {
+#if DEBUG
+                        ++replacementEqualsOriginal;
+#endif
                         replacement = maskDictionary.GetReplacement(match.Value);
                     }
 
@@ -223,7 +231,6 @@ namespace TextDataMasking
 
                     if (IsJson)
                     {
-                        var valLowerCase = match.Value.ToLower();
                         if (valLowerCase == "null")
                         {
                             replacementChars = new List<char>() { 'n', 'u', 'l', 'l' };
@@ -365,7 +372,11 @@ namespace TextDataMasking
 #endif
                             if (!HasNonSpaceBefore && !HasNonSpaceAfter)
                             {
-                                replacementChars = Int64.Parse(replacement).ToString().ToList();
+#if DEBUG
+                                ++numStartWithZero;
+#endif
+                                UInt64 uint64 = UInt64.Parse(replacement);
+                                replacementChars = uint64 == 0 ? new List<char>() : uint64.ToString().ToList();
                                 int diffLength = originalChars.Count - replacementChars.Count;
                                 for (int d = 0; d < diffLength; d++)
                                 {
