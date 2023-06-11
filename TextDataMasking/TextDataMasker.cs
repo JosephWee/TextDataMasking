@@ -328,7 +328,7 @@ namespace TextDataMasking
                                         if (Regex.IsMatch(character, @"^[,}]$"))
                                         {
                                             HasNonSpaceAfter = false;
-                                            endIndex = f;
+                                            endIndex = f + 1;
                                             break;
                                         }
                                         else if (Regex.IsMatch(character, @"^[.]$"))
@@ -337,7 +337,7 @@ namespace TextDataMasking
                                             if (periodCount2 > 1)
                                             {
                                                 HasNonSpaceAfter = true;
-                                                endIndex = f;
+                                                endIndex = f + 1;
                                                 break;
                                             }
 
@@ -345,7 +345,7 @@ namespace TextDataMasking
                                             if (index > 0 && index != match.Index + match.Value.Length)
                                             {
                                                 HasNonSpaceAfter = true;
-                                                endIndex = f;
+                                                endIndex = f + 1;
                                                 break;
                                             }
                                         }
@@ -354,21 +354,25 @@ namespace TextDataMasking
                                             if (periodCount2 < 1)
                                             {
                                                 HasNonSpaceAfter = true;
-                                                endIndex = f;
+                                                endIndex = f + 1;
                                                 break;
                                             }
                                         }
                                         else
                                         {
                                             HasNonSpaceAfter = true;
-                                            endIndex = f;
+                                            endIndex = f + 1;
                                             break;
                                         }
                                     }
                                 }
                             }
 #if DEBUG
-                            string scopeString = originalText.Substring(startIndex, endIndex - startIndex + 1);
+                            if (startIndex == int.MinValue)
+                                startIndex = match.Index;
+                            if (endIndex == int.MaxValue)
+                                endIndex = match.Index + match.Length;
+                            string scopeString = originalText.Substring(startIndex, endIndex - startIndex);
 #endif
                             if (!HasNonSpaceBefore && !HasNonSpaceAfter)
                             {

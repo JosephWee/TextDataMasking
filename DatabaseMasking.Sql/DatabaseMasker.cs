@@ -58,6 +58,12 @@ namespace DatabaseMasking.Sql
                 dtTarget.ImportRow(sourceRows[r]);
             }
 
+            SqlDataAdapter dataAdapter = adapter as SqlDataAdapter;
+            SqlCommandBuilder cmdBuilder = new SqlCommandBuilder(dataAdapter);
+            
+            SqlCommand updateCommand = cmdBuilder.GetUpdateCommand(true);
+            adapter.UpdateCommand = updateCommand;
+
             adapter.Update(
                 dtTarget.Rows.OfType<DataRow>().ToArray()
             );

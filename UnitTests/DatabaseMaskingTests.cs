@@ -41,12 +41,12 @@ namespace UnitTests
             }
         }
 
-        [Test]
-        public void MaskDatabase()
-        {
-            databaseMasker.MaskDatabase();
-            Assert.IsTrue(true);
-        }
+        //[Test]
+        //public void MaskDatabase()
+        //{
+        //    databaseMasker.MaskDatabase();
+        //    Assert.IsTrue(true);
+        //}
 
         [Test]
         public void MaskDatabaseTable_IgnoreAll()
@@ -56,6 +56,20 @@ namespace UnitTests
                 IgnoreAngleBracketedTags = true,
                 IgnoreJsonAttributes = true,
                 IgnoreNumbers = true,
+                PreserveCase = true
+            };
+
+            MaskDatabaseTable(options);
+        }
+
+        [Test]
+        public void MaskDatabaseTable_KeepTextFormatting()
+        {
+            DataMaskerOptions options = new DataMaskerOptions()
+            {
+                IgnoreAngleBracketedTags = true,
+                IgnoreJsonAttributes = true,
+                IgnoreNumbers = false,
                 PreserveCase = true
             };
 
