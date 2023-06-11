@@ -217,6 +217,42 @@ description=""Rustic Oak Coffee Table"">
         }
 
         [Test]
+        public void TestMaskText_IgnoreAngleBracketedTags()
+        {
+            DataMaskerOptions options = new DataMaskerOptions();
+            options.IgnoreAngleBracketedTags = true;
+            options.IgnoreJsonAttributes = false;
+            options.IgnoreNumbers = false;
+            options.PreserveCase = true;
+
+            TestMaskText(options);
+        }
+
+        [Test]
+        public void TestMaskText_IgnoreJsonAttributes()
+        {
+            DataMaskerOptions options = new DataMaskerOptions();
+            options.IgnoreAngleBracketedTags = false;
+            options.IgnoreJsonAttributes = true;
+            options.IgnoreNumbers = false;
+            options.PreserveCase = true;
+
+            TestMaskText(options);
+        }
+
+        [Test]
+        public void TestMaskText_IgnoreNumbers()
+        {
+            DataMaskerOptions options = new DataMaskerOptions();
+            options.IgnoreAngleBracketedTags = false;
+            options.IgnoreJsonAttributes = false;
+            options.IgnoreNumbers = true;
+            options.PreserveCase = true;
+
+            TestMaskText(options);
+        }
+
+        [Test]
         public void TestMaskText_KeepTextFormatting()
         {
             DataMaskerOptions options = new DataMaskerOptions();
@@ -242,23 +278,23 @@ description=""Rustic Oak Coffee Table"">
 
                 Assert.AreEqual(originalText.Value.Length, replacementText.Value.Length);
 
-                if (originalText.TextType == TextType.PlainText)
-                {
-                    ValidatePlainText(originalText.Value, replacementText.Value, options);
-                }
-                else if (originalText.TextType == TextType.Html)
+                if (originalText.TextType == TextType.Html && options.IgnoreAngleBracketedTags)
                 {
                     ValidateHtml(originalText.Value, replacementText.Value, options);
                 }
-                else if (originalText.TextType == TextType.Xml)
+                else if (originalText.TextType == TextType.Xml && options.IgnoreAngleBracketedTags)
                 {
                     ValidateXml(originalText.Value, replacementText.Value, options);
                 }
-                else if (originalText.TextType == TextType.Json)
+                else if (originalText.TextType == TextType.Json && options.IgnoreJsonAttributes)
                 {
                     ValidateJson(originalText.Value, replacementText.Value, options);
                 }
-                
+                else
+                {
+                    ValidatePlainText(originalText.Value, replacementText.Value, options);
+                }
+
                 replacementTexts.Add(replacementText);
             }
 

@@ -36,6 +36,8 @@ namespace TextDataMasking
 
         protected abstract string GetDatabaseTableCountRowsStatement(DatabaseTable table, DatabaseColumn column);
 
+        protected abstract string GetDbTypeName(DbParameter parameter);
+
         public List<DatabaseTable> ListTables(DbConnection connection, bool includeAllColumns)
         {
             var tableList = new List<DatabaseTable>();
@@ -64,7 +66,11 @@ namespace TextDataMasking
 
                 var adapter = factory.CreateDataAdapter();
                 adapter.SelectCommand = selectCommand;
-                
+
+                var cmdBuilder = factory.CreateCommandBuilder();
+                cmdBuilder.DataAdapter = adapter;
+                var updateCommand = cmdBuilder.GetUpdateCommand(true);
+
                 var ds = new DataSet();
                 adapter.FillSchema(ds, SchemaType.Mapped);
 
@@ -80,10 +86,14 @@ namespace TextDataMasking
 
                         if (dc.DataType == typeof(String) || includeAllColumns)
                         {
+                            var parameterName = "@" + dc.ColumnName;
+                            var parameter = updateCommand.Parameters[parameterName];
+                            
                             DatabaseColumn databaseColumn = new DatabaseColumn()
                             {
                                 ColumnName = dc.ColumnName,
                                 DataType = dc.DataType,
+                                DbType = GetDbTypeName(parameter),
                                 IsUnique = dc.Unique
                             };
 
@@ -158,10 +168,35 @@ namespace TextDataMasking
                             && x.IsUnique == dc.Unique)
                     )
                 {
+                    var column =
+                        table
+                        .Columns
+                        .First(x => x.ColumnName == dc.ColumnName);
+
                     var options =
                         columnOptions.ContainsKey(dc.ColumnName)
                         ? columnOptions[dc.ColumnName]
-                        : new DataMaskerOptions() { IgnoreAngleBracketedTags = true, IgnoreJsonAttributes = true, IgnoreNumbers = false };
+                        : new DataMaskerOptions()
+                          {
+                            IgnoreAngleBracketedTags = true,
+                            IgnoreJsonAttributes = true,
+                            IgnoreNumbers = false,
+                            PreserveCase = true
+                          };
+
+                    // Override user's Masking Options because Databases
+                    // usually have well-formed validations for XML and
+                    // JSON columns:
+
+                    // XML Columns: IgnoreAngleBracketedTags = true
+                    options.IgnoreAngleBracketedTags =
+                        options.IgnoreAngleBracketedTags
+                        || column.DbType.ToLower() == "xml";
+
+                    // JSON Columns: IgnoreJsonAttributes = true
+                    options.IgnoreJsonAttributes =
+                        options.IgnoreJsonAttributes
+                        || column.DbType.ToLower().StartsWith("json");
 
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {

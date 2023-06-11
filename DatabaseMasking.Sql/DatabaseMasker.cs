@@ -43,6 +43,12 @@ namespace DatabaseMasking.Sql
             return selectCommandText;
         }
 
+        protected override string GetDbTypeName(DbParameter parameter)
+        {
+            SqlParameter sqlParameter = parameter as SqlParameter;
+            return sqlParameter.SqlDbType.ToString();
+        }
+
         protected override void UpdateDatabaseTable(DatabaseTable table, DataTable dt, DbDataAdapter adapter)
         {
             var dtTarget = dt.Clone();

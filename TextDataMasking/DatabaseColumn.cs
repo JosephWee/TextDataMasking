@@ -33,6 +33,8 @@ namespace TextDataMasking
             }
         }
 
+        public string DbType { get; set; }
+
         public bool IsUnique { get; set; }
     }
 }

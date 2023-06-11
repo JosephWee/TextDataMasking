@@ -48,6 +48,12 @@ namespace DatabaseMasking.osandfreesql
             return selectCommandText;
         }
 
+        protected override string GetDbTypeName(DbParameter parameter)
+        {
+            NpgsqlParameter npgsqlParameter = parameter as NpgsqlParameter;
+            return npgsqlParameter.NpgsqlDbType.ToString();
+        }
+
         protected override void UpdateDatabaseTable(DatabaseTable table, DataTable dt, DbDataAdapter adapter)
         {
             var dtTarget = dt.Clone(); ;

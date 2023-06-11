@@ -6,6 +6,7 @@ using System;
 using System.Reflection;
 using System.Linq;
 using System.Security.AccessControl;
+using static Npgsql.Replication.PgOutput.Messages.RelationMessage;
 
 namespace UnitTests
 {
@@ -133,10 +134,19 @@ namespace UnitTests
                     var DatabaseTable = DatabaseTables[i];
 
                     var columnOptions = new Dictionary<string, DataMaskerOptions>();
+                    var columnOption = options.Clone();
                     for (int c = 0; c < DatabaseTable.Columns.Count; c++)
                     {
                         var dbColumn = DatabaseTable.Columns[c];
-                        columnOptions.Add(dbColumn.ColumnName, options);
+
+                        columnOption.IgnoreAngleBracketedTags =
+                            dbColumn.DbType.ToLower() == "xml"
+                            || columnOption.IgnoreJsonAttributes;
+                        columnOption.IgnoreJsonAttributes =
+                            columnOption.IgnoreJsonAttributes
+                            || dbColumn.DbType.ToLower().StartsWith("json");
+
+                        columnOptions.Add(dbColumn.ColumnName, columnOption);
                     }
 
                     databaseMasker.MaskTable(DatabaseTable, columnOptions, connection);

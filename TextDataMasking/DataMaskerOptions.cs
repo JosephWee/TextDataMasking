@@ -61,5 +61,18 @@ namespace TextDataMasking
                 _PreserveCase |= value;
             }
         }
+
+        public DataMaskerOptions Clone()
+        {
+            DataMaskerOptions clone = new DataMaskerOptions()
+            {
+                IgnoreAngleBracketedTags = this.IgnoreAngleBracketedTags,
+                IgnoreJsonAttributes = this.IgnoreJsonAttributes,
+                IgnoreNumbers = this.IgnoreNumbers,
+                PreserveCase = this.PreserveCase
+            };
+
+            return clone;
+        }
     }
 }
