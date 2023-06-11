@@ -99,8 +99,11 @@ namespace DatabaseMasking.osandfreesql
                                 || parameter.NpgsqlDbType == NpgsqlDbType.Json)
                             {
                                 columnAssignments.Add(
-                                    $" \"{column.ColumnName}\" = {parameter.ParameterName}::json"
-                                );
+                                    $" \"{column.ColumnName}\" = (" +
+                                    @" CASE" +
+                                    $" WHEN {parameter.ParameterName} IS NULL THEN NULL" +
+                                    $" ELSE {parameter.ParameterName}::json" +
+                                    @" END )");
                             }
                             else
                             {

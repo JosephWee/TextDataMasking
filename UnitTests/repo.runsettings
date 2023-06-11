@@ -3,6 +3,6 @@
 	<!-- Parameters used by tests at run time -->
 	<TestRunParameters>
 		<Parameter name="DatabaseMaskingProvider" value="DatabaseMasking.osandfreesql, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
-		<Parameter name="ConnectionString" value="Server=127.0.0.1;Port=43594;Database=DataMaskingDB;User Id=&quot;DataMaskingUser&quot;;Password=&quot;DataMaskingPassword&quot;;" />
+		<Parameter name="ConnectionString" value="Server=127.0.0.1;Port=43594;Database=DataMaskingDB;User Id=&quot;DataMaskingUser&quot;;Password=&quot;DataMaskingPassword&quot;;Include Error Detail=true;" />
 	</TestRunParameters>
 </RunSettings>

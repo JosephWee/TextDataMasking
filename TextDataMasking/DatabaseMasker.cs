@@ -166,8 +166,15 @@ namespace TextDataMasking
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
                         var dr = dt.Rows[i];
-                        string originalText = dr[dc.ColumnName].ToString();
-                        dr[dc.ColumnName] = TextDataMasker.MaskText(originalText, options, maskDictionary);
+                        if (dr.IsNull(dc.ColumnName))
+                        {
+                            dr[dc.ColumnName] = DBNull.Value;
+                        }
+                        else
+                        {
+                            string originalText = dr[dc.ColumnName].ToString();
+                            dr[dc.ColumnName] = TextDataMasker.MaskText(originalText, options, maskDictionary);
+                        }
                     }
                 }
             }
