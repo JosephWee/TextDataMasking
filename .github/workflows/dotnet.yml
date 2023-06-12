@@ -1,0 +1,86 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  buildJob:
+    runs-on: ubuntu-latest
+
+    # Service containers to run with `runner-job`
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idservices
+    # https://docs.github.com/en/actions/using-containerized-services/creating-postgresql-service-containers
+    services:
+
+      # Label used to access the service container
+      postgres:
+
+        # Docker Hub image
+        # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idservicesservice_idimage
+        image: postgres
+
+        # Login Credentials of the Docker Service Container
+        # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idservicesservice_idcredentials
+        #credentials:
+        #  username: ${{ secrets.DOCKER_USER }}
+        #  password: ${{ secrets.DOCKER_PASSWORD }}
+
+        # Provide the password for postgres
+        # https://hub.docker.com/_/postgres
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+        # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-using-localhost
+        ports:
+          # Map port 43594 on the Docker host to port 5432 on the nginx container
+          - 43594:5432
+  
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --no-restore
+
+    - name: Initialize Postgres Database for Unit Tests
+      run: |
+        export PGHOSTADDR=127.0.0.1
+        echo $PGHOSTADDR
+        export PGPORT=43594
+        echo $PGPORT
+        export PGHOST=43594
+        echo $PGHOST
+        export PGUSER=postgres
+        echo $PGUSER
+        export PGPASSWORD=postgres
+        echo $PGPASSWORD
+        psql -l -c '\dt'
+        psql -f /home/runner/work/TextDataMasking/TextDataMasking/TextDataMasking/DBScripts/CreateFictionalAddressesPostgreSql.sql
+        psql -d "DataMaskingDB" -c '\dt'
+
+    - name: Test
+      run: dotnet test ./UnitTests/UnitTests.csproj --no-build --verbosity normal --settings ./UnitTests/repo.runsettings
+
