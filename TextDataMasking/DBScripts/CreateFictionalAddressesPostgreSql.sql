@@ -15,8 +15,6 @@ CREATE TABLE "public"."Address"
 	"ModifiedDate" timestamptz NOT NULL DEFAULT (current_timestamp at time zone 'UTC')
 );
 
-\copy "public"."Address" FROM './TextDataMasking/DBScripts/Address2023_06_12_1102.csv' WITH CSV HEADER DELIMITER ','
-
 DO $$
     DECLARE
        q1 integer; 
