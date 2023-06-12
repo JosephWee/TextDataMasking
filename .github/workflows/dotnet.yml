@@ -80,7 +80,7 @@ jobs:
         psql -l -c '\dt'
         psql -f /home/runner/work/TextDataMasking/TextDataMasking/TextDataMasking/DBScripts/CreateFictionalAddressesPostgreSql.sql
         psql -d "DataMaskingDB" -c '\dt'
-        psql -d "DataMaskingDB" -c "\\copy \"public\".\"Address\" (\"AddressLine1\",\"AddressLine2\",\"CityID\",\"CountryID\",\"PostalCode\",\"MapDataJson\",\"MapDataXml\",\"ModifiedDate\") FROM '/home/runner/work/TextDataMasking/TextDataMasking/TextDataMasking/DBScripts/Address2023_06_12_1102_PostgreSql.csv' WITH CSV DELIMITER ',' HEADER 't' QUOTE '\'' ENCODING 'UTF8';"
+        psql -d "DataMaskingDB" -c "\\copy \"public\".\"Address\" (\"AddressLine1\",\"AddressLine2\",\"CityID\",\"CountryID\",\"PostalCode\",\"MapDataJson\",\"MapDataXml\",\"ModifiedDate\") FROM '/home/runner/work/TextDataMasking/TextDataMasking/TextDataMasking/DBScripts/Address2023_06_12_1102_PostgreSql.csv' WITH CSV DELIMITER ',' HEADER QUOTE '\'' ENCODING 'UTF8';"
         psql -d "DataMaskingDB" -c 'SELECT * FROM "public"."Address" ORDER BY "AddressID";'
 
     - name: Test
