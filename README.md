@@ -213,59 +213,78 @@ Do NOT use the software directly on your staging or production databases.
 Only use this software on a RESTORED COPY of the database backup.
 ```
 
+
 ### Step 1: Configuration
 The `DatabaseMaskerWeb` web application needs to be configured with the target database's `Connection String` and corresponding `Database Masking Provider` prior to launching the web application in a browser.
 
 The configuration is done by editing the `appsettings.json` file residing in the root folder of the `DatabaseMaskerWeb` web application.
 #### Example of appsettings.json
-```
+```json
 {
-  ...,
   "ConnectionStrings": {
-    "Sql": "Data Source=.\\MSSQLSVR;Integrated Security=True;Persist Security Info=False;Pooling=False;
-    Multiple Active Result Sets=False;Encrypt=False;Trust Server Certificate=False;Command Timeout=0;Database=DataMaskingDB",
+    "Sql": "Data Source=.\\MSSQLSVR;Integrated Security=True;Persist Security Info=False;Pooling=False;Multiple Active Result Sets=False;Encrypt=False;Trust Server Certificate=False;Command Timeout=0;Database=DataMaskingDB",
     "PostgreSql": "Server=127.0.0.1;Port=43594;Database=DataMaskingDB;User Id='DataMaskingUser';Password='DataMaskingPassword';"
   },
   "DatabaseMaskingProviders": {
     "Sql": "DatabaseMasking.Sql, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
     "PostgreSql": "DatabaseMasking.osandfreesql, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
-  },
-  ...
+  }
 }
 ```
 #### Important
 ```
-Please note that the JSON attribute names for the ConnectionStrings and the DatabaseMaskingProviders sections
+Please note that the JSON attribute names for the "ConnectionStrings" and the "DatabaseMaskingProviders" sections
 needs to be matching. Mismatched Connection Strings and Database Masking Providers will NOT be loaded into the
 Web Application.
 ```
 
+
 ### Step 2: Launch the DatabaseMaskerWeb
-To launch the 'DatabaseMaskerWeb' web application, the user needs to either compile and run the project from Visual Studio or deploy the project to a web server or one of the other deployment targets supported by ASP.NET Core.
+To launch the `DatabaseMaskerWeb` web application, the user needs to either compile and run the project from Visual Studio or deploy the project to a web server or one of the other deployment targets supported by ASP.NET Core.
+
+
 
 ### Step 3: DatabaseMaskerWeb Home Page
 The user starts on the 'DatabaseMaskerWeb' web application Home Page once the website is launched. The currently running jobs will be displayed in a notification.
-![DatabaseMaskerWeb Home Page](DatabaseMaskerHomePage.png)
+
+![DatabaseMaskerWeb Home Page](Documentation/DatabaseMaskerHomePage.png)
+
+
 
 ### Step 4: Starting a Database Masking Job
 To start a Database Masking Job, select the `Mask Database` menu.
-![Mask Database Menu](MaskDatabaseMenu.png)
+
+![Mask Database Menu](Documentation/MaskDatabaseMenu.png)
+
+
 
 Once the user clicks on the `Mask Database` menu, the user is brought to the Instructions page. To proceed to the next step, click on the `Next` button located near the bottom right of the page.
-![Mask Database Instructions](MaskDatabaseInstructions.png)
+
+![Mask Database Instructions](Documentation/MaskDatabaseInstructions.png)
+
+
 
 ### Step 5: Select the DataSource
-Choose the Database to mask by selecting from the availiable Datasources. Please note that the DataSources listed are those that were configured in the web application's appsettings.json. 
-![Select DataSource](SelectDataSource.png)
+Choose the Database to mask by selecting from the availiable Datasources. Please note that the DataSources listed are those that were configured in the web application's appsettings.json.
+
+![Select DataSource](Documentation/SelectDataSource.png)
+
+
 
 ### Step 6: Select the Tables and Columns to Mask
 The user should select the Tables and Columns to include in the Database Masking Job. The user can also specify the Masking Options for each column. However the user's Masking Options for JSON and XML are overriden if the selected column is of JSON or XML data types. This is because most databases would validate that the JSON or XML are well-formed before storing them.
-![Select Tables and Columns](SelectTablesAndColumns.png)
+
+![Select Tables and Columns](Documentation/SelectTablesAndColumns.png)
+
 
 Once the included columns are selected, click on the Run Task button to start the Database Masking Job.
-![Start Database Masking Job](StartDatabaseMaskingJob.png)
+
+![Start Database Masking Job](Documentation/StartDatabaseMaskingJob.png)
+
+
 
 ### Step 7: Verify running Database Masking Jobs
 Once the new job is started, the user is brought back to the home page where all the currently running jobs are displayed.
-![Running Database Masking Jobs](RunningDatabaseMaskingJobs.png)
+
+![Running Database Masking Jobs](Documentation/RunningDatabaseMaskingJobs.png)
 
