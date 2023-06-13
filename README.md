@@ -5,12 +5,14 @@ Data masking or data obfuscation is the process of modifying sensitive data in s
 
 Source: https://en.wikipedia.org/wiki/Data_masking
 
+
 ## Objective
 The TextDataMasking software should be able to obfusticate sensitive `Text` data while:
 1) Retaining the `Text` formatting such as paragraphing, capitalization, punctuations marks etc.
 2) Retaining the `HTML` formatting such that the HTML is still well-formed
 3) Retaining the `XML` formatting such that the XML is still well-formed
 4) Retaining the `JSON` formatting such that the JSON is still well-formed
+
 
 ### Example 1 - Retaining Text Formatting
 #### Original Text
@@ -37,9 +39,10 @@ arkeiu, ta cenola row ya guievu, vurce kapvuq reianjok gacyaxpup ta, weks witjab
 ra yeh, je jiws qe seq fibf fei go hiloz: ju i mugq, E pegdesuz we rikwu pul girimpeyxerg, tuu we sose, poo cenola te Hiwzuy; qoa ew u xax sofzeu
 izmol U jai ga.
 
+
 ### Example 2 - Retaining HTML Formatting
 #### Original HTML
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,14 +55,23 @@ izmol U jai ga.
     <div>
         <a href="https://www.gutenberg.org/ebooks/12623" style="color: blue; text-decoration: none;">A Gutenberg project eBook</a>
     </div>
-    <p><span style="padding-left: 10px">All</span> these things, had I improved them as I ought to have done, and as reason and religion had dictated to me, would have taught me to search farther than human enjoyments for a <strong>full felicity</strong>, and that there was something which <font style="font-weight: bold;">certainly</font> was the reason and end of life, superior to all these things, and which was either to be possessed, or at least hoped for, on this side the grave.</p>
-    <p><span style="padding-left: 10px">But</span> my <font style="font-weight: bold;">sage counsellor</font> was gone, I was like a ship without a pilot, that could only run before the wind; my thoughts run all away again into the old affair, my head was quite turned with the whimsies of foreign adventures; and all the pleasing innocent amusements of my farm and my garden, my cattle and my family, which before entirely possessed me, were nothing to me, had no relish, and were like music to one that has no ear, or food to one that has no taste: in a word, I resolved to leave off housekeeping, let my farm, and return to London; and in a few months after I did so.</p>
+    <p><span style="padding-left: 10px">All</span> these things, had I improved them as I ought to have done, and as reason
+      and religion had dictated to me, would have taught me to search farther than human enjoyments for a <strong>full
+      felicity</strong>, and that there was something which <font style="font-weight: bold;">certainly</font> was the reason
+      and end of life, superior to all these things, and which was either to be possessed, or at least hoped for, on this side
+      the grave.</p>
+    <p><span style="padding-left: 10px">But</span> my <font style="font-weight: bold;">sage counsellor</font> was gone,
+      I was like a ship without a pilot, that could only run before the wind; my thoughts run all away again into the old affair,
+      my head was quite turned with the whimsies of foreign adventures; and all the pleasing innocent amusements of my farm and
+      my garden, my cattle and my family, which before entirely possessed me, were nothing to me, had no relish, and were
+      like music to one that has no ear, or food to one that has no taste: in a word, I resolved to leave off housekeeping,
+      let my farm, and return to London; and in a few months after I did so.</p>
 </body>
 </html>
 ```
 
 #### Obfusticated HTML
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,15 +84,25 @@ izmol U jai ga.
     <div>
         <a href="https://www.gutenberg.org/ebooks/12623" style="color: blue; text-decoration: none;">O Vugkaizur xefezpi uBfeu</a>
     </div>
-    <p><span style="padding-left: 10px">Cav</span> joymu wipvii, eni U jainwafy hita da A xemgi qe ricb yefr, kob le yiobwo hep laovjayh nak orrosnaj ka yo, seekp keck qesvag si ro zulavh zabmisu fufz yadco dejmokquem lab e <strong>seaf ojqibwux</strong>, pab seaf xegji lab xuemgeeyo kulqi <font style="font-weight: bold;">wufooergu</font> oyn saz dogmuk cul eni gi bise, siujdawj xe nap xinki zulavh, noh jeief bob imxesj ak pa kolafwoeg, ub et fepxu wioha caa, xa macu retw pot fepxu.</p>
-    <p><span style="padding-left: 10px">Bis</span> ma <font style="font-weight: bold;">keck xoqziqsesj</font> haw lozr, E ofw retw u wogu razdecd e vobac, sosr fenze newg sip gurjaf yep geng; ex micmouhi eni dox kieo matji emne ujr sip qosaxu, ub luyx uwt zodfe jezfus qayr ibc houtcocq ye hehpeub etxayqoijz; ofw aky jaf gaswefju catgozuc quugfiagxa mu pe zukf yeb ye yismes, aq zarfer wob ro okpaoq, nedcu urhefz mifpuhzo qowqauduu yo, tabu wakrill yo ko, uwq yo rokqop, neu luyx woaq wucbe ze pit laln kua ya lor, qo jujw ma uwt woaq aho qi qepve: le o weuh, E tolabmuz ak jeief bov wurjukyiabco, yax qi juvg, saz rabfil ru Zogmoy; bis ir u jaf tekpew qaoxn O siu de.</p>
+    <p><span style="padding-left: 10px">Cav</span> joymu wipvii, eni U jainwafy hita da A xemgi qe ricb yefr, kob le yiobwo
+      hep laovjayh nak orrosnaj ka yo, seekp keck qesvag si ro zulavh zabmisu fufz yadco dejmokquem lab e <strong>seaf
+      ojqibwux</strong>, pab seaf xegji lab xuemgeeyo kulqi <font style="font-weight: bold;">wufooergu</font> oyn saz dogmuk
+      cul eni gi bise, siujdawj xe nap xinki zulavh, noh jeief bob imxesj ak pa kolafwoeg, ub et fepxu wioha caa, xa macu retw
+      pot fepxu.</p>
+    <p><span style="padding-left: 10px">Bis</span> ma <font style="font-weight: bold;">keck xoqziqsesj</font> haw lozr,
+      E ofw retw u wogu razdecd e vobac, sosr fenze newg sip gurjaf yep geng; ex micmouhi eni dox kieo matji emne ujr sip qosaxu,
+      ub luyx uwt zodfe jezfus qayr ibc houtcocq ye hehpeub etxayqoijz; ofw aky jaf gaswefju catgozuc quugfiagxa mu pe zukf yeb
+      ye yismes, aq zarfer wob ro okpaoq, nedcu urhefz mifpuhzo qowqauduu yo, tabu wakrill yo ko, uwq yo rokqop, neu luyx
+      woaq wucbe ze pit laln kua ya lor, qo jujw ma uwt woaq aho qi qepve: le o weuh, E tolabmuz ak jeief bov wurjukyiabco,
+      yax qi juvg, saz rabfil ru Zogmoy; bis ir u jaf tekpew qaoxn O siu de.</p>
 </body>
 </html>
 ```
 
+
 ### Example 3 - Retaining XML Formatting
 #### Original XML
-```
+```xml
 <?xml version="1.0"?>
 <cart id="1291140274">
     <item id="CT0001B">
@@ -102,7 +124,7 @@ izmol U jai ga.
 ```
 
 #### Obfusticated XML
-```
+```xml
 <?xml version="1.0"?>
 <cart id="1291140274">
     <item id="CT0001B">
@@ -125,7 +147,7 @@ izmol U jai ga.
 
 ### Example 4 - Retaining JSON Formatting
 #### Original JSON
-```
+```json
 {
   "cart_id": 1291140274,
   "discount_code": null,
@@ -153,7 +175,7 @@ izmol U jai ga.
 ```
 
 #### Obfusticated JSON
-```
+```json
 {
   "cart_id": 1291140274,
   "discount_code": null,
@@ -180,6 +202,66 @@ izmol U jai ga.
 }
 ```
 
+## How to Use
+The `DatabaseMaskerWeb` web application is the User Interface for the TextDataMasking solution. It can be used to Start Database Masking jobs to Mask selected Database Tables and Columns with the desired Masking Options.
 
+There are currently 2 RDBMS (Relational Database Management System) supported:
+1) Microsoft SQL
+2) Postgre SQL
+
+#### Important
+```
+Do NOT use the software directly on your staging or production databases.
+Only use this software on a restored copy of the database backup.
+```
+
+### Step 1: Configuration
+The `DatabaseMaskerWeb` web application needs to be configured with the target database's `Connection String` and corresponding `Database Masking Provider` prior to launching the web application in a browser.
+
+The configuration is done by editing the `appsettings.json` file residing in the root folder of the `DatabaseMaskerWeb` web application.
+#### Example of appsettings.json
+```
+{
+  ...,
+  "ConnectionStrings": {
+    "Sql": "Data Source=.\\MSSQLSVR;Integrated Security=True;Persist Security Info=False;Pooling=False;
+    Multiple Active Result Sets=False;Encrypt=False;Trust Server Certificate=False;Command Timeout=0;Database=DataMaskingDB",
+    "PostgreSql": "Server=127.0.0.1;Port=43594;Database=DataMaskingDB;User Id='DataMaskingUser';Password='DataMaskingPassword';"
+  },
+  "DatabaseMaskingProviders": {
+    "Sql": "DatabaseMasking.Sql, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "PostgreSql": "DatabaseMasking.osandfreesql, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+  },
+  ...
+}
+```
+#### Important
+```
+Please note that the JSON attribute names for the `ConnectionStrings` and the `DatabaseMaskingProviders` sections
+needs to be matching. Mismatched Connection Strings and Database Masking Providers will NOT be loaded into the
+Web Application.
+```
+
+### Step 2: Launch the DatabaseMaskerWeb
+To launch the 'DatabaseMaskerWeb' web application, the user needs to either compile and run the project from Visual Studio or deploy the project to a web server or one of the other deployment targets supported by ASP.NET Core.
+
+### Step 3: DatabaseMaskerWeb Home Page
+The user starts on the 'DatabaseMaskerWeb' web application Home Page once the website is launched. The currently running jobs will be displayed in a notification.
+
+### Step 4: Starting a Database Masking Job
+To start a Database Masking Job, select the `Mask Database` menu.
+
+Once the user clicks on the `Mask Database` menu, the user is brought to the Instructions page. To proceed to the next step, click on the `Next` button located near the bottom right of the page.
+
+### Step 5: Select the DataSource
+Choose the Database to mask by selecting from the availiable Datasources. Please note that the DataSources listed are those that were configured in the web application's appsettings.json. 
+
+### Step 6: Select the Tables and Columns to Mask
+The user should select the Tables and Columns to include in the Database Masking Job. The user can also specify the Masking Options for each column. However the user's Masking Options for JSON and XML are overriden if the selected column is of JSON or XML data types. This is because most databases would validate that the JSON or XML are well-formed before storing them.
+
+Once the included columns are selected, click on the Run Task button to start the Database Masking Job.
+
+### Step 7: Verify running Database Masking Jobs
+Once the new job is started, the user is brought back to the home page where all the currently running jobs are displayed.
 
 
