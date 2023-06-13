@@ -45,11 +45,75 @@ namespace UnitTests
         {
             if (originalTexts.Count == 0)
             {
+                originalTexts.Add(new TextContainer("  All these things, had I improved them as I ought to have done, and as reason and religion had dictated to me, would have taught me to search\r\nfarther than human enjoyments for a full felicity, and that there was something which certainly was the reason and end of life, superior to\r\nall these things, and which was either to be possessed, or at least hoped for, on this side the grave.\r\n\r\n  But my sage counsellor was gone, I was like a ship without a pilot, that could only run before the wind; my thoughts run all away again into the\r\nold affair, my head was quite turned with the whimsies of foreign adventures; and all the pleasing innocent amusements of my farm and my\r\ngarden, my cattle and my family, which before entirely possessed me, were nothing to me, had no relish, and were like music to one that has\r\nno ear, or food to one that has no taste: in a word, I resolved to leave off housekeeping, let my farm, and return to London; and in a few months\r\nafter I did so.\r\n", TextType.PlainText));
                 originalTexts.Add(new TextContainer(" Alpha bravo123 456charlie, 10000 deLta echo fox789trot GryphoN! ", TextType.PlainText));
                 originalTexts.Add(new TextContainer("\r\n\r\nLorem ipsum dolor 100 sit amet, consectetur adipiscing elit. Donec quis venenatis enim, vel 937 finibus lorem. Maecenas condimentum a magna eu varius. Suspendisse nec 123 placerat lorem. Praesent ac nulla 123mauris. Aenean vel placerat ante. Mauris eu eleifend arcu. Etiam 8735123 molestie arcu vel placerat fermentum. Nullam fringilla 12345.00 vel diam quis porta. Morbi fringilla mi non lacus laoreet eleifend. Sed vulputate sit amet nulla sit amet aliquet. Mauris a lorem diam.\r\n\r\nSed venenatis condimentum ultricies. Ut tincidunt euismod magna semper rhoncus. Vivamus vel facilisis est. Etiam convallis convallis risus, at facilisis orci porta vel. Nulla convallis odio quis leo elementum, non lobortis nibh tempor. Phasellus aliquet massa ut orci ultricies vulputate. Proin consectetur sapien eu odio imperdiet, ut viverra magna sagittis. Praesent neque nibh, porta ac pretium eu, ultrices et dui. Pellentesque euismod turpis ac risus tincidunt, sit amet eleifend mi auctor. Aliquam scelerisque malesuada dolor, eu ultricies lacus tincidunt a. In faucibus arcu ligula, non facilisis orci ullamcorper vitae.\r\n\r\nProin vestibulum nisl sed quam placerat, id fringilla odio iaculis. Suspendisse potenti. Morbi tristique nibh vitae ante lacinia lacinia. Duis dictum, turpis nec volutpat fermentum, ex lacus suscipit magna, sed porttitor diam neque at tortor. Praesent interdum posuere sollicitudin. Mauris nec https://www.google.com/search?q=test lacinia quam. Donec placerat faucibus nisl, vel vestibulum velit. Aenean malesuada varius neque vel aliquam. Nunc varius nulla non lectus sodales finibus. Donec tincidunt turpis at mi bibendum vulputate. Suspendisse potenti. Quisque consequat tincidunt augue, varius auctor neque consequat id.\r\n\r\nPraesent mi quam, fringilla a arcu sit amet, malesuada tempus arcu. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi enim felis, luctus non nibh at, tristique viverra enim. Cras quis tincidunt lorem, vitae rutrum orci. Cras malesuada, mauris in ultrices sagittis, sapien augue molestie augue, eu vulputate velit nibh a odio. Sed sed mi leo. Nam scelerisque sodales tincidunt. Sed tortor libero, lobortis nec lacus et, semper cursus neque. Duis molestie justo quis https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference volutpat finibus. Sed commodo metus orci, in efficitur ligula congue eget. Phasellus ac erat pharetra, eleifend ipsum non, lobortis enim. Cras purus nulla, volutpat vel elementum in, vulputate id tellus. Phasellus in elementum ante, at lacinia tortor. Vivamus lacinia, elit vitae iaculis placerat, nisl nibh viverra nulla, a volutpat turpis ex ut elit. Nunc non magna in ex aliquam dictum. Curabitur commodo volutpat quam sit amet sagittis.\r\n\r\nQuisque commodo nunc auctor lectus feugiat viverra. Phasellus nec neque at sem scelerisque facilisis. Curabitur blandit massa feugiat nisi tempus, a ultrices mauris luctus. Phasellus faucibus leo at maximus interdum. Ut massa erat, varius eu finibus ac, maximus non tortor. Proin luctus maximus mi, sed dictum mauris bibendum in. Pellentesque viverra sem felis. Maecenas quis semper velit. Etiam non porta ex.", TextType.PlainText));
                 originalTexts.Add(new TextContainer("Praesent mi quam, fringilla a arcu sit amet, malesuada tempus arcu. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi enim felis, luctus non nibh at, tristique viverra enim. Cras quis tincidunt lorem, vitae rutrum orci. Cras malesuada, mauris in ultrices sagittis, sapien augue molestie augue, eu <strong>vulputate</strong> velit nibh a odio. Sed sed mi leo. Nam <strong>scelerisque</strong> sodales tincidunt. Sed tortor libero, lobortis nec lacus et, semper cursus neque. Duis molestie justo quis volutpat finibus. Sed commodo metus orci, in efficitur ligula congue eget. Phasellus ac erat pharetra, eleifend ipsum non, lobortis enim. Cras purus nulla, volutpat vel elementum in, vulputate id tellus. Phasellus in elementum ante, at lacinia tortor. Vivamus lacinia, elit vitae iaculis placerat, nisl nibh viverra nulla, a volutpat turpis ex ut elit. Nunc non magna in ex aliquam dictum. Curabitur commodo volutpat quam sit amet sagittis.\r\n\r\nQuisque commodo nunc auctor lectus feugiat viverra. Phasellus nec neque at sem scelerisque facilisis. Curabitur blandit massa feugiat nisi tempus, a ultrices mauris luctus. Phasellus faucibus leo at maximus interdum. Ut massa erat, varius eu finibus ac, maximus non tortor. Proin luctus maximus mi, sed dictum mauris bibendum in. Pellentesque viverra sem felis. Maecenas quis semper velit. Etiam non porta ex.", TextType.PlainText));
                 originalTexts.Add(new TextContainer("<!DOCTYPE html>\r\n\r\n<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\">\r\n<head>\r\n    <meta charset=\"utf-8\" />\r\n    <title></title>\r\n</head>\r\n<body>\r\n    <p>Hello World!</p>\r\n    <p>Hello <strong>Sol</strong>!</p>\r\n    <p>Salutation <i>Milky Way</i>!</p>\r\n    <div>\r\n        <div>\r\n            <div>\r\n                Div <strong>1</strong> Content\r\n            </div>\r\n            <div>\r\n                Div < strong>2< /strong> Content\r\n            </div>\r\n            <div>\r\n                Div <strong>3</ strong> Content\r\n            </div>\r\n            <div>\r\n                Div <strong >4</strong > Content\r\n            </div>\r\n        </div>\r\n    </div>\r\n</body>\r\n</html>", TextType.Html));
                 originalTexts.Add(new TextContainer("<?xml version=\"1.0\"?>\r\n<catalog>\r\n\t<book id=\"bk101\">\r\n\t\t<author>Gambardella, Matthew</author>\r\n\t\t<title>XML Developer's Guide</title>\r\n\t\t<genre>Computer</genre>\r\n\t\t<price>44.95</price>\r\n\t\t<publish_date>2000-10-01</publish_date>\r\n\t\t<description>\r\n\t\t\tAn in-depth look at creating applications\r\n\t\t\twith XML.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk102\">\r\n\t\t<author>Ralls, Kim</author>\r\n\t\t<title>Midnight Rain</title>\r\n\t\t<genre>Fantasy</genre>\r\n\t\t<price>5.95</price>\r\n\t\t<publish_date>2000-12-16</publish_date>\r\n\t\t<description>\r\n\t\t\tA former architect battles corporate zombies,\r\n\t\t\tan evil sorceress, and her own childhood to become queen\r\n\t\t\tof the world.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk103\">\r\n\t\t<author>Corets, Eva</author>\r\n\t\t<title>Maeve Ascendant</title>\r\n\t\t<genre>Fantasy</genre>\r\n\t\t<price>5.95</price>\r\n\t\t<publish_date>2000-11-17</publish_date>\r\n\t\t<description>\r\n\t\t\tAfter the collapse of a nanotechnology\r\n\t\t\tsociety in England, the young survivors lay the\r\n\t\t\tfoundation for a new society.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk104\">\r\n\t\t<author>Corets, Eva</author>\r\n\t\t<title>Oberon's Legacy</title>\r\n\t\t<genre>Fantasy</genre>\r\n\t\t<price>5.95</price>\r\n\t\t<publish_date>2001-03-10</publish_date>\r\n\t\t<description>\r\n\t\t\tIn post-apocalypse England, the mysterious\r\n\t\t\tagent known only as Oberon helps to create a new life\r\n\t\t\tfor the inhabitants of London. Sequel to Maeve\r\n\t\t\tAscendant.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk105\">\r\n\t\t<author>Corets, Eva</author>\r\n\t\t<title>The Sundered Grail</title>\r\n\t\t<genre>Fantasy</genre>\r\n\t\t<price>5.95</price>\r\n\t\t<publish_date>2001-09-10</publish_date>\r\n\t\t<description>\r\n\t\t\tThe two daughters of Maeve, half-sisters,\r\n\t\t\tbattle one another for control of England. Sequel to\r\n\t\t\tOberon's Legacy.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk106\">\r\n\t\t<author>Randall, Cynthia</author>\r\n\t\t<title>Lover Birds</title>\r\n\t\t<genre>Romance</genre>\r\n\t\t<price>4.95</price>\r\n\t\t<publish_date>2000-09-02</publish_date>\r\n\t\t<description>\r\n\t\t\tWhen Carla meets Paul at an ornithology\r\n\t\t\tconference, tempers fly as feathers get ruffled.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk107\">\r\n\t\t<author>Thurman, Paula</author>\r\n\t\t<title>Splish Splash</title>\r\n\t\t<genre>Romance</genre>\r\n\t\t<price>4.95</price>\r\n\t\t<publish_date>2000-11-02</publish_date>\r\n\t\t<description>\r\n\t\t\tA deep sea diver finds true love twenty\r\n\t\t\tthousand leagues beneath the sea.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk108\">\r\n\t\t<author>Knorr, Stefan</author>\r\n\t\t<title>Creepy Crawlies</title>\r\n\t\t<genre>Horror</genre>\r\n\t\t<price>4.95</price>\r\n\t\t<publish_date>2000-12-06</publish_date>\r\n\t\t<description>\r\n\t\t\tAn anthology of horror stories about roaches,\r\n\t\t\tcentipedes, scorpions  and other insects.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk109\">\r\n\t\t<author>Kress, Peter</author>\r\n\t\t<title>Paradox Lost</title>\r\n\t\t<genre>Science Fiction</genre>\r\n\t\t<price>6.95</price>\r\n\t\t<publish_date>2000-11-02</publish_date>\r\n\t\t<description>\r\n\t\t\tAfter an inadvertant trip through a Heisenberg\r\n\t\t\tUncertainty Device, James Salway discovers the problems\r\n\t\t\tof being quantum.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk110\">\r\n\t\t<author>O'Brien, Tim</author>\r\n\t\t<title>Microsoft .NET: The Programming Bible</title>\r\n\t\t<genre>Computer</genre>\r\n\t\t<price>36.95</price>\r\n\t\t<publish_date>2000-12-09</publish_date>\r\n\t\t<description>\r\n\t\t\tMicrosoft's .NET initiative is explored in\r\n\t\t\tdetail in this deep programmer's reference.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk111\">\r\n\t\t<author>O'Brien, Tim</author>\r\n\t\t<title>MSXML3: A Comprehensive Guide</title>\r\n\t\t<genre>Computer</genre>\r\n\t\t<price>36.95</price>\r\n\t\t<publish_date>2000-12-01</publish_date>\r\n\t\t<description>\r\n\t\t\tThe Microsoft MSXML3 parser is covered in\r\n\t\t\tdetail, with attention to XML DOM interfaces, XSLT processing,\r\n\t\t\tSAX and more.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk112\">\r\n\t\t<author>Galos, Mike</author>\r\n\t\t<title>Visual Studio 7: A Comprehensive Guide</title>\r\n\t\t<genre>Computer</genre>\r\n\t\t<price>49.95</price>\r\n\t\t<publish_date>2001-04-16</publish_date>\r\n\t\t<description>\r\n\t\t\tMicrosoft Visual Studio 7 is explored in depth,\r\n\t\t\tlooking at how Visual Basic, Visual C++, C#, and ASP+ are\r\n\t\t\tintegrated into a comprehensive development\r\n\t\t\tenvironment.\r\n\t\t</description>\r\n\t</book>\r\n</catalog>\r\n", TextType.Xml));
+                originalTexts.Add(new TextContainer(
+@"
+<!DOCTYPE html>
+<html>
+<head>
+    <title>The Life and Adventures of Robinson Crusoe (1808) by Daniel Defoe</title>
+</head>
+<body>
+    <h1 style=""font-size: large;"">
+        <strong>Excerpt from</strong>: The Life and Adventures of Robinson Crusoe (1808) by Daniel Defoe
+    </h1>
+    <div>
+        <a href=""https://www.gutenberg.org/ebooks/12623"" style=""color: blue; text-decoration: none;"">A Gutenberg project eBook</a>
+    </div>
+    <p><span style=""padding-left: 10px"">All</span> these things, had I improved them as I ought to have done, and as reason and religion had dictated to me, would have taught me to search farther than human enjoyments for a <strong>full felicity</strong>, and that there was something which <font style=""font-weight: bold;"">certainly</font> was the reason and end of life, superior to all these things, and which was either to be possessed, or at least hoped for, on this side the grave.</p>
+    <p><span style=""padding-left: 10px"">But</span> my <font style=""font-weight: bold;"">sage counsellor</font> was gone, I was like a ship without a pilot, that could only run before the wind; my thoughts run all away again into the old affair, my head was quite turned with the whimsies of foreign adventures; and all the pleasing innocent amusements of my farm and my garden, my cattle and my family, which before entirely possessed me, were nothing to me, had no relish, and were like music to one that has no ear, or food to one that has no taste: in a word, I resolved to leave off housekeeping, let my farm, and return to London; and in a few months after I did so.</p>
+</body>
+</html>", TextType.Html));
+                originalTexts.Add(new TextContainer(
+@"<?xml version=""1.0""?>
+<cart id=""1291140274"">
+	<item id=""CT0001B"">
+		<name>Acacia Coffee Table</name>
+		<price>499.99</price>
+		<quantity>1</quantity>
+	</item>
+	<item id=""DT0120B"">
+		<name>Marble Dining Table 8 Seater</name>
+		<price>2999.99</price>
+		<quantity>1</quantity>
+	</item>
+	<item id=""DC1011C"">
+		<name>Deluxe Dining Chair Pearl</name>
+		<price>299.99</price>
+		<quantity>8</quantity>
+	</item>
+</cart>", TextType.Xml));
+                originalTexts.Add(new TextContainer(
+@"
+{
+	""cart_id"": 1291140274,
+	""discount_code"":  null,
+	""items"": [
+		{
+			""id"": ""CT0001B"",
+			""name"": ""Acacia Coffee Table"",
+			""price"": 499.99,
+			""quantity"": 1
+		},
+		{
+			""id"": ""DT0120B"",
+			""name"": ""Marble Dining Table 8 Seater"",
+			""price"": 2999.99,
+			""quantity"": 1
+		},
+		{
+			""id"": ""DC1011C"",
+			""name"": ""Deluxe Dining Chair Pearl"",
+			""price"": 299.99,
+			""quantity"": 8
+		}
+	]
+}", TextType.Json));
                 originalTexts.Add(
                     new TextContainer(
 @"
@@ -321,10 +385,10 @@ description=""Rustic Oak Coffee Table"">
         public void ValidateHtml(string original, string replacement, DataMaskerOptions options)
         {
             HtmlDocument oDoc = new HtmlDocument();
-            oDoc.LoadHtml(original);
+            oDoc.LoadHtml(original.Trim());
 
             HtmlDocument rDoc = new HtmlDocument();
-            rDoc.LoadHtml(replacement);
+            rDoc.LoadHtml(replacement.Trim());
 
             ValidateHtmlElement(oDoc.DocumentNode, rDoc.DocumentNode, options);
         }

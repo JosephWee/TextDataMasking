@@ -27,4 +27,10 @@
     <ProjectReference Include="..\TextDataMasking\TextDataMasking.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Sample - Copy.json">
+      <SubType>Component</SubType>
+    </None>
+  </ItemGroup>
+
 </Project>

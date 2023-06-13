@@ -1,0 +1,18 @@
+﻿<?xml version="1.0"?>
+<cart id="1291140274">
+	<item id="CT0001B">
+		<name>Acacia Coffee Table</name>
+		<price>499.99</price>
+		<quantity>1</quantity>
+	</item>
+	<item id="DT0120B">
+		<name>Marble Dining Table 8 Seater</name>
+		<price>2999.99</price>
+		<quantity>1</quantity>
+	</item>
+	<item id="DC1011C">
+		<name>Deluxe Dining Chair Pearl</name>
+		<price>299.99</price>
+		<quantity>8</quantity>
+	</item>
+</cart>

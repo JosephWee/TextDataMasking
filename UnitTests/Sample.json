@@ -1,0 +1,24 @@
+﻿{
+	"cart_id": 1291140274,
+	"discount_code":  null,
+	"items": [
+		{
+			"id": "CT0001B",
+			"name": "Acacia Coffee Table",
+			"price": 499.99,
+			"quantity": 1
+		},
+		{
+			"id": "DT0120B",
+			"name": "Marble Dining Table 8 Seater",
+			"price": 2999.99,
+			"quantity": 1
+		},
+		{
+			"id": "DC1011C",
+			"name": "Deluxe Dining Chair Pearl",
+			"price": 299.99,
+			"quantity": 8
+		}
+	]
+}
