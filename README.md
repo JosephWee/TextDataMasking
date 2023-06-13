@@ -56,16 +56,15 @@ izmol U jai ga.
         <a href="https://www.gutenberg.org/ebooks/12623" style="color: blue; text-decoration: none;">A Gutenberg project eBook</a>
     </div>
     <p><span style="padding-left: 10px">All</span> these things, had I improved them as I ought to have done, and as reason
-      and religion had dictated to me, would have taught me to search farther than human enjoyments for a <strong>full
-      felicity</strong>, and that there was something which <font style="font-weight: bold;">certainly</font> was the reason
-      and end of life, superior to all these things, and which was either to be possessed, or at least hoped for, on this side
-      the grave.</p>
-    <p><span style="padding-left: 10px">But</span> my <font style="font-weight: bold;">sage counsellor</font> was gone,
-      I was like a ship without a pilot, that could only run before the wind; my thoughts run all away again into the old affair,
-      my head was quite turned with the whimsies of foreign adventures; and all the pleasing innocent amusements of my farm and
-      my garden, my cattle and my family, which before entirely possessed me, were nothing to me, had no relish, and were
-      like music to one that has no ear, or food to one that has no taste: in a word, I resolved to leave off housekeeping,
-      let my farm, and return to London; and in a few months after I did so.</p>
+    and religion had dictated to me, would have taught me to search farther than human enjoyments for a <strong>full felicity</strong>,
+    and that there was something which <font style="font-weight: bold;">certainly</font> was the reason and end of life, superior to
+    all these things, and which was either to be possessed, or at least hoped for, on this side the grave.</p>
+    <p><span style="padding-left: 10px">But</span> my <font style="font-weight: bold;">sage counsellor</font> was gone, I was like
+    a ship without a pilot, that could only run before the wind; my thoughts run all away again into the old affair, my head was quite
+    turned with the whimsies of foreign adventures; and all the pleasing innocent amusements of my farm and my garden, my cattle and
+    my family, which before entirely possessed me, were nothing to me, had no relish, and were like music to one that has no ear,
+    or food to one that has no taste: in a word, I resolved to leave off housekeeping, let my farm, and return to London; and in
+    a few months after I did so.</p>
 </body>
 </html>
 ```
@@ -75,26 +74,25 @@ izmol U jai ga.
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Caa Feby yeb Xaijzapvic we Yinvivta Jexpiv (1808) vu Jezfus Aktae</title>
+    <title>Rux Noxi wuj Biyziwimda jo Akkapyer Ecazgu (1808) qe Jemwuo Bijka</title>
 </head>
 <body>
     <h1 style="font-size: large;">
-        <strong>Suvzask wand</strong>: Haw Awux wuz Heldavimga ye Sojlagre Zuuwpo (1808) pu Tonjil Baers
+        <strong>Aceomxa jeoz</strong>: Zao Cixk uda Lehtemqawf fe Wusgokdo Unguqn (1808) ra Pexcel Zogba
     </h1>
     <div>
-        <a href="https://www.gutenberg.org/ebooks/12623" style="color: blue; text-decoration: none;">O Vugkaizur xefezpi uBfeu</a>
+        <a href="https://www.gutenberg.org/ebooks/12623" style="color: blue; text-decoration: none;">O Onnufosuu turfazc cOrro</a>
     </div>
-    <p><span style="padding-left: 10px">Cav</span> joymu wipvii, eni U jainwafy hita da A xemgi qe ricb yefr, kob le yiobwo
-      hep laovjayh nak orrosnaj ka yo, seekp keck qesvag si ro zulavh zabmisu fufz yadco dejmokquem lab e <strong>seaf
-      ojqibwux</strong>, pab seaf xegji lab xuemgeeyo kulqi <font style="font-weight: bold;">wufooergu</font> oyn saz dogmuk
-      cul eni gi bise, siujdawj xe nap xinki zulavh, noh jeief bob imxesj ak pa kolafwoeg, ub et fepxu wioha caa, xa macu retw
-      pot fepxu.</p>
-    <p><span style="padding-left: 10px">Bis</span> ma <font style="font-weight: bold;">keck xoqziqsesj</font> haw lozr,
-      E ofw retw u wogu razdecd e vobac, sosr fenze newg sip gurjaf yep geng; ex micmouhi eni dox kieo matji emne ujr sip qosaxu,
-      ub luyx uwt zodfe jezfus qayr ibc houtcocq ye hehpeub etxayqoijz; ofw aky jaf gaswefju catgozuc quugfiagxa mu pe zukf yeb
-      ye yismes, aq zarfer wob ro okpaoq, nedcu urhefz mifpuhzo qowqauduu yo, tabu wakrill yo ko, uwq yo rokqop, neu luyx
-      woaq wucbe ze pit laln kua ya lor, qo jujw ma uwt woaq aho qi qepve: le o weuh, E tolabmuz ak jeief bov wurjukyiabco,
-      yax qi juvg, saz rabfil ru Zogmoy; bis ir u jaf tekpew qaoxn O siu de.</p>
+    <p><span style="padding-left: 10px">Ciw</span> figek gegxuw, wiv E qaryueie ixru wa A tireu sa wotp duyf, meo mu tuprow
+    erg cukiypat cir oxgoqsib ov ro, wocgi widz foftuq si sa helnou viniuos numi hedur uwxahkabii rux o <strong>pegv budlaoys</strong>,
+    oza posf loher alk heawcaqro eyejc <font style="font-weight: bold;">nimajhamx</font> qaq fiy voyzuk ida muu uk huhe, nocrasru hu
+    hoy loher bamgax, ivp zogba geb bewyin ri li ciizfibxu, pi wa hejfo deujb xoy, ce cigh zipk cui nidxu.</p>
+    <p><span style="padding-left: 10px">Ipo</span> ov <font style="font-weight: bold;">regw rurraifsuv</font> lef regw, E joo luhe
+    o dovl heuxjih u zogba, wikk fijco uspe koa guckak koa qahg; ga ixfurfeg tia eki bidv ejcad nibq ifi ukc xuhven, xo ponr yeh okuzj
+    taewpu siog ave ladaspoo wa gidhuui qarkeaokxo; vap lib geb subbizqa iyehnoij apgaitvily al ro saur hou ye qiedoe, ro haxgio wor
+    ri adsafd, ejcad yawcen hiizhijw ciizfibxu lu, pajn albeqvu wa ro, qaq ow soumed, fia xecj novu bocya hu fat vuxr fat wa rao,
+    uk sesk qi alk pegv liy oj viszo: be e safg, A ixfurfeg wa cubgi zic iffowfatraet, geb iv sits, ipo tisqaz ro Xuhven; jap te
+    i ida qerjeg vewgi A cip de.</p>
 </body>
 </html>
 ```
@@ -247,21 +245,27 @@ To launch the 'DatabaseMaskerWeb' web application, the user needs to either comp
 
 ### Step 3: DatabaseMaskerWeb Home Page
 The user starts on the 'DatabaseMaskerWeb' web application Home Page once the website is launched. The currently running jobs will be displayed in a notification.
+[DatabaseMaskerWeb Home Page](documentation/DatabaseMaskerHomePage.png)
 
 ### Step 4: Starting a Database Masking Job
 To start a Database Masking Job, select the `Mask Database` menu.
+[Mask Database Menu](documentation/MaskDatabaseMenu.png)
 
 Once the user clicks on the `Mask Database` menu, the user is brought to the Instructions page. To proceed to the next step, click on the `Next` button located near the bottom right of the page.
+[Mask Database Instructions](documentation/MaskDatabaseInstructions.png)
 
 ### Step 5: Select the DataSource
 Choose the Database to mask by selecting from the availiable Datasources. Please note that the DataSources listed are those that were configured in the web application's appsettings.json. 
+[Select DataSource](documentation/SelectDataSource.png)
 
 ### Step 6: Select the Tables and Columns to Mask
 The user should select the Tables and Columns to include in the Database Masking Job. The user can also specify the Masking Options for each column. However the user's Masking Options for JSON and XML are overriden if the selected column is of JSON or XML data types. This is because most databases would validate that the JSON or XML are well-formed before storing them.
+[Select Tables and Columns](documentation/SelectTablesAndColumns.png)
 
 Once the included columns are selected, click on the Run Task button to start the Database Masking Job.
+[Start Database Masking Job](documentation/StartDatabaseMaskingJob.png)
 
 ### Step 7: Verify running Database Masking Jobs
 Once the new job is started, the user is brought back to the home page where all the currently running jobs are displayed.
-
+[Running Database Masking Jobs](documentation/RunningDatabaseMaskingJobs.png)
 
