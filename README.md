@@ -210,7 +210,7 @@ There are currently 2 RDBMS (Relational Database Management System) supported:
 #### Important
 ```
 Do NOT use the software directly on your staging or production databases.
-Only use this software on a restored copy of the database backup.
+Only use this software on a RESTORED COPY of the database backup.
 ```
 
 ### Step 1: Configuration
@@ -235,7 +235,7 @@ The configuration is done by editing the `appsettings.json` file residing in the
 ```
 #### Important
 ```
-Please note that the JSON attribute names for the `ConnectionStrings` and the `DatabaseMaskingProviders` sections
+Please note that the JSON attribute names for the ConnectionStrings and the DatabaseMaskingProviders sections
 needs to be matching. Mismatched Connection Strings and Database Masking Providers will NOT be loaded into the
 Web Application.
 ```
@@ -245,27 +245,27 @@ To launch the 'DatabaseMaskerWeb' web application, the user needs to either comp
 
 ### Step 3: DatabaseMaskerWeb Home Page
 The user starts on the 'DatabaseMaskerWeb' web application Home Page once the website is launched. The currently running jobs will be displayed in a notification.
-[DatabaseMaskerWeb Home Page](documentation/DatabaseMaskerHomePage.png)
+![DatabaseMaskerWeb Home Page](DatabaseMaskerHomePage.png)
 
 ### Step 4: Starting a Database Masking Job
 To start a Database Masking Job, select the `Mask Database` menu.
-[Mask Database Menu](documentation/MaskDatabaseMenu.png)
+![Mask Database Menu](MaskDatabaseMenu.png)
 
 Once the user clicks on the `Mask Database` menu, the user is brought to the Instructions page. To proceed to the next step, click on the `Next` button located near the bottom right of the page.
-[Mask Database Instructions](documentation/MaskDatabaseInstructions.png)
+![Mask Database Instructions](MaskDatabaseInstructions.png)
 
 ### Step 5: Select the DataSource
 Choose the Database to mask by selecting from the availiable Datasources. Please note that the DataSources listed are those that were configured in the web application's appsettings.json. 
-[Select DataSource](documentation/SelectDataSource.png)
+![Select DataSource](SelectDataSource.png)
 
 ### Step 6: Select the Tables and Columns to Mask
 The user should select the Tables and Columns to include in the Database Masking Job. The user can also specify the Masking Options for each column. However the user's Masking Options for JSON and XML are overriden if the selected column is of JSON or XML data types. This is because most databases would validate that the JSON or XML are well-formed before storing them.
-[Select Tables and Columns](documentation/SelectTablesAndColumns.png)
+![Select Tables and Columns](SelectTablesAndColumns.png)
 
 Once the included columns are selected, click on the Run Task button to start the Database Masking Job.
-[Start Database Masking Job](documentation/StartDatabaseMaskingJob.png)
+![Start Database Masking Job](StartDatabaseMaskingJob.png)
 
 ### Step 7: Verify running Database Masking Jobs
 Once the new job is started, the user is brought back to the home page where all the currently running jobs are displayed.
-[Running Database Masking Jobs](documentation/RunningDatabaseMaskingJobs.png)
+![Running Database Masking Jobs](RunningDatabaseMaskingJobs.png)
 
