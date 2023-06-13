@@ -55,16 +55,20 @@ izmol U jai ga.
     <div>
         <a href="https://www.gutenberg.org/ebooks/12623" style="color: blue; text-decoration: none;">A Gutenberg project eBook</a>
     </div>
-    <p><span style="padding-left: 10px">All</span> these things, had I improved them as I ought to have done, and as reason
-    and religion had dictated to me, would have taught me to search farther than human enjoyments for a <strong>full felicity</strong>,
-    and that there was something which <font style="font-weight: bold;">certainly</font> was the reason and end of life, superior to
-    all these things, and which was either to be possessed, or at least hoped for, on this side the grave.</p>
-    <p><span style="padding-left: 10px">But</span> my <font style="font-weight: bold;">sage counsellor</font> was gone, I was like
-    a ship without a pilot, that could only run before the wind; my thoughts run all away again into the old affair, my head was quite
-    turned with the whimsies of foreign adventures; and all the pleasing innocent amusements of my farm and my garden, my cattle and
-    my family, which before entirely possessed me, were nothing to me, had no relish, and were like music to one that has no ear,
-    or food to one that has no taste: in a word, I resolved to leave off housekeeping, let my farm, and return to London; and in
-    a few months after I did so.</p>
+    <p><span style="padding-left: 10px">All</span> these things, had I improved them as I ought to
+    have done, and as reason and religion had dictated to me, would have taught me to search farther
+    than human enjoyments for a <strong>full felicity</strong>, and that there was something which
+    <font style="font-weight: bold;">certainly</font> was the reason and end of life, superior to
+    all these things, and which was either to be possessed, or at least hoped for, on this side the
+    grave.</p>
+    <p><span style="padding-left: 10px">But</span> my <font style="font-weight: bold;">sage
+    counsellor</font> was gone, I was like a ship without a pilot, that could only run before
+    the wind; my thoughts run all away again into the old affair, my head was quite turned with
+    the whimsies of foreign adventures; and all the pleasing innocent amusements of my farm
+    and my garden, my cattle and my family, which before entirely possessed me, were nothing
+    to me, had no relish, and were like music to one that has no ear, or food to one that has
+    no taste: in a word, I resolved to leave off housekeeping, let my farm, and return to London;
+    and in a few months after I did so.</p>
 </body>
 </html>
 ```
@@ -74,25 +78,29 @@ izmol U jai ga.
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Rux Noxi wuj Biyziwimda jo Akkapyer Ecazgu (1808) qe Jemwuo Bijka</title>
+    <title>Uzc Zoce goo Jivqotlicq xi Ugarbozt Yoqnoa (1808) xe Sefhej Yievz</title>
 </head>
 <body>
     <h1 style="font-size: large;">
-        <strong>Aceomxa jeoz</strong>: Zao Cixk uda Lehtemqawf fe Wusgokdo Unguqn (1808) ra Pexcel Zogba
+        <strong>Yanqamy iyke</strong>: Upk Kejz mas Wucrezaimi vu Uhzakyiz Haqnoh (1808) xa Toyfoh Fuecz
     </h1>
     <div>
-        <a href="https://www.gutenberg.org/ebooks/12623" style="color: blue; text-decoration: none;">O Onnufosuu turfazc cOrro</a>
+        <a href="https://www.gutenberg.org/ebooks/12623" style="color: blue; text-decoration: none;">E Norkepuvj himzauo dEzwo</a>
     </div>
-    <p><span style="padding-left: 10px">Ciw</span> figek gegxuw, wiv E qaryueie ixru wa A tireu sa wotp duyf, meo mu tuprow
-    erg cukiypat cir oxgoqsib ov ro, wocgi widz foftuq si sa helnou viniuos numi hedur uwxahkabii rux o <strong>pegv budlaoys</strong>,
-    oza posf loher alk heawcaqro eyejc <font style="font-weight: bold;">nimajhamx</font> qaq fiy voyzuk ida muu uk huhe, nocrasru hu
-    hoy loher bamgax, ivp zogba geb bewyin ri li ciizfibxu, pi wa hejfo deujb xoy, ce cigh zipk cui nidxu.</p>
-    <p><span style="padding-left: 10px">Ipo</span> ov <font style="font-weight: bold;">regw rurraifsuv</font> lef regw, E joo luhe
-    o dovl heuxjih u zogba, wikk fijco uspe koa guckak koa qahg; ga ixfurfeg tia eki bidv ejcad nibq ifi ukc xuhven, xo ponr yeh okuzj
-    taewpu siog ave ladaspoo wa gidhuui qarkeaokxo; vap lib geb subbizqa iyehnoij apgaitvily al ro saur hou ye qiedoe, ro haxgio wor
-    ri adsafd, ejcad yawcen hiizhijw ciizfibxu lu, pajn albeqvu wa ro, qaq ow soumed, fia xecj novu bocya hu fat vuxr fat wa rao,
-    uk sesk qi alk pegv liy oj viszo: be e safg, A ixfurfeg wa cubgi zic iffowfatraet, geb iv sits, ipo tisqaz ro Xuhven; jap te
-    i ida qerjeg vewgi A cip de.</p>
+    <p><span style="padding-left: 10px">Qem</span> osfie yoqnoa, pel E xahaqoyq quwg ve A udmad ti
+    aqki suvw, kez di wuetva set wiiapban vid gizwagsu mi ip, waurj pich yabqij ip no iyijhu afisves
+    donz ziqxi gomeegvahu nak u <strong>yokg wiewafwo</strong>, qem rayi quepd nit zetxavwia zidke
+    <font style="font-weight: bold;">oqkodbayk</font> epg wih yalweg biw ohe vu save, zoihrufk ba
+    lok izmae gelkun, rua zifge etj pomjiv pe la kosvosruo, ta ce peurn tabwu xeh, ba ozwo guca qur
+    tabwu.</p>
+    <p><span style="padding-left: 10px">Pag</span> wu <font style="font-weight: bold;">bovm
+    zahnoyokqe</font> civ aqre, U kaq nama i doan ojcadcu i kudti, ceun beaxj ozwo hou atihhu
+    meb enko; ec koldihfi otu kaw giuu puatl aqma owr soa zijvob, qe jasj kaw goxho jiwjou enko
+    hul yepluzca oc xemzobh jakromwuqp; xoc nij meb umoqyicv pabuvres sedmojhatj hi xe cuex
+    ajt ba xivyac, zo yikleh nae vu jeeioe, moufq sochol roeyvabl wetjircui qi, ceun zirjilt
+    le ba, nij ni feijut, bap yokg daai ulgis co sus benf pot ji pun, qa kiyk ro sip zeie var
+    ta dezwo: qi o duul, E jeunqibj bo ulgis pel wucwiovvezse, est ku cuqx, cac muwtub le Betlop;
+    kao ov e qur kejpol javre E reo bo.</p>
 </body>
 </html>
 ```
@@ -199,6 +207,37 @@ izmol U jai ga.
   ]
 }
 ```
+
+
+## Prerequisites
+This project requires knowledge on:
+- Visual Studio
+- C#
+- ASP.NET Core Razor Pages
+- ADO.NET
+- Microsoft SQL and/or Postgre SQL
+
+For more information on:
+- Visual Studio, please visit [https://visualstudio.microsoft.com/vs/compare/](https://visualstudio.microsoft.com/vs/compare/)
+- C#, please visit [https://learn.microsoft.com/en-us/dotnet/csharp/](https://learn.microsoft.com/en-us/dotnet/csharp/)
+- ASP.NET Core Razor Pages, please visit [https://learn.microsoft.com/en-us/aspnet/core/tutorials/razor-pages/razor-pages-start](https://learn.microsoft.com/en-us/aspnet/core/tutorials/razor-pages/razor-pages-start)
+- ADO.NET, please visit:
+  * [https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/ado-net-overview](https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/ado-net-overview)
+  * [https://www.npgsql.org/](https://www.npgsql.org/)
+- Microsoft SQL, please visit:
+  * [https://learn.microsoft.com/en-us/sql/database-engine/install-windows/install-sql-server](https://learn.microsoft.com/en-us/sql/database-engine/install-windows/install-sql-server)
+  * [https://learn.microsoft.com/en-us/sql/sql-server/tutorials-for-sql-server-2016](https://learn.microsoft.com/en-us/sql/sql-server/tutorials-for-sql-server-2016)
+  * [https://learn.microsoft.com/en-us/sql/relational-databases/tutorial-getting-started-with-the-database-engine](https://learn.microsoft.com/en-us/sql/relational-databases/tutorial-getting-started-with-the-database-engine)
+- Postgre SQL, please visit:
+  * [https://www.postgresql.org/docs/15/tutorial-start.html](https://www.postgresql.org/docs/15/tutorial-start.html)
+  * [https://www.postgresql.org/download/products/1-administrationdevelopment-tools/](https://www.postgresql.org/download/products/1-administrationdevelopment-tools/)
+  * [https://www.postgresql.org/docs/15/queries.html](https://www.postgresql.org/docs/15/queries.html)
+
+## Setting Up the Sample Database
+The database scripts for setting up the sample database can be found in [/TextDataMasking/TextDataMasking
+/DBScripts/](/TextDataMasking/TextDataMasking/DBScripts/):
+1) CreateFictionalAddressesMSSQL.sql
+2) CreateFictionalAddressesPostgreSql.sql
 
 ## How to Use
 The `DatabaseMaskerWeb` web application is the User Interface for the TextDataMasking solution. It can be used to Start Database Masking jobs to Mask selected Database Tables and Columns with the desired Masking Options.
