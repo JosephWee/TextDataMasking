@@ -65,16 +65,20 @@ namespace UnitTests
     <div>
         <a href=""https://www.gutenberg.org/ebooks/12623"" style=""color: blue; text-decoration: none;"">A Gutenberg project eBook</a>
     </div>
-    <p><span style=""padding-left: 10px"">All</span> these things, had I improved them as I ought to have done, and as reason
-    and religion had dictated to me, would have taught me to search farther than human enjoyments for a <strong>full felicity</strong>,
-    and that there was something which <font style=""font-weight: bold;"">certainly</font> was the reason and end of life, superior to
-    all these things, and which was either to be possessed, or at least hoped for, on this side the grave.</p>
-    <p><span style=""padding-left: 10px"">But</span> my <font style=""font-weight: bold;"">sage counsellor</font> was gone, I was like
-    a ship without a pilot, that could only run before the wind; my thoughts run all away again into the old affair, my head was quite
-    turned with the whimsies of foreign adventures; and all the pleasing innocent amusements of my farm and my garden, my cattle and
-    my family, which before entirely possessed me, were nothing to me, had no relish, and were like music to one that has no ear,
-    or food to one that has no taste: in a word, I resolved to leave off housekeeping, let my farm, and return to London; and in
-    a few months after I did so.</p>
+    <p><span style=""padding-left: 10px"">All</span> these things, had I improved them as I ought to
+    have done, and as reason and religion had dictated to me, would have taught me to search farther
+    than human enjoyments for a <strong>full felicity</strong>, and that there was something which
+    <font style=""font-weight: bold;"">certainly</font> was the reason and end of life, superior to
+    all these things, and which was either to be possessed, or at least hoped for, on this side the
+    grave.</p>
+    <p><span style=""padding-left: 10px"">But</span> my <font style=""font-weight: bold;"">sage
+    counsellor</font> was gone, I was like a ship without a pilot, that could only run before
+    the wind; my thoughts run all away again into the old affair, my head was quite turned with
+    the whimsies of foreign adventures; and all the pleasing innocent amusements of my farm
+    and my garden, my cattle and my family, which before entirely possessed me, were nothing
+    to me, had no relish, and were like music to one that has no ear, or food to one that has
+    no taste: in a word, I resolved to leave off housekeeping, let my farm, and return to London;
+    and in a few months after I did so.</p>
 </body>
 </html>", TextType.Html));
                 originalTexts.Add(new TextContainer(
