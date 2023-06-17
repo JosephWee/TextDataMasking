@@ -54,6 +54,12 @@ namespace UnitTests
                 originalTexts.Add(new TextContainer("<?xml version=\"1.0\"?>\r\n<catalog>\r\n\t<book id=\"bk101\">\r\n\t\t<author>Gambardella, Matthew</author>\r\n\t\t<title>XML Developer's Guide</title>\r\n\t\t<genre>Computer</genre>\r\n\t\t<price>44.95</price>\r\n\t\t<publish_date>2000-10-01</publish_date>\r\n\t\t<description>\r\n\t\t\tAn in-depth look at creating applications\r\n\t\t\twith XML.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk102\">\r\n\t\t<author>Ralls, Kim</author>\r\n\t\t<title>Midnight Rain</title>\r\n\t\t<genre>Fantasy</genre>\r\n\t\t<price>5.95</price>\r\n\t\t<publish_date>2000-12-16</publish_date>\r\n\t\t<description>\r\n\t\t\tA former architect battles corporate zombies,\r\n\t\t\tan evil sorceress, and her own childhood to become queen\r\n\t\t\tof the world.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk103\">\r\n\t\t<author>Corets, Eva</author>\r\n\t\t<title>Maeve Ascendant</title>\r\n\t\t<genre>Fantasy</genre>\r\n\t\t<price>5.95</price>\r\n\t\t<publish_date>2000-11-17</publish_date>\r\n\t\t<description>\r\n\t\t\tAfter the collapse of a nanotechnology\r\n\t\t\tsociety in England, the young survivors lay the\r\n\t\t\tfoundation for a new society.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk104\">\r\n\t\t<author>Corets, Eva</author>\r\n\t\t<title>Oberon's Legacy</title>\r\n\t\t<genre>Fantasy</genre>\r\n\t\t<price>5.95</price>\r\n\t\t<publish_date>2001-03-10</publish_date>\r\n\t\t<description>\r\n\t\t\tIn post-apocalypse England, the mysterious\r\n\t\t\tagent known only as Oberon helps to create a new life\r\n\t\t\tfor the inhabitants of London. Sequel to Maeve\r\n\t\t\tAscendant.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk105\">\r\n\t\t<author>Corets, Eva</author>\r\n\t\t<title>The Sundered Grail</title>\r\n\t\t<genre>Fantasy</genre>\r\n\t\t<price>5.95</price>\r\n\t\t<publish_date>2001-09-10</publish_date>\r\n\t\t<description>\r\n\t\t\tThe two daughters of Maeve, half-sisters,\r\n\t\t\tbattle one another for control of England. Sequel to\r\n\t\t\tOberon's Legacy.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk106\">\r\n\t\t<author>Randall, Cynthia</author>\r\n\t\t<title>Lover Birds</title>\r\n\t\t<genre>Romance</genre>\r\n\t\t<price>4.95</price>\r\n\t\t<publish_date>2000-09-02</publish_date>\r\n\t\t<description>\r\n\t\t\tWhen Carla meets Paul at an ornithology\r\n\t\t\tconference, tempers fly as feathers get ruffled.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk107\">\r\n\t\t<author>Thurman, Paula</author>\r\n\t\t<title>Splish Splash</title>\r\n\t\t<genre>Romance</genre>\r\n\t\t<price>4.95</price>\r\n\t\t<publish_date>2000-11-02</publish_date>\r\n\t\t<description>\r\n\t\t\tA deep sea diver finds true love twenty\r\n\t\t\tthousand leagues beneath the sea.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk108\">\r\n\t\t<author>Knorr, Stefan</author>\r\n\t\t<title>Creepy Crawlies</title>\r\n\t\t<genre>Horror</genre>\r\n\t\t<price>4.95</price>\r\n\t\t<publish_date>2000-12-06</publish_date>\r\n\t\t<description>\r\n\t\t\tAn anthology of horror stories about roaches,\r\n\t\t\tcentipedes, scorpions  and other insects.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk109\">\r\n\t\t<author>Kress, Peter</author>\r\n\t\t<title>Paradox Lost</title>\r\n\t\t<genre>Science Fiction</genre>\r\n\t\t<price>6.95</price>\r\n\t\t<publish_date>2000-11-02</publish_date>\r\n\t\t<description>\r\n\t\t\tAfter an inadvertant trip through a Heisenberg\r\n\t\t\tUncertainty Device, James Salway discovers the problems\r\n\t\t\tof being quantum.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk110\">\r\n\t\t<author>O'Brien, Tim</author>\r\n\t\t<title>Microsoft .NET: The Programming Bible</title>\r\n\t\t<genre>Computer</genre>\r\n\t\t<price>36.95</price>\r\n\t\t<publish_date>2000-12-09</publish_date>\r\n\t\t<description>\r\n\t\t\tMicrosoft's .NET initiative is explored in\r\n\t\t\tdetail in this deep programmer's reference.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk111\">\r\n\t\t<author>O'Brien, Tim</author>\r\n\t\t<title>MSXML3: A Comprehensive Guide</title>\r\n\t\t<genre>Computer</genre>\r\n\t\t<price>36.95</price>\r\n\t\t<publish_date>2000-12-01</publish_date>\r\n\t\t<description>\r\n\t\t\tThe Microsoft MSXML3 parser is covered in\r\n\t\t\tdetail, with attention to XML DOM interfaces, XSLT processing,\r\n\t\t\tSAX and more.\r\n\t\t</description>\r\n\t</book>\r\n\t<book id=\"bk112\">\r\n\t\t<author>Galos, Mike</author>\r\n\t\t<title>Visual Studio 7: A Comprehensive Guide</title>\r\n\t\t<genre>Computer</genre>\r\n\t\t<price>49.95</price>\r\n\t\t<publish_date>2001-04-16</publish_date>\r\n\t\t<description>\r\n\t\t\tMicrosoft Visual Studio 7 is explored in depth,\r\n\t\t\tlooking at how Visual Basic, Visual C++, C#, and ASP+ are\r\n\t\t\tintegrated into a comprehensive development\r\n\t\t\tenvironment.\r\n\t\t</description>\r\n\t</book>\r\n</catalog>\r\n", TextType.Xml));
                 originalTexts.Add(new TextContainer(
 @"
+<script>
+let jsonString = '{ ""Id"": 12946, ""Description"": ""Some kind of json text"" }';
+</script>
+", TextType.Html));
+                originalTexts.Add(new TextContainer(
+@"
 <!DOCTYPE html>
 <html>
 <head>
@@ -310,6 +316,21 @@ description=""Rustic Oak Coffee Table"">
   }
 }", TextType.Json));
             }
+        }
+
+        [Test]
+        public void TestMaskText_IgnoreNone()
+        {
+            DataMaskerOptions options = new DataMaskerOptions();
+            options.IgnoreAngleBracketedTags = false;
+            options.IgnoreJsonAttributes = false;
+            options.IgnoreNumbers = false;
+            options.IgnoreAlphaNumeric = false;
+            options.ProcessCDATA = false;
+            options.ProcessXmlComments = false;
+            options.PreserveCase = false;
+
+            TestMaskText(options);
         }
 
         [Test]
@@ -853,6 +874,11 @@ description=""Rustic Oak Coffee Table"">
             else
             {
                 Assert.AreNotEqual(string1, string2);
+
+                if (string1 != string1.ToLower())
+                {
+                    Assert.AreEqual(options.PreserveCase, string2 != string2.ToLower());
+                }
             }
         }
 
