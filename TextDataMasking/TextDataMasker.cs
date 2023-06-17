@@ -114,6 +114,13 @@ namespace TextDataMasking
             return retValue;
         }
 
+        /// <summary>
+        /// This is the main method used for text data masking.
+        /// </summary>
+        /// <param name="originalText">Text to be masked. Can be Plain Text, HTML, XML or JSON</param>
+        /// <param name="options">The DataMaskerOptions to use</param>
+        /// <param name="maskDictionary">The Mask Dictionary to use to use</param>
+        /// <returns></returns>
         public static string MaskText(string originalText, DataMaskerOptions options, MaskDictionary maskDictionary)
         {
             if (string.IsNullOrWhiteSpace(originalText))
