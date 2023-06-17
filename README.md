@@ -210,7 +210,33 @@ izmol U jai ga.
 
 
 
-## Features
+## Prerequisites
+This project requires knowledge on:
+- Visual Studio
+- C#
+- ASP.NET Core Razor Pages
+- ADO.NET
+- Microsoft SQL and/or Postgre SQL
+
+For more information on:
+- Visual Studio, please visit [https://visualstudio.microsoft.com/vs/compare/](https://visualstudio.microsoft.com/vs/compare/)
+- C#, please visit [https://learn.microsoft.com/en-us/dotnet/csharp/](https://learn.microsoft.com/en-us/dotnet/csharp/)
+- ASP.NET Core Razor Pages, please visit [https://learn.microsoft.com/en-us/aspnet/core/tutorials/razor-pages/razor-pages-start](https://learn.microsoft.com/en-us/aspnet/core/tutorials/razor-pages/razor-pages-start)
+- ADO.NET, please visit:
+  * [https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/ado-net-overview](https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/ado-net-overview)
+  * [https://www.npgsql.org/](https://www.npgsql.org/)
+- Microsoft SQL, please visit:
+  * [https://learn.microsoft.com/en-us/sql/database-engine/install-windows/install-sql-server](https://learn.microsoft.com/en-us/sql/database-engine/install-windows/install-sql-server)
+  * [https://learn.microsoft.com/en-us/sql/sql-server/tutorials-for-sql-server-2016](https://learn.microsoft.com/en-us/sql/sql-server/tutorials-for-sql-server-2016)
+  * [https://learn.microsoft.com/en-us/sql/relational-databases/tutorial-getting-started-with-the-database-engine](https://learn.microsoft.com/en-us/sql/relational-databases/tutorial-getting-started-with-the-database-engine)
+- Postgre SQL, please visit:
+  * [https://www.postgresql.org/docs/15/tutorial-start.html](https://www.postgresql.org/docs/15/tutorial-start.html)
+  * [https://www.postgresql.org/download/products/1-administrationdevelopment-tools/](https://www.postgresql.org/download/products/1-administrationdevelopment-tools/)
+  * [https://www.postgresql.org/docs/15/queries.html](https://www.postgresql.org/docs/15/queries.html)
+
+
+
+## How it works
 The `TextDataMasker` is the class that does all the data masking via the `TextDataMasker.MaskText` static method.
 ```C#
 /// <summary>
@@ -224,8 +250,28 @@ public static string MaskText(string originalText, DataMaskerOptions options, Ma
 ```
 
 
+
 ### DataMaskerOptions
+The `DataMaskerOptions` parameter instructs `MaskText` method what to do when certain types of text are encountered.
+When all options in the `DataMaskerOptions` parameter is set to __*false*__, `MaskText` method __*tokenize*__ all text without preserving the case.
+All symbols, punctuations and whitespace characters are preserved.
+```html
+Original HTML
+<script>
+let jsonString = '{ "Id": 12946, "Description": "Some kind of json text" }';
+</script>
+
+Masked HTML
+<yanyer>
+qet nokmafkehf = '{ "aw": 49364, "yijpuembiku": "zilp xukl ra quen jufw" }';
+</giqeib>
+```
+
+
+
+### Options Availiable
 There are currently a total of 7 DataMaskerOptions
+
 #### 1) IgnoreAngleBracketedTags
    - Instructs the MaskText method to ignore any HTML and XML tags encountered
 ```html
@@ -303,29 +349,13 @@ Camsimdo maxisof DEMOSOTOYUG Salmo dEnop
 ```
 
 
-## Prerequisites
-This project requires knowledge on:
-- Visual Studio
-- C#
-- ASP.NET Core Razor Pages
-- ADO.NET
-- Microsoft SQL and/or Postgre SQL
 
-For more information on:
-- Visual Studio, please visit [https://visualstudio.microsoft.com/vs/compare/](https://visualstudio.microsoft.com/vs/compare/)
-- C#, please visit [https://learn.microsoft.com/en-us/dotnet/csharp/](https://learn.microsoft.com/en-us/dotnet/csharp/)
-- ASP.NET Core Razor Pages, please visit [https://learn.microsoft.com/en-us/aspnet/core/tutorials/razor-pages/razor-pages-start](https://learn.microsoft.com/en-us/aspnet/core/tutorials/razor-pages/razor-pages-start)
-- ADO.NET, please visit:
-  * [https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/ado-net-overview](https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/ado-net-overview)
-  * [https://www.npgsql.org/](https://www.npgsql.org/)
-- Microsoft SQL, please visit:
-  * [https://learn.microsoft.com/en-us/sql/database-engine/install-windows/install-sql-server](https://learn.microsoft.com/en-us/sql/database-engine/install-windows/install-sql-server)
-  * [https://learn.microsoft.com/en-us/sql/sql-server/tutorials-for-sql-server-2016](https://learn.microsoft.com/en-us/sql/sql-server/tutorials-for-sql-server-2016)
-  * [https://learn.microsoft.com/en-us/sql/relational-databases/tutorial-getting-started-with-the-database-engine](https://learn.microsoft.com/en-us/sql/relational-databases/tutorial-getting-started-with-the-database-engine)
-- Postgre SQL, please visit:
-  * [https://www.postgresql.org/docs/15/tutorial-start.html](https://www.postgresql.org/docs/15/tutorial-start.html)
-  * [https://www.postgresql.org/download/products/1-administrationdevelopment-tools/](https://www.postgresql.org/download/products/1-administrationdevelopment-tools/)
-  * [https://www.postgresql.org/docs/15/queries.html](https://www.postgresql.org/docs/15/queries.html)
+## DatabaseMasker
+The `DatabaseMasker` class is responsible for reading, applying the `MaskText` method and writing to the Database.
+There are currently 2 RDBMS (Relational Database Management System) supported:
+1) Microsoft SQL
+2) Postgre SQL
+
 
 
 ## Setting Up the Sample Database
@@ -334,12 +364,13 @@ The database scripts for setting up the sample database can be found in [/TextDa
 1) CreateFictionalAddressesMSSQL.sql
 2) CreateFictionalAddressesPostgreSql.sql
 
+
+
 ## How to Use
 The `DatabaseMaskerWeb` web application is the User Interface for the TextDataMasking solution. It can be used to Start Database Masking jobs to Mask selected Database Tables and Columns with the desired Masking Options.
 
-There are currently 2 RDBMS (Relational Database Management System) supported:
-1) Microsoft SQL
-2) Postgre SQL
+
+
 
 #### Important
 ```
