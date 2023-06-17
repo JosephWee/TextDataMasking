@@ -209,6 +209,100 @@ izmol U jai ga.
 ```
 
 
+
+## Features
+The `TextDataMasker` is the class that does all the data masking via the `TextDataMasker.MaskText` static method.
+```C#
+/// <summary>
+/// This is the main method used for text data masking.
+/// </summary>
+/// <param name="originalText">Text to be masked. Can be Plain Text, HTML, XML or JSON</param>
+/// <param name="options">The DataMaskerOptions to use</param>
+/// <param name="maskDictionary">The Mask Dictionary to use to use</param>
+/// <returns></returns>
+public static string MaskText(string originalText, DataMaskerOptions options, MaskDictionary maskDictionary)
+```
+
+
+### DataMaskerOptions
+There are currently a total of 7 DataMaskerOptions
+#### 1) IgnoreAngleBracketedTags
+   - Instructs the MaskText method to ignore any HTML and XML tags encountered
+```html
+<!--Original HTML-->
+<div style="position: fixed; top: 10px; right: 10px;">This element is fixed</div>
+
+<!--Masked HTML-->
+<div style="position: fixed; top: 10px; right: 10px;">Djar ahonaml og dayik</div>
+```
+
+
+#### 2) IgnoreJsonAttributes
+   - Instructs the MaskText method to ignore any JSON attributes encountered
+```JSON
+Original JSON
+{ "id": 1029, "code": "2641D" "price": 12.99, "quantity": 5 }
+
+Masked JSON
+{ "id": 4831, "code": "9321A" "price": 23.34, "quantity": 7 }
+```
+
+
+#### 3) IgnoreNumbers
+   - Instructs the MaskText method to ignore any numbers encountered
+```
+Original Text
+There are 10 apples in the basket.
+
+Masked Text
+Wbilu ico 10 ixccul am sno qovdub.
+```
+
+
+#### 4) IgnoreAlphaNumeric
+   - Instructs the MaskText method to ignore any alpha-numeric text encountered
+```
+Original Text
+The model is CT510X.
+
+Masked Text
+Wbi nicop am CT510X.
+```
+
+
+#### 5) ProcessCDATA
+   - Instructs the MaskText method to process any CDATA encountered
+```xml
+Original XML
+<description><![CDATA[The model is CT510X]]></description>
+
+Masked XML
+<description><![CDATA[Wbi nicop am EX629Y]]></description>
+```
+
+
+#### 6) ProcessXmlComments
+   - Instructs the MaskText method to process any XML or HTML comments encountered
+```xml
+Original XML/HTML Comment
+<!-- Comments here -->
+
+Masked XML/HTML Comment
+<!-- Danlicpd calo -->
+```
+
+
+#### 7) PreserveCase
+   - Instructs the MaskText method to preserve any cases encountered
+```
+Original Text
+Sentence lowered CAPITALIZED Title cAmel
+
+Masked Text
+Camsimdo maxisof DEMOSOTOYUG Salmo dEnop
+```
+
+
 ## Prerequisites
 This project requires knowledge on:
 - Visual Studio
@@ -232,6 +326,7 @@ For more information on:
   * [https://www.postgresql.org/docs/15/tutorial-start.html](https://www.postgresql.org/docs/15/tutorial-start.html)
   * [https://www.postgresql.org/download/products/1-administrationdevelopment-tools/](https://www.postgresql.org/download/products/1-administrationdevelopment-tools/)
   * [https://www.postgresql.org/docs/15/queries.html](https://www.postgresql.org/docs/15/queries.html)
+
 
 ## Setting Up the Sample Database
 The database scripts for setting up the sample database can be found in [/TextDataMasking/TextDataMasking
