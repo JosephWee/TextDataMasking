@@ -10,6 +10,7 @@ using System.IO;
 using Microsoft.VisualStudio.TestPlatform.PlatformAbstractions.Interfaces;
 using System.Text;
 using Microsoft.VisualBasic;
+using System.Xml.Linq;
 
 namespace UnitTests
 {
@@ -319,6 +320,8 @@ description=""Rustic Oak Coffee Table"">
             options.IgnoreJsonAttributes = true;
             options.IgnoreNumbers = true;
             options.IgnoreAlphaNumeric = true;
+            options.ProcessCDATA = true;
+            options.ProcessXmlComments = true;
             options.PreserveCase = true;
 
             TestMaskText(options);
@@ -332,6 +335,8 @@ description=""Rustic Oak Coffee Table"">
             options.IgnoreJsonAttributes = false;
             options.IgnoreNumbers = false;
             options.IgnoreAlphaNumeric = false;
+            options.ProcessCDATA = true;
+            options.ProcessXmlComments = true;
             options.PreserveCase = true;
 
             TestMaskText(options);
@@ -345,6 +350,8 @@ description=""Rustic Oak Coffee Table"">
             options.IgnoreJsonAttributes = true;
             options.IgnoreNumbers = false;
             options.IgnoreAlphaNumeric = false;
+            options.ProcessCDATA = true;
+            options.ProcessXmlComments = true;
             options.PreserveCase = true;
 
             TestMaskText(options);
@@ -358,6 +365,8 @@ description=""Rustic Oak Coffee Table"">
             options.IgnoreJsonAttributes = false;
             options.IgnoreNumbers = true;
             options.IgnoreAlphaNumeric = false;
+            options.ProcessCDATA = true;
+            options.ProcessXmlComments = true;
             options.PreserveCase = true;
 
             TestMaskText(options);
@@ -371,6 +380,8 @@ description=""Rustic Oak Coffee Table"">
             options.IgnoreJsonAttributes = false;
             options.IgnoreNumbers = false;
             options.IgnoreAlphaNumeric = true;
+            options.ProcessCDATA = true;
+            options.ProcessXmlComments = true;
             options.PreserveCase = true;
 
             TestMaskText(options);
@@ -384,6 +395,38 @@ description=""Rustic Oak Coffee Table"">
             options.IgnoreJsonAttributes = true;
             options.IgnoreNumbers = false;
             options.IgnoreAlphaNumeric = true;
+            options.ProcessCDATA = true;
+            options.ProcessXmlComments = true;
+            options.PreserveCase = true;
+
+            TestMaskText(options);
+        }
+
+        [Test]
+        public void TestMaskText_KeepTextFormatting_IgnoreXmlComments()
+        {
+            DataMaskerOptions options = new DataMaskerOptions();
+            options.IgnoreAngleBracketedTags = true;
+            options.IgnoreJsonAttributes = true;
+            options.IgnoreNumbers = false;
+            options.IgnoreAlphaNumeric = true;
+            options.ProcessCDATA = true;
+            options.ProcessXmlComments = false;
+            options.PreserveCase = true;
+
+            TestMaskText(options);
+        }
+
+        [Test]
+        public void TestMaskText_KeepTextFormatting_IgnoreCDATA()
+        {
+            DataMaskerOptions options = new DataMaskerOptions();
+            options.IgnoreAngleBracketedTags = true;
+            options.IgnoreJsonAttributes = true;
+            options.IgnoreNumbers = false;
+            options.IgnoreAlphaNumeric = true;
+            options.ProcessCDATA = false;
+            options.ProcessXmlComments = true;
             options.PreserveCase = true;
 
             TestMaskText(options);
@@ -446,6 +489,80 @@ description=""Rustic Oak Coffee Table"">
                 CompareStrings(match.Value, replacementSubstring, options);
 
                 match = match.NextMatch();
+            }
+        }
+
+        public void ValidateHtmlXmlJson(string original, string replacement, DataMaskerOptions options)
+        {
+            var textType = TextType.PlainText;
+
+            JsonElement oElement = new JsonElement(), rElement = new JsonElement();
+            XmlDocument oXml = null, rXml = null;
+            HtmlDocument oHtml = null, rHtml = null;
+
+            if (original.Contains("{") && options.IgnoreJsonAttributes)
+            {
+                try
+                {
+                    oElement = JsonSerializer.Deserialize<JsonElement>(original);
+                    rElement = JsonSerializer.Deserialize<JsonElement>(replacement);
+
+                    textType = TextType.Json;
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+            
+            if (original.Contains("<") && options.IgnoreAngleBracketedTags)
+            {
+                try
+                {
+                    oXml = new XmlDocument();
+                    oXml.LoadXml(original.Trim());
+
+                    rXml = new XmlDocument();
+                    rXml.LoadXml(replacement.Trim());
+
+                    textType = TextType.Xml;
+                }
+                catch (Exception ex)
+                {
+                }
+
+                if (textType == TextType.PlainText)
+                {
+                    try
+                    {
+                        oHtml = new HtmlDocument();
+                        oHtml.LoadHtml(original.Trim());
+
+                        rHtml = new HtmlDocument();
+                        rHtml.LoadHtml(replacement.Trim());
+
+                        textType = TextType.Html;
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+            }
+
+            if (textType == TextType.Html)
+            {
+                ValidateHtmlElement(oHtml.DocumentNode, rHtml.DocumentNode, options);
+            }
+            else if (textType == TextType.Xml)
+            {
+                ValidateXmlElement(oXml.DocumentElement, rXml.DocumentElement, options);
+            }
+            else if (textType == TextType.Json)
+            {
+                ValidateJsonElement(oElement, rElement, options);
+            }
+            else
+            {
+                ValidatePlainText(original, replacement, options);
             }
         }
 
@@ -542,13 +659,33 @@ description=""Rustic Oak Coffee Table"">
                 || original.NodeType == XmlNodeType.Attribute
                 || original.NodeType == XmlNodeType.DocumentType
                 || original.NodeType == XmlNodeType.Entity
-                || original.NodeType == XmlNodeType.CDATA
-                || original.NodeType == XmlNodeType.Comment
                 || original.NodeType == XmlNodeType.Notation
                 || original.NodeType == XmlNodeType.ProcessingInstruction
                 || original.NodeType == XmlNodeType.XmlDeclaration)
             {
                 Assert.AreEqual(original.Value, replacement.Value);
+            }
+            else if (original.NodeType == XmlNodeType.CDATA)
+            {
+                if (options.ProcessCDATA)
+                {
+                    ValidateHtmlXmlJson(original.Value, replacement.Value, options);
+                }
+                else
+                {
+                    Assert.AreEqual(original.Value, replacement.Value);
+                }
+            }
+            else if (original.NodeType == XmlNodeType.Comment)
+            {
+                if (options.ProcessXmlComments)
+                {
+                    ValidateHtmlXmlJson(original.Value, replacement.Value, options);
+                }
+                else
+                {
+                    Assert.AreEqual(original.Value, replacement.Value);
+                }
             }
             else
             {

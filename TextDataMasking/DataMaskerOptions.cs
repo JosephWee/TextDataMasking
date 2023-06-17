@@ -62,31 +62,31 @@ namespace TextDataMasking
             }
         }
 
-        //protected bool _ProcessCDATA = false;
-        //public bool ProcessCDATA
-        //{
-        //    get
-        //    {
-        //        return _ProcessCDATA;
-        //    }
-        //    set
-        //    {
-        //        _ProcessCDATA = value;
-        //    }
-        //}
+        protected bool _ProcessCDATA = false;
+        public bool ProcessCDATA
+        {
+            get
+            {
+                return _ProcessCDATA;
+            }
+            set
+            {
+                _ProcessCDATA = value;
+            }
+        }
 
-        //protected bool _ProcessXmlComments = false;
-        //public bool ProcessXmlComments
-        //{
-        //    get
-        //    {
-        //        return _ProcessXmlComments;
-        //    }
-        //    set
-        //    {
-        //        _ProcessXmlComments = value;
-        //    }
-        //}
+        protected bool _ProcessXmlComments = false;
+        public bool ProcessXmlComments
+        {
+            get
+            {
+                return _ProcessXmlComments;
+            }
+            set
+            {
+                _ProcessXmlComments = value;
+            }
+        }
 
         protected bool _PreserveCase = false;
         public bool PreserveCase
@@ -109,8 +109,8 @@ namespace TextDataMasking
                 IgnoreJsonAttributes = this.IgnoreJsonAttributes,
                 IgnoreNumbers = this.IgnoreNumbers,
                 IgnoreAlphaNumeric = this.IgnoreAlphaNumeric,
-                //ProcessCDATA = this.ProcessCDATA,
-                //ProcessXmlComments = this.ProcessXmlComments,
+                ProcessCDATA = this.ProcessCDATA,
+                ProcessXmlComments = this.ProcessXmlComments,
                 PreserveCase = this.PreserveCase
             };
 

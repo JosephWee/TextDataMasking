@@ -29,6 +29,7 @@ namespace TextDataMasking
             public AngleTagType AngledTagType { get; set; }
             public int StartIndex { get; set; } = -1;
             public int EndIndex { get; set; } = -1;
+            public bool Processed { get; set; } = false;
         }
 
         private static List<AngleTagType> angledTagTypes = new List<AngleTagType>()
@@ -147,6 +148,21 @@ namespace TextDataMasking
 #endif
             foreach (Match match in Regex.Matches(originalText, pattern, RegexOptions.IgnoreCase))
             {
+
+                bool IsWithinAngledTagScope = false;
+                var lastAngleTagScope = angledBracketScopes.LastOrDefault();
+
+                if (options.IgnoreAngleBracketedTags)
+                {
+                    if (lastAngleTagScope != null && match.Index > lastAngleTagScope.StartIndex && match.Index < lastAngleTagScope.EndIndex)
+                    {
+                        //Already within tag
+                        IsWithinAngledTagScope = true;
+                        if (lastAngleTagScope.Processed)
+                            continue;
+                    }
+                }
+                
                 string preceedingNonMatchingString = string.Empty;
 
                 int nonMatchStartIndex = 0;
@@ -164,17 +180,8 @@ namespace TextDataMasking
                     preceedingNonMatchingString = originalText.Substring(nonMatchStartIndex, nonMatchLength);
                 }
 
-                bool IsWithinAngledTagScope = false;
                 if (options.IgnoreAngleBracketedTags)
                 {
-                    var lastAngleTagScope = angledBracketScopes.LastOrDefault();
-
-                    if (lastAngleTagScope != null && match.Index > lastAngleTagScope.StartIndex && match.Index < lastAngleTagScope.EndIndex)
-                    {
-                        //Already within tag
-                        IsWithinAngledTagScope = true;
-                    }
-
                     if (!IsWithinAngledTagScope)
                     {
                         for (int tagTypeIndex = 0; tagTypeIndex < angledTagTypes.Count; tagTypeIndex++)
@@ -238,10 +245,7 @@ namespace TextDataMasking
                                 if (bracketEndIndex > bracketStartIndex)
                                 {
                                     bracketEndIndex += angledTagType.BracketEnd.Length;
-#if DEBUG
-                                    string scopeString = originalText.Substring(bracketStartIndex, bracketEndIndex - bracketStartIndex);
-#endif
-                                    IsWithinAngledTagScope = true;
+
                                     AngledTagScope newScope =
                                         new AngledTagScope()
                                         {
@@ -249,7 +253,13 @@ namespace TextDataMasking
                                             StartIndex = bracketStartIndex,
                                             EndIndex = bracketEndIndex
                                         };
+
                                     angledBracketScopes.Add(newScope);
+
+                                    IsWithinAngledTagScope = true;
+                                    lastAngleTagScope = newScope;
+                                    matchIndexes.Add(newScope.StartIndex);
+                                    matchLength.Add(newScope.EndIndex - newScope.StartIndex);
                                     break;
                                 }
                             }
@@ -308,6 +318,31 @@ namespace TextDataMasking
                 {
                     //Append preceeding non-matching string
                     replacementText.Append(preceedingNonMatchingString);
+                }
+
+                if (IsWithinAngledTagScope && lastAngleTagScope != null && !lastAngleTagScope.Processed)
+                {
+#if DEBUG
+                    string tagScope = originalText.Substring(lastAngleTagScope.StartIndex, lastAngleTagScope.EndIndex - lastAngleTagScope.StartIndex);
+#endif
+
+                    if ((lastAngleTagScope.AngledTagType.BracketStart == "<!--" && options.ProcessXmlComments)
+                        || (lastAngleTagScope.AngledTagType.BracketStart == "<![CDATA[" && options.ProcessCDATA))
+                    {
+                        int contentStart = lastAngleTagScope.StartIndex + lastAngleTagScope.AngledTagType.BracketStart.Length;
+                        int contentEnd = lastAngleTagScope.EndIndex - lastAngleTagScope.AngledTagType.BracketEnd.Length;
+
+                        string scopeContents = originalText.Substring(contentStart, contentEnd - contentStart);
+                        string maskedContents = MaskText(scopeContents, options, maskDictionary);
+
+                        replacementText.Length -= match.Index - lastAngleTagScope.StartIndex;
+                        
+                        replacementText.Append(lastAngleTagScope.AngledTagType.BracketStart);
+                        replacementText.Append(maskedContents);
+                        replacementText.Append(lastAngleTagScope.AngledTagType.BracketEnd);
+                        lastAngleTagScope.Processed = true;
+                        continue;
+                    }
                 }
 
                 if (options.IgnoreAngleBracketedTags && IsWithinAngledTagScope)
