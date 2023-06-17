@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Sample - Copy.json">
+    <None Update="Sample1.json">
       <SubType>Component</SubType>
     </None>
   </ItemGroup>

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0"?>
+<machine id="140283674">
+	<job id="P0001C">
+		<x>-10.0183</x>
+		<y>100.1726</y>
+		<depth>17.1836</depth>
+		<!--Code must be set to D1547 for all settings JSON or XML-->
+		<settings><![CDATA[{"id":31473,"code":"D1547","speed":4,"increment":1.5}]]></settings>
+	</job>
+	<job id="P1210L">
+		<x>180.0811</x>
+		<y>12.9825</y>
+		<depth>13.4836</depth>
+		<!--Code must be set to D1547 for all settings JSON or XML-->
+		<settings><![CDATA[<drill id="31473"><code>D1547</code><speed>3</speed><increment>2.5</increment></drill>]]></settings>
+	</job>
+	<job id="P2901Y">
+		<x>128.9381</x>
+		<y>-103.0483</y>
+		<depth>11.1038</depth>
+		<!--Code must be set to D1547 for all settings JSON or XML-->
+		<settings><![CDATA[{"id":31473,"code":"D1547","speed":5,"increment":1.0}]]></settings>
+	</job>
+</machine>

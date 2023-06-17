@@ -19,7 +19,7 @@ namespace TextDataMasking
             }
             set
             {
-                _IgnoreAngleBracketedTags |= value;
+                _IgnoreAngleBracketedTags = value;
             }
         }
 
@@ -32,7 +32,7 @@ namespace TextDataMasking
             }
             set
             {
-                _IgnoreJsonAttributes |= value;
+                _IgnoreJsonAttributes = value;
             }
         }
 
@@ -45,9 +45,48 @@ namespace TextDataMasking
             }
             set
             {
-                _IgnoreNumbers |= value;
+                _IgnoreNumbers = value;
             }
         }
+
+        protected bool _IgnoreAlphaNumeric = false;
+        public bool IgnoreAlphaNumeric
+        {
+            get
+            {
+                return _IgnoreAlphaNumeric;
+            }
+            set
+            {
+                _IgnoreAlphaNumeric = value;
+            }
+        }
+
+        //protected bool _ProcessCDATA = false;
+        //public bool ProcessCDATA
+        //{
+        //    get
+        //    {
+        //        return _ProcessCDATA;
+        //    }
+        //    set
+        //    {
+        //        _ProcessCDATA = value;
+        //    }
+        //}
+
+        //protected bool _ProcessXmlComments = false;
+        //public bool ProcessXmlComments
+        //{
+        //    get
+        //    {
+        //        return _ProcessXmlComments;
+        //    }
+        //    set
+        //    {
+        //        _ProcessXmlComments = value;
+        //    }
+        //}
 
         protected bool _PreserveCase = false;
         public bool PreserveCase
@@ -58,7 +97,7 @@ namespace TextDataMasking
             }
             set
             {
-                _PreserveCase |= value;
+                _PreserveCase = value;
             }
         }
 
@@ -69,6 +108,9 @@ namespace TextDataMasking
                 IgnoreAngleBracketedTags = this.IgnoreAngleBracketedTags,
                 IgnoreJsonAttributes = this.IgnoreJsonAttributes,
                 IgnoreNumbers = this.IgnoreNumbers,
+                IgnoreAlphaNumeric = this.IgnoreAlphaNumeric,
+                //ProcessCDATA = this.ProcessCDATA,
+                //ProcessXmlComments = this.ProcessXmlComments,
                 PreserveCase = this.PreserveCase
             };
 

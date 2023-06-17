@@ -16,6 +16,74 @@ namespace TextDataMasking
         private static int numStartWithZero = 0;
         private static int replacementEqualsOriginal = 0;
 #endif
+
+        public class AngleTagType
+        {
+            public string BracketStart { get; set; } = string.Empty;
+            public string BracketEnd { get; set; } = string.Empty;
+            public int MaxOffSet_Left { get; set; } = int.MaxValue;
+        }
+
+        public class AngledTagScope
+        {
+            public AngleTagType AngledTagType { get; set; }
+            public int StartIndex { get; set; } = -1;
+            public int EndIndex { get; set; } = -1;
+        }
+
+        private static List<AngleTagType> angledTagTypes = new List<AngleTagType>()
+        {
+            // Comments
+            new AngleTagType
+            {
+                BracketStart = "<!--",
+                BracketEnd = "-->",
+                MaxOffSet_Left = int.MaxValue
+            },
+            // CDATA
+            new AngleTagType
+            {
+                BracketStart = "<![CDATA[",
+                BracketEnd = "]]>",
+                MaxOffSet_Left = 3
+            },
+            // XHTML DOCTYPE Declaration
+            new AngleTagType
+            {
+                BracketStart = "<!DOCTYPE",
+                BracketEnd = ">",
+                MaxOffSet_Left = 2
+            },
+            // Declaration and Processing
+            new AngleTagType
+            {
+                BracketStart = "<?",
+                BracketEnd = "?>",
+                MaxOffSet_Left = 2
+            },
+            // End Tag
+            new AngleTagType
+            {
+                BracketStart = "</",
+                BracketEnd = ">",
+                MaxOffSet_Left = 2
+            },
+            // Empty Element Tag
+            new AngleTagType
+            {
+                BracketStart = "<",
+                BracketEnd = "/>",
+                MaxOffSet_Left = 1
+            },
+            // Start Tag
+            new AngleTagType
+            {
+                BracketStart = "<",
+                BracketEnd = ">",
+                MaxOffSet_Left = 1
+            }
+        };
+
         private static List<string> GetAllAttributeNames(JsonElement jsonElement)
         {
             List<string> retValue = new List<string>();
@@ -55,7 +123,7 @@ namespace TextDataMasking
             string pattern = @"(\w+)";
             List<int> matchIndexes = new List<int>();
             List<int> matchLength = new List<int>();
-            List<Tuple<int, int>> angleBracketIndexes = new List<Tuple<int, int>>();
+            List<AngledTagScope> angledBracketScopes = new List<AngledTagScope>();
             List<Tuple<int, int>> jsonAttributePositions = new List<Tuple<int, int>>();
 
             bool IsJson = false;
@@ -96,49 +164,94 @@ namespace TextDataMasking
                     preceedingNonMatchingString = originalText.Substring(nonMatchStartIndex, nonMatchLength);
                 }
 
-                bool IsWithinAngleBracketedTag = false;
+                bool IsWithinAngledTagScope = false;
                 if (options.IgnoreAngleBracketedTags)
                 {
-                    var lastAngleBracket = angleBracketIndexes.LastOrDefault();
+                    var lastAngleTagScope = angledBracketScopes.LastOrDefault();
 
-                    if (lastAngleBracket != null && match.Index >= lastAngleBracket.Item1 && match.Index <= lastAngleBracket.Item2)
+                    if (lastAngleTagScope != null && match.Index > lastAngleTagScope.StartIndex && match.Index < lastAngleTagScope.EndIndex)
                     {
                         //Already within tag
-                        IsWithinAngleBracketedTag = true;
+                        IsWithinAngledTagScope = true;
                     }
 
-                    if (!IsWithinAngleBracketedTag && match.Index > 0)
+                    if (!IsWithinAngledTagScope)
                     {
-                        //Determine if within tag
-                        string preceedingChar1 = originalText.Substring(match.Index - 1, 1);
-
-                        if (preceedingChar1 == "<")
+                        for (int tagTypeIndex = 0; tagTypeIndex < angledTagTypes.Count; tagTypeIndex++)
                         {
-                            int bracketEndIndex = originalText.IndexOf(">", match.Index);
-                            int bracketStartIndex = originalText.IndexOf("<", match.Index);
+                            AngleTagType angledTagType = angledTagTypes[tagTypeIndex];
+                            int bracketStartIndex = -1;
+                            string bracketStart = string.Empty;
 
-                            if (bracketEndIndex > 0 && (bracketEndIndex < bracketStartIndex || bracketStartIndex < 0))
+                            if (match.Index >= angledTagType.MaxOffSet_Left)
                             {
-                                IsWithinAngleBracketedTag = true;
-                                angleBracketIndexes.Add(new Tuple<int, int>(match.Index - 1, bracketEndIndex));
+                                bracketStartIndex = match.Index - angledTagType.MaxOffSet_Left;
+                                if (bracketStartIndex >= 0 && originalText.Length - bracketStartIndex >= angledTagType.BracketStart.Length)
+                                {
+                                    bracketStart =
+                                        originalText.Substring(
+                                            bracketStartIndex,
+                                            angledTagType.BracketStart.Length);
+                                }
                             }
-                        }
-                    }
-
-                    if (!IsWithinAngleBracketedTag && match.Index > 1)
-                    {
-                        //Determine if within tag
-                        string preceedingChar2 = originalText.Substring(match.Index - 2, 2);
-
-                        if (preceedingChar2 == "</" || preceedingChar2 == "<!" || preceedingChar2 == "<?")
-                        {
-                            int bracketEndIndex = originalText.IndexOf(">", match.Index);
-                            int bracketStartIndex = originalText.IndexOf("<", match.Index);
-
-                            if (bracketEndIndex > 0 && (bracketEndIndex < bracketStartIndex || bracketStartIndex < 0))
+                            else if (angledTagType.MaxOffSet_Left == int.MaxValue)
                             {
-                                IsWithinAngleBracketedTag = true;
-                                angleBracketIndexes.Add(new Tuple<int, int>(match.Index - 2, bracketEndIndex));
+                                bracketStartIndex =
+                                    originalText
+                                    .LastIndexOf(
+                                        angledTagType.BracketStart,
+                                        match.Index);
+
+                                if (bracketStartIndex >= 0)
+                                {
+                                    bracketStart =
+                                        originalText.Substring(
+                                        bracketStartIndex,
+                                        angledTagType.BracketStart.Length);
+
+                                    int spaceBetweenStartIndex =
+                                        bracketStartIndex
+                                        + angledTagType.BracketStart.Length;
+
+                                    string spaceBetween =
+                                        originalText.Substring(
+                                            spaceBetweenStartIndex,
+                                            match.Index - spaceBetweenStartIndex);
+
+                                    // Confirm that there is only empty space between
+                                    // the match and the start tag
+                                    if (!string.IsNullOrWhiteSpace(spaceBetween))
+                                    {
+                                        bracketStartIndex = -1;
+                                        bracketStart = string.Empty;
+                                    }
+                                }
+                            }
+
+                            if (bracketStartIndex >= 0 && bracketStart == angledTagType.BracketStart)
+                            {
+                                int bracketEndIndex =
+                                    originalText.IndexOf(
+                                        angledTagType.BracketEnd,
+                                        bracketStartIndex + angledTagType.BracketStart.Length);
+
+                                if (bracketEndIndex > bracketStartIndex)
+                                {
+                                    bracketEndIndex += angledTagType.BracketEnd.Length;
+#if DEBUG
+                                    string scopeString = originalText.Substring(bracketStartIndex, bracketEndIndex - bracketStartIndex);
+#endif
+                                    IsWithinAngledTagScope = true;
+                                    AngledTagScope newScope =
+                                        new AngledTagScope()
+                                        {
+                                            AngledTagType = angledTagType,
+                                            StartIndex = bracketStartIndex,
+                                            EndIndex = bracketEndIndex
+                                        };
+                                    angledBracketScopes.Add(newScope);
+                                    break;
+                                }
                             }
                         }
                     }
@@ -197,7 +310,7 @@ namespace TextDataMasking
                     replacementText.Append(preceedingNonMatchingString);
                 }
 
-                if (options.IgnoreAngleBracketedTags && IsWithinAngleBracketedTag)
+                if (options.IgnoreAngleBracketedTags && IsWithinAngledTagScope)
                 {
                     replacementText.Append(match.Value);
                 }
@@ -211,6 +324,10 @@ namespace TextDataMasking
 #endif
                 }
                 else if (options.IgnoreNumbers && Regex.IsMatch(match.Value, @"^\d+$"))
+                {
+                    replacementText.Append(match.Value);
+                }
+                else if (options.IgnoreAlphaNumeric && Regex.IsMatch(match.Value, @"[A-Za-z]+") && Regex.IsMatch(match.Value, @"[0-9]+") && !Regex.IsMatch(match.Value, @"\W+"))
                 {
                     replacementText.Append(match.Value);
                 }
