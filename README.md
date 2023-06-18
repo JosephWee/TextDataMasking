@@ -317,7 +317,7 @@ Wbi nicop am CT510X.
 
 
 #### 5) ProcessCDATA
-   - Instructs the MaskText method to process any CDATA encountered
+   - Instructs the MaskText method to process any CDATA encountered, which are usually ignored when *IgnoreAngleBracketedTags = true*
 ```xml
 Original XML
 <description><![CDATA[The model is CT510X]]></description>
@@ -328,7 +328,7 @@ Masked XML
 
 
 #### 6) ProcessXmlComments
-   - Instructs the MaskText method to process any XML or HTML comments encountered
+   - Instructs the MaskText method to process any XML or HTML comments encountered, which are usually ignored when *IgnoreAngleBracketedTags = true*
 ```xml
 Original XML/HTML Comment
 <!-- Comments here -->
