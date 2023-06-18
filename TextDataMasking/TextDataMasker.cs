@@ -540,11 +540,20 @@ namespace TextDataMasking
 #endif
                                 UInt64 uint64 = UInt64.Parse(replacement);
                                 replacementChars = uint64 == 0 ? new List<char>() : uint64.ToString().ToList();
+
                                 int diffLength = originalChars.Count - replacementChars.Count;
-                                for (int d = 0; d < diffLength; d++)
+                                List<char> newReplacementChars = new List<char>();
+                                int d = 0;
+                                while (newReplacementChars.Count < diffLength)
                                 {
-                                    replacementChars.Add((random.Next(9) + 1).ToString()[0]);
+                                    char newChar = Convert.ToChar(49 + random.Next(9));
+                                    if (originalChars[d] != newChar)
+                                    {
+                                        newReplacementChars.Add(newChar);
+                                        d++;
+                                    }
                                 }
+                                replacementChars.InsertRange(0, newReplacementChars);
                             }
 #if DEBUG
                             else
