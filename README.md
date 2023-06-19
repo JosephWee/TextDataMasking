@@ -1,4 +1,6 @@
 # TextDataMasking
+`TextDataMasking` is a simple project for masking confidential data in a RDBMS (Relational Database Management System) while retaining Text formatting such as capitalization style, punctuations, HTML, XML and JSON formatting.
+
 ## Background
 ### What is Data Masking?
 Data masking or data obfuscation is the process of modifying sensitive data in such a way that it is of no or little value to unauthorized intruders while still being usable by software or authorized personnel. Data masking can also be referred as anonymization, or tokenization, depending on different context.
