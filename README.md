@@ -221,9 +221,13 @@ This project requires knowledge on:
 - Microsoft SQL and/or Postgre SQL
 
 For more information on:
-- Visual Studio, please visit [https://visualstudio.microsoft.com/vs/compare/](https://visualstudio.microsoft.com/vs/compare/)
+- Visual Studio, please visit
+  * [https://visualstudio.microsoft.com/vs/compare/](https://visualstudio.microsoft.com/vs/compare/)
+  * [https://learn.microsoft.com/en-us/visualstudio/deployment/quickstart-deploy-aspnet-web-app](https://learn.microsoft.com/en-us/visualstudio/deployment/quickstart-deploy-aspnet-web-app)
 - C#, please visit [https://learn.microsoft.com/en-us/dotnet/csharp/](https://learn.microsoft.com/en-us/dotnet/csharp/)
-- ASP.NET Core Razor Pages, please visit [https://learn.microsoft.com/en-us/aspnet/core/tutorials/razor-pages/razor-pages-start](https://learn.microsoft.com/en-us/aspnet/core/tutorials/razor-pages/razor-pages-start)
+- ASP.NET Core Razor Pages, please visit
+  * [https://learn.microsoft.com/en-us/aspnet/core/tutorials/razor-pages/razor-pages-start](https://learn.microsoft.com/en-us/aspnet/core/tutorials/razor-pages/razor-pages-start)
+  * [https://learn.microsoft.com/en-us/visualstudio/deployment/quickstart-deploy-aspnet-web-app](https://learn.microsoft.com/en-us/visualstudio/deployment/quickstart-deploy-aspnet-web-app)
 - ADO.NET, please visit:
   * [https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/ado-net-overview](https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/ado-net-overview)
   * [https://www.npgsql.org/](https://www.npgsql.org/)
