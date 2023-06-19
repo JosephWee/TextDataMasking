@@ -395,12 +395,26 @@
                 let checkbox3 = getDatabaseMaskerOptionCheckboxHtml('IgnoreAlphaNumeric');
                 liOption3.append(checkbox3);
 
-                // PreserveCase
+                // ProcessCDATA
                 let liOption4 = $('<li class="db_masker_option_container"></li>');
                 lOptions.append(liOption4);
 
-                let checkbox4 = getDatabaseMaskerOptionCheckboxHtml('PreserveCase');
+                let checkbox4 = getDatabaseMaskerOptionCheckboxHtml('ProcessCDATA');
                 liOption4.append(checkbox4);
+
+                // ProcessXmlComments
+                let liOption5 = $('<li class="db_masker_option_container"></li>');
+                lOptions.append(liOption5);
+
+                let checkbox5 = getDatabaseMaskerOptionCheckboxHtml('ProcessXmlComments');
+                liOption5.append(checkbox5);
+
+                // PreserveCase
+                let liOption6 = $('<li class="db_masker_option_container"></li>');
+                lOptions.append(liOption6);
+
+                let checkbox6 = getDatabaseMaskerOptionCheckboxHtml('PreserveCase');
+                liOption6.append(checkbox6);
             }
         }
 
