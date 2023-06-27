@@ -1,0 +1,18 @@
+textarea.TextDataMasking {
+    min-width: 320px;
+    min-height: 200px;
+}
+
+div.DataMaskerOptions {
+    float: right;
+    padding-right: 30px;
+}
+
+div.DataMaskerOptions label {
+    padding-left: 5px;
+}
+
+div.btnMaskText {
+    float: left;
+    padding-left: 30px;
+}

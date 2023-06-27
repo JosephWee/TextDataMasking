@@ -1,0 +1,179 @@
+﻿@page
+@model DatabaseMaskerWeb.Pages.MaskTextModel
+@{
+    ViewData["Title"] = "Mask Text";
+}
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8 text-center">
+        <span style="font-size: x-large;">Paste the original text on the left text area</span>
+    </div>
+    <div class="col-2"></div>
+</div>
+<div class="row">
+    <div class="col-1">
+    </div>
+    <div class="col-5 text-center">
+        <form asp-action="post">
+            <textarea id="txtOriginal" class="TextDataMasking"></textarea>
+        </form>
+    </div>
+    <div class="col-5 text-center">
+        <textarea id="txtMasked" class="TextDataMasking" readonly></textarea>
+    </div>
+    <div class="col-1">
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <div class="DataMaskerOptions">
+            <!--
+            Sources:
+            https://www.freecodecamp.org/news/snake-case-vs-camel-case-vs-pascal-case-vs-kebab-case-whats-the-difference
+            https://en.wikipedia.org/wiki/Naming_convention_(programming)
+            -->
+            <ul class="list-unstyled">
+                <li><input type="checkbox" value="IgnoreAngleBracketedTags" checked /><label data-toggle="tooltip" data-placement="right" title="Ignore Angle Bracketed Tags eg. HTML tags, XML tags, etc.">Ignore Angle Bracketed Tags</label></li>
+                <li><input type="checkbox" value="IgnoreJsonAttributes" checked /><label data-toggle="tooltip" data-placement="right" title="Ignore JSON Attributes">Ignore JSON Attributes</label></li>
+                <li><input type="checkbox" value="IgnoreNumbers" checked /><label data-toggle="tooltip" data-placement="right" title="Ignore Numbers eg. -3.14159265359, -2, 0, 2, 3.14159265359, etc.">Ignore Numbers</label></li>
+                <li><input type="checkbox" value="IgnoreAlphaNumeric" checked /><label data-toggle="tooltip" data-placement="right" title="Ignore Alpha-Numeric Text eg. 3G, 4G, 5G, A3, A4, G2000, M51, etc.">Ignore Alpha-Numeric Text</label></li>
+                <li><input type="checkbox" value="ProcessCDATA" checked /><label data-toggle="tooltip" data-placement="right" title="Process CDATA even when Ignore Angle Bracketed Tags is Active">Process CDATA</label></li>
+                <li><input type="checkbox" value="ProcessXmlComments" checked /><label data-toggle="tooltip" data-placement="right" title="Process XML Comments even when Ignore Angle Bracketed Tags is Active">Process XML Comments</label></li>
+                <li><input type="checkbox" value="PreserveCase" checked /><label data-toggle="tooltip" data-placement="right" title="Preserve Capitalization Style eg. UPPERCASE, lowercase, Sentence case, Title Case, snake_case, kebab-case, camelCase, PascalCase, etc.">Preserve Capitalization Style</label></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="btnMaskText">
+            <button id="btnMaskText" class="btn btn-primary">Mask Text</button>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function IsNullOrUndefined(item) {
+
+        if (item) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    function replaceElementClass(element, fromClass, toClass) {
+
+        let classString = $(element).attr('class');
+        let classes = classString.split(' ');
+        let newClasses = [];
+        
+        for (let i=0; i<classes.length; i++) {
+
+            let currentClass = classes[i];
+            
+            if (currentClass.length > 0) {
+
+                if (currentClass == fromClass) {
+                    newClasses.push(toClass);
+                }
+                else {
+                    newClasses.push(currentClass);
+                }
+            }
+        }
+
+        let newClassString = newClasses.join(' ');
+        $(element).attr('class', newClassString);
+    }
+
+    $(document).ready(function () {
+
+        $("div.DataMaskerOptions").find("label").off("click").on("click", function(jqEvent) {
+
+            //debugger;
+            //console.log(jqEvent);
+
+            let label = $(jqEvent.target);
+            let checkbox = label.siblings('input[type="checkbox"]');
+            
+            let isChecked = checkbox.is(":checked");
+
+            checkbox.prop("checked", !isChecked);
+        });
+
+        $("#btnMaskText").off("click").on("click", function(jqEvent) {
+
+            let options = {};
+            let checkboxes = $("div.DataMaskerOptions").find('input[type="checkbox"]');
+            for (let i=0; i<checkboxes.length; i++) {
+                let checkbox = $(checkboxes[i]);
+                let optionName = checkbox.attr("value");
+                let isChecked = checkbox.is(":checked");
+                options[optionName] = isChecked;
+            }
+
+            let sMaskTextRequestId = sessionStorage.getItem("MaskTextRequestId");
+            if (IsNullOrUndefined(sMaskTextRequestId)) {
+                sMaskTextRequestId = (new Date()).valueOf() + "" + Math.floor(Math.random() * 1000000);
+            }
+
+            let MaskTextRequestId = parseInt(sMaskTextRequestId);
+            MaskTextRequestId = MaskTextRequestId + 1;
+            sessionStorage.setItem("MaskTextRequestId", MaskTextRequestId);
+
+            let requestData = {};
+            requestData["RequestId"] = MaskTextRequestId + "";
+            requestData["OriginalText"] = $("#txtOriginal").val() ?? "";
+            requestData["Options"] = options;
+            let requestDataJson = JSON.stringify(requestData);
+
+            $.ajax({
+                async: true,
+                method: 'POST',
+                url: 'MaskText?handler=MaskText',
+                //contentType: "application/json; charset=utf-8",
+                contentType: "application/json",
+                data: requestDataJson,
+                dataType: "json",
+                beforeSend: function (xhr) {
+
+                    //debugger;
+
+                    $("#txtMasked").val("");
+
+                    let token = $('input:hidden[name="__RequestVerificationToken"]').val();
+                    //xhr.setRequestHeader("XSRF-TOKEN", token);
+                    xhr.setRequestHeader("RequestVerificationToken", token);
+                    //xhr.setRequestHeader("MyBearerToken", btoa("my custom token"));
+                },
+                success: function (responseData) {
+
+                    //debugger;
+
+                    if (window.console && typeof window.console.log === 'function')
+                        window.console.log(responseData);
+
+                    if (responseData && responseData.RequestId === MaskTextRequestId + "") {
+                        $("#txtMasked").val(responseData.MaskedText);
+                    }
+                },
+                failure: function (a) {
+
+                    //debugger;
+
+                    if (window.console && typeof window.console.log === 'function')
+                        window.console.log(a);
+                },
+                error: function (jqXHRObj) {
+
+                    //debugger;
+
+                    if (window.console && typeof window.console.log === 'function') {
+                        window.console.log(jqXHRObj);
+                    }
+                }
+            });
+        });
+    });
+</script>
