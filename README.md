@@ -1,4 +1,39 @@
 # TextDataMasking
+
+[MIT License](https://opensource.org/licenses/MIT)
+
+## Table of Contents
+* [About](https://github.com/JosephWee/TextDataMasking#about)
+* [Background](https://github.com/JosephWee/TextDataMasking#background)
+  * [What is Data Masking?](https://github.com/JosephWee/TextDataMasking#what-is-data-masking)
+* [Objective](https://github.com/JosephWee/TextDataMasking#objective)
+  * [Example 1 - Retaining Text Formatting](https://github.com/JosephWee/TextDataMasking#example-1---retaining-text-formatting)
+  * [Example 2 - Retaining HTML Formatting](https://github.com/JosephWee/TextDataMasking#example-2---retaining-html-formatting)
+  * [Example 3 - Retaining XML Formatting](https://github.com/JosephWee/TextDataMasking#example-3---retaining-xml-formatting)
+  * [Example 4 - Retaining JSON Formatting](https://github.com/JosephWee/TextDataMasking#example-4---retaining-json-formatting)
+* [Prerequisites](https://github.com/JosephWee/TextDataMasking#prerequisites)
+* [How it works](https://github.com/JosephWee/TextDataMasking#how-it-works)
+  * [DataMaskerOptions](https://github.com/JosephWee/TextDataMasking#datamaskeroptions)
+  * [Options Availiable](https://github.com/JosephWee/TextDataMasking#options-availiable)
+    * [1) IgnoreAngleBracketedTags](https://github.com/JosephWee/TextDataMasking#1-ignoreanglebracketedtags)
+    * [2) IgnoreJsonAttributes](https://github.com/JosephWee/TextDataMasking#2-ignorejsonattributes)
+    * [3) IgnoreNumbers](https://github.com/JosephWee/TextDataMasking#3-ignorenumbers)
+    * [4) IgnoreAlphaNumeric](https://github.com/JosephWee/TextDataMasking#4-ignorealphanumeric)
+    * [5) ProcessCDATA](https://github.com/JosephWee/TextDataMasking#5-processcdata)
+    * [6) ProcessXmlComments](https://github.com/JosephWee/TextDataMasking#6-processxmlcomments)
+    * [7) PreserveCase](https://github.com/JosephWee/TextDataMasking#7-preservecase)
+* [DatabaseMasker](https://github.com/JosephWee/TextDataMasking#databasemasker)
+* [Setting Up the Sample Database](https://github.com/JosephWee/TextDataMasking#setting-up-the-sample-database)
+* [How to Use](https://github.com/JosephWee/TextDataMasking#how-to-use)
+  * [Step 1: Configuration](https://github.com/JosephWee/TextDataMasking#step-1-configuration)
+  * [Step 2: Launch the DatabaseMaskerWeb](https://github.com/JosephWee/TextDataMasking#step-2-launch-the-databasemaskerweb)
+  * [Step 3: DatabaseMaskerWeb Home Page](https://github.com/JosephWee/TextDataMasking#step-3-databasemaskerweb-home-page)
+  * [Step 4: Starting a Database Masking Job](https://github.com/JosephWee/TextDataMasking#step-4-starting-a-database-masking-job)
+  * [Step 5: Select the DataSource](https://github.com/JosephWee/TextDataMasking#step-5-select-the-datasource)
+  * [Step 6: Select the Tables and Columns to Mask](https://github.com/JosephWee/TextDataMasking#step-6-select-the-tables-and-columns-to-mask)
+  * [Step 7: Verify running Database Masking Jobs](https://github.com/JosephWee/TextDataMasking#step-7-verify-running-database-masking-jobs)
+
+## About
 `TextDataMasking` is a simple project for masking confidential data in a RDBMS (Relational Database Management System) while retaining Text formatting such as capitalization style, punctuations, HTML, XML and JSON formatting.
 
 ## Background
