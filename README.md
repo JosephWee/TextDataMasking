@@ -1,6 +1,6 @@
 # TextDataMasking
 
-[MIT License](https://opensource.org/licenses/MIT)
+[MIT License](https://github.com/JosephWee/TextDataMasking/blob/main/LICENSE)
 
 ## Table of Contents
 * [About](https://github.com/JosephWee/TextDataMasking#about)
