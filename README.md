@@ -32,6 +32,9 @@
   * [Step 5: Select the DataSource](https://github.com/JosephWee/TextDataMasking#step-5-select-the-datasource)
   * [Step 6: Select the Tables and Columns to Mask](https://github.com/JosephWee/TextDataMasking#step-6-select-the-tables-and-columns-to-mask)
   * [Step 7: Verify running Database Masking Jobs](https://github.com/JosephWee/TextDataMasking#step-7-verify-running-database-masking-jobs)
+* [Help TextDataMasking Improve](https://github.com/JosephWee/TextDataMasking/edit/main/README.md#help-textdatamasking-improve)
+  * [Submitting a Bug Report](https://github.com/JosephWee/TextDataMasking/edit/main/README.md#submitting-a-bug-report)
+  * [Submitting a Feature Request](https://github.com/JosephWee/TextDataMasking/edit/main/README.md#submitting-a-feature-request)
 
 ## About
 `TextDataMasking` is a simple project for masking confidential data in a RDBMS (Relational Database Management System) while retaining Text formatting such as capitalization style, punctuations, HTML, XML and JSON formatting.
@@ -494,3 +497,77 @@ Once the new job is started, the user is brought back to the home page where all
 
 ![Running Database Masking Jobs](Documentation/RunningDatabaseMaskingJobs.png)
 
+## Help TextDataMasking Improve
+TextDataMasking may be a personal coding project, but we would certainly like the opportunity to hear about how we can improve.
+
+### Submitting a Bug Report
+To submit a bug report,
+1. Copy the Bug Report Template into your mail client
+2. Fill up the Bug Report Template clearly and concisely
+3. Email to [bug.report.textdatamasking@glowsphere.com](mailto:bug.report.textdatamasking@glowsphere.com).
+
+##### Bug Report Template
+```
+Describe the bug
+----------------
+A clear and concise description of what the bug is.
+
+To Reproduce
+------------
+Steps to reproduce the behavior:
+For example
+1. Go to 'Home'
+2. Navigate to 'Mask Text' page
+3. Click on 'Mask Text' button
+4. See error
+
+Expected behavior
+-----------------
+A clear and concise description of what you expected to happen.
+
+Screenshots
+-----------
+If applicable, add screenshots to help explain your problem.
+
+Desktop (please complete the following information):
+----------------------------------------------------
+ - OS: [e.g. Mac OS, Windows]
+ - Browser [e.g. chrome, safari, firefox]
+ - Version [e.g. 113]
+
+Smartphone (please complete the following information):
+-------------------------------------------------------
+ - Device: [e.g. iPhone6, Google Pixel]
+ - OS: [e.g. iOS8.1]
+ - Browser [e.g. chrome, safari, firefox]
+ - Version [e.g. 113]
+
+Additional context
+------------------
+Add any other context about the problem here.
+```
+
+### Submitting a Feature Request
+To submit a feature request,
+1. Copy the Feature Request Template into your mail client
+2. Fill up the Feature Request Template clearly and concisely
+3. Email to [feature.request.textdatamasking@glowsphere.com](mailto:feature.request.textdatamasking@glowsphere.com).
+
+##### Feature Request Template
+```
+Is the feature request related to a problem?
+--------------------------------------------
+A clear and concise description of what the problem is. eg. I am frustrated when [...]
+
+Describe the solution you would like
+------------------------------------
+A clear and concise description of what you want to happen.
+
+Describe one or more alternatives you've considered
+---------------------------------------------------
+A clear and concise description of any alternative solutions or features you've considered.
+
+Additional context
+------------------
+Add any other context or screenshots about the feature request here.
+```
