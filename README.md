@@ -4,8 +4,8 @@
 
 ## Table of Contents
 * [About](https://github.com/JosephWee/TextDataMasking#about)
-* [Background](https://github.com/JosephWee/TextDataMasking#background)
-  * [What is Data Masking?](https://github.com/JosephWee/TextDataMasking#what-is-data-masking)
+* [What is Data Masking?](https://github.com/JosephWee/TextDataMasking#what-is-data-masking)
+* [Use Cases](https://github.com/JosephWee/TextDataMasking#use-cases)
 * [Objective](https://github.com/JosephWee/TextDataMasking#objective)
   * [Example 1 - Retaining Text Formatting](https://github.com/JosephWee/TextDataMasking#example-1---retaining-text-formatting)
   * [Example 2 - Retaining HTML Formatting](https://github.com/JosephWee/TextDataMasking#example-2---retaining-html-formatting)
@@ -39,12 +39,16 @@
 ## About
 `TextDataMasking` is a simple project for masking confidential data in a RDBMS (Relational Database Management System) while retaining Text formatting such as capitalization style, punctuations, HTML, XML and JSON formatting.
 
-## Background
-### What is Data Masking?
+## What is Data Masking?
 Data masking or data obfuscation is the process of modifying sensitive data in such a way that it is of no or little value to unauthorized intruders while still being usable by software or authorized personnel. Data masking can also be referred as anonymization, or tokenization, depending on different context.
 
 Source: https://en.wikipedia.org/wiki/Data_masking
 
+## Use Cases
+Sometimes an organization may be legally or contractually obligated to keep client or user data confidential. This is where TextDataMasking can help the stake-holders (such as Team Leads, Product Owners, Business Owners) keep the data confidential.
+By masking a copy of the database stake-holders can choose to:
+1. Distribute the masked-database-copy to developers who are not cleared to receive the full data
+2. Deploy the masked-database-copy to the development environment
 
 ## Objective
 The TextDataMasking software should be able to obfusticate sensitive `Text` data while:
