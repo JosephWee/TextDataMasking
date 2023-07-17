@@ -34,7 +34,7 @@
   * [Step 7: Verify running Database Masking Jobs](https://github.com/JosephWee/TextDataMasking#step-7-verify-running-database-masking-jobs)
 * [Help TextDataMasking Improve](https://github.com/JosephWee/TextDataMasking/edit/main/README.md#help-textdatamasking-improve)
   * [Submitting a Bug Report](https://github.com/JosephWee/TextDataMasking/edit/main/README.md#submitting-a-bug-report)
-  * [Submitting a Feature Request](https://github.com/JosephWee/TextDataMasking/edit/main/README.md#submitting-a-feature-request)
+  * [Submitting a Feature Request](https://github.com/JosephWee/TextDataMasking#submitting-a-feature-request)
 
 ## About
 `TextDataMasking` is a simple project for masking confidential data in a RDBMS (Relational Database Management System) while retaining Text formatting such as capitalization style, punctuations, HTML, XML and JSON formatting.
