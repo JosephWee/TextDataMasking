@@ -32,8 +32,8 @@
   * [Step 5: Select the DataSource](https://github.com/JosephWee/TextDataMasking#step-5-select-the-datasource)
   * [Step 6: Select the Tables and Columns to Mask](https://github.com/JosephWee/TextDataMasking#step-6-select-the-tables-and-columns-to-mask)
   * [Step 7: Verify running Database Masking Jobs](https://github.com/JosephWee/TextDataMasking#step-7-verify-running-database-masking-jobs)
-* [Help TextDataMasking Improve](https://github.com/JosephWee/TextDataMasking/edit/main/README.md#help-textdatamasking-improve)
-  * [Submitting a Bug Report](https://github.com/JosephWee/TextDataMasking/edit/main/README.md#submitting-a-bug-report)
+* [Help TextDataMasking Improve](https://github.com/JosephWee/TextDataMasking#help-textdatamasking-improve)
+  * [Submitting a Bug Report](https://github.com/JosephWee/TextDataMasking#submitting-a-bug-report)
   * [Submitting a Feature Request](https://github.com/JosephWee/TextDataMasking#submitting-a-feature-request)
 
 ## About
