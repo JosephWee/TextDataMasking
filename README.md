@@ -49,6 +49,7 @@ Sometimes an organization may be legally or contractually obligated to keep clie
 By masking a copy of the database stake-holders can choose to:
 1. Distribute the masked-database-copy to developers who are not cleared to receive the full data
 2. Deploy the masked-database-copy to the development environment
+3. Use the masked-database-copy to create screen captures for non-client specific documentation
 
 ## Objective
 The TextDataMasking software should be able to obfusticate sensitive `Text` data while:
